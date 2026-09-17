@@ -2,7 +2,7 @@
   "id": "MAP_ROUTE1",
   "name": "Route1",
   "layout": "LAYOUT_ROUTE1",
-  "music": "MUS_USUM_IKITOWN_DAY",
+  "music": "MUS_USUM_ROUTE1",
   "region_map_section": "MAPSEC_HAUOLI_OUTSKIRTS_E_SM",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

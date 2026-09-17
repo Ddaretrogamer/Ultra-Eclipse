@@ -559,5 +559,13 @@
 #define MUS_USUM_ROUTE2             612
 #define MUS_USUM_BATTLE_GLADION     613
 #define MUS_USUM_VS_WILD            614
+#define MUS_USUM_TITLE_SCREEN       615
+#define MUS_USUM_KUKUI_THEME        616
+#define MUS_USUM_MALIE_CITY         617
+#define MUS_USUM_POKECENTER         618
+#define MUS_USUM_REGION_THEME       619
+#define MUS_USUM_TRAINER_BATTLE     620
+#define MUS_USUM_ROUTE1             621
+
 
 #endif  // GUARD_CONSTANTS_SONGS_H

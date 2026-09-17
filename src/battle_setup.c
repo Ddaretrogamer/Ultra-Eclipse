@@ -1655,6 +1655,7 @@ void PlayTrainerEncounterMusic(void)
         default:
             music = MUS_ENCOUNTER_SUSPICIOUS;
         }
+        music = MUS_USUM_TRAINER_BATTLE;
         PlayNewMapMusic(music);
     }
 }

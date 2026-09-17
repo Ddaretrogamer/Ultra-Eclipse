@@ -622,6 +622,14 @@ gSongTable::
 	song mus_usum_route2, MUSIC_PLAYER_BGM, 0
 	song mus_usum_battle_gladion, MUSIC_PLAYER_BGM, 0
 	song mus_usum_vs_wild, MUSIC_PLAYER_BGM, 0
+	song mus_usum_title_screen, MUSIC_PLAYER_BGM, 0
+	song mus_usum_kukui_theme, MUSIC_PLAYER_BGM, 0
+	song mus_usum_malie_city, MUSIC_PLAYER_BGM, 0
+	song mus_usum_pokecenter, MUSIC_PLAYER_BGM, 0
+	song mus_usum_region_theme, MUSIC_PLAYER_BGM, 0
+	song mus_usum_trainer_battle, MUSIC_PLAYER_BGM, 0
+	song mus_usum_route1, MUSIC_PLAYER_BGM, 0
+	
 	.align 2
 dummy_song_header:
 	.byte 0, 0, 0, 0

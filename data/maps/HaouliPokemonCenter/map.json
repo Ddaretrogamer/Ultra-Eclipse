@@ -2,7 +2,7 @@
   "id": "MAP_HAOULI_POKEMON_CENTER",
   "name": "HaouliPokemonCenter",
   "layout": "LAYOUT_HAOULI_POKEMON_CENTER",
-  "music": "MUS_RG_POKE_CENTER",
+  "music": "MUS_USUM_POKECENTER",
   "region_map_section": "MAPSEC_HAUOLI_OUTSKIRTS_SM",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

@@ -2,7 +2,7 @@
   "id": "MAP_MELEMELE_SEA",
   "name": "MelemeleSea",
   "layout": "LAYOUT_MELEMELE_SEA",
-  "music": "MUS_USUM_BATTLE_GLADION",
+  "music": "MUS_USUM_ROUTE1",
   "region_map_section": "MAPSEC_MELEMELE_SEA_SM",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

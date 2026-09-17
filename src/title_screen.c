@@ -25,6 +25,7 @@
 #include "trig.h"
 #include "graphics.h"
 #include "constants/rgb.h"
+#include "constants/species.h"
 #include "constants/songs.h"
 
 enum {
@@ -786,7 +787,7 @@ void CB2_InitTitleScreen(void)
                                     | DISPCNT_OBJ_ON
                                     | DISPCNT_WIN0_ON
                                     | DISPCNT_OBJWIN_ON);
-        m4aSongNumStart(MUS_TITLE);
+        m4aSongNumStart(MUS_USUM_TITLE_SCREEN);
         gMain.state = 5;
         break;
     case 5:
@@ -822,9 +823,10 @@ static void Task_TitleScreenPhase1(u8 taskId)
     {
         u16 frameNum = gTasks[taskId].tCounter;
         if (frameNum == 176)
+        {
             StartPokemonLogoShine(SHINE_MODE_DOUBLE);
-        else if (frameNum == 64)
-            StartPokemonLogoShine(SHINE_MODE_SINGLE);
+            gTasks[taskId].tCounter = 45;
+        }
 
         gTasks[taskId].tCounter--;
     }
@@ -848,7 +850,7 @@ static void Task_TitleScreenPhase1(u8 taskId)
         spriteId = CreateSprite(&sVersionBannerRightSpriteTemplate, VERSION_BANNER_RIGHT_X, VERSION_BANNER_Y, 0);
         gSprites[spriteId].sParentTaskId = taskId;*/ // commenting this out to get rid of the emerald banner.
 
-        gTasks[taskId].tCounter = 144;
+        gTasks[taskId].tCounter = 64;
         gTasks[taskId].func = Task_TitleScreenPhase2;
     }
 }
@@ -912,6 +914,23 @@ static void Task_TitleScreenPhase3(u8 taskId)
 
     if (JOY_NEW(A_BUTTON) || JOY_NEW(START_BUTTON))
     {
+        enum Species species;
+
+        switch (sTitleScreenPokemon)
+        {
+        case TSP_SOLGALEO:
+            species = SPECIES_SOLGALEO;
+            break;
+        case TSP_LUNALA:
+            species = SPECIES_LUNALA;
+            break;
+        case TSP_ULTRA_NECROZMA:
+        default:
+            species = SPECIES_NECROZMA;
+            break;
+        }
+
+        PlayCry_Script(species, CRY_MODE_NORMAL);
         FadeOutBGM(4);
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_WHITE);
         SetMainCallback2(CB2_GoToMainMenu);

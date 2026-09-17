@@ -2,7 +2,7 @@
   "id": "MAP_MELEMELE_SEA2",
   "name": "MelemeleSea2",
   "layout": "LAYOUT_MELEMELE_SEA2",
-  "music": "MUS_USUM_IKITOWN_DAY",
+  "music": "MUS_USUM_ROUTE1",
   "region_map_section": "MAPSEC_MELEMELE_SEA_W_SM",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
