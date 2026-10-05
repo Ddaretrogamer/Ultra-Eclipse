@@ -440,12 +440,18 @@ script TrainersSchool_BattleVs_Joseph4{
     
     They don't wear out or get used up.
     Pretty nice gift from me, huh?", MSGBOX_AUTOCLOSE)
-    applymovement(trainerschool_lillie, moves(walk_faster_up*5, walk_left*8, walk_down*2 face_down))
+    applymovement(trainerschool_lillie, moves(walk_faster_up*5, walk_left*6))
     waitmovement(0)
+    applymovement(trainerschool_lillie, moves(face_down, emote_exclamation_mark))
+    applymovement(LOCALID_PLAYER, moves(face_down, emote_exclamation_mark))
+    waitmovement(0)
+    playse(SE_PIN)
     playse(SE_DING_DONG)
     waitse
+    applymovement(trainerschool_lillie, moves(walk_in_place_down*2))
+    waitmovement(trainerschool_lillie)
     speakername("Lillie")
-    msgbox("Oh, that's the school bell", MSGBOX_AUTOCLOSE)
+    msgbox("Oh, that's the school bell.", MSGBOX_AUTOCLOSE)
     delay(30)
     setflag(FLAG_SUPPRESS_SPEAKER_NAME)
     msgbox("Attention all students\.
@@ -456,7 +462,8 @@ script TrainersSchool_BattleVs_Joseph4{
     {PLAYER} to the 2F office, please.")
     clearflag(FLAG_SUPPRESS_SPEAKER_NAME)   
     applymovement(trainerschool_lillie, moves(walk_in_place_down*2))
-    waitmovement(trainerschool_lillie)
+    applymovement(LOCALID_PLAYER, moves(face_right))
+    waitmovement(0)
     speakername("Lillie")
     msgbox("What terrible thing did you do to get
     called to the office so soon?")

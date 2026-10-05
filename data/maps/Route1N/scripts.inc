@@ -587,87 +587,101 @@ TrainersSchool_BattleVs_Joseph4::
 # 444 "data/maps/Route1N/scripts.pory"
 	waitmovement 0
 # 445 "data/maps/Route1N/scripts.pory"
-	playse SE_DING_DONG
+	applymovement trainerschool_lillie, TrainersSchool_BattleVs_Joseph4_Movement_1
 # 446 "data/maps/Route1N/scripts.pory"
-	waitse
+	applymovement LOCALID_PLAYER, TrainersSchool_BattleVs_Joseph4_Movement_1
 # 447 "data/maps/Route1N/scripts.pory"
-	speakername TrainersSchool_Lillie_Text_0
+	waitmovement 0
 # 448 "data/maps/Route1N/scripts.pory"
-	msgbox TrainersSchool_BattleVs_Joseph4_Text_1, MSGBOX_AUTOCLOSE
+	playse SE_PIN
 # 449 "data/maps/Route1N/scripts.pory"
-	delay 30
+	playse SE_DING_DONG
 # 450 "data/maps/Route1N/scripts.pory"
-	setflag FLAG_SUPPRESS_SPEAKER_NAME
+	waitse
 # 451 "data/maps/Route1N/scripts.pory"
-	msgbox TrainersSchool_BattleVs_Joseph4_Text_2
-# 457 "data/maps/Route1N/scripts.pory"
-	clearflag FLAG_SUPPRESS_SPEAKER_NAME
-# 458 "data/maps/Route1N/scripts.pory"
 	applymovement trainerschool_lillie, TrainersSchool_Intro_Movement_4
-# 459 "data/maps/Route1N/scripts.pory"
+# 452 "data/maps/Route1N/scripts.pory"
 	waitmovement trainerschool_lillie
-# 460 "data/maps/Route1N/scripts.pory"
+# 453 "data/maps/Route1N/scripts.pory"
 	speakername TrainersSchool_Lillie_Text_0
-# 461 "data/maps/Route1N/scripts.pory"
-	msgbox TrainersSchool_BattleVs_Joseph4_Text_3
+# 454 "data/maps/Route1N/scripts.pory"
+	msgbox TrainersSchool_BattleVs_Joseph4_Text_1, MSGBOX_AUTOCLOSE
+# 455 "data/maps/Route1N/scripts.pory"
+	delay 30
+# 456 "data/maps/Route1N/scripts.pory"
+	setflag FLAG_SUPPRESS_SPEAKER_NAME
+# 457 "data/maps/Route1N/scripts.pory"
+	msgbox TrainersSchool_BattleVs_Joseph4_Text_2
 # 463 "data/maps/Route1N/scripts.pory"
-	dynmultichoice 20, 8, TRUE, 5, 0, DYN_MULTICHOICE_CB_NONE, TrainersSchool_BattleVs_Joseph4_Text_4, TrainersSchool_BattleVs_Joseph4_Text_5
+	clearflag FLAG_SUPPRESS_SPEAKER_NAME
 # 464 "data/maps/Route1N/scripts.pory"
+	applymovement trainerschool_lillie, TrainersSchool_Intro_Movement_4
+# 465 "data/maps/Route1N/scripts.pory"
+	applymovement LOCALID_PLAYER, TrainersSchool_RockPaperScissors_Movement_0
+# 466 "data/maps/Route1N/scripts.pory"
+	waitmovement 0
+# 467 "data/maps/Route1N/scripts.pory"
+	speakername TrainersSchool_Lillie_Text_0
+# 468 "data/maps/Route1N/scripts.pory"
+	msgbox TrainersSchool_BattleVs_Joseph4_Text_3
+# 470 "data/maps/Route1N/scripts.pory"
+	dynmultichoice 20, 8, TRUE, 5, 0, DYN_MULTICHOICE_CB_NONE, TrainersSchool_BattleVs_Joseph4_Text_4, TrainersSchool_BattleVs_Joseph4_Text_5
+# 471 "data/maps/Route1N/scripts.pory"
 	compare VAR_RESULT, 0
 	goto_if_eq TrainersSchool_BattleVs_Joseph4_2
-# 474 "data/maps/Route1N/scripts.pory"
+# 481 "data/maps/Route1N/scripts.pory"
 	playse SE_PIN
-# 475 "data/maps/Route1N/scripts.pory"
+# 482 "data/maps/Route1N/scripts.pory"
 	applymovement trainerschool_lillie, TrainersSchool_Intro_Movement_5
-# 476 "data/maps/Route1N/scripts.pory"
+# 483 "data/maps/Route1N/scripts.pory"
 	waitmovement trainerschool_lillie
-# 477 "data/maps/Route1N/scripts.pory"
+# 484 "data/maps/Route1N/scripts.pory"
 	waitse
-# 478 "data/maps/Route1N/scripts.pory"
+# 485 "data/maps/Route1N/scripts.pory"
 	speakername TrainersSchool_Lillie_Text_0
-# 479 "data/maps/Route1N/scripts.pory"
+# 486 "data/maps/Route1N/scripts.pory"
 	msgbox TrainersSchool_BattleVs_Joseph4_Text_7
 TrainersSchool_BattleVs_Joseph4_1:
-# 481 "data/maps/Route1N/scripts.pory"
+# 488 "data/maps/Route1N/scripts.pory"
 	release
 	end
 
 TrainersSchool_BattleVs_Joseph4_2:
-# 465 "data/maps/Route1N/scripts.pory"
+# 472 "data/maps/Route1N/scripts.pory"
 	playse SE_PIN
-# 466 "data/maps/Route1N/scripts.pory"
+# 473 "data/maps/Route1N/scripts.pory"
 	applymovement trainerschool_lillie, TrainersSchool_Intro_Movement_5
-# 467 "data/maps/Route1N/scripts.pory"
+# 474 "data/maps/Route1N/scripts.pory"
 	waitmovement trainerschool_lillie
-# 468 "data/maps/Route1N/scripts.pory"
+# 475 "data/maps/Route1N/scripts.pory"
 	waitse
-# 469 "data/maps/Route1N/scripts.pory"
+# 476 "data/maps/Route1N/scripts.pory"
 	speakername TrainersSchool_Lillie_Text_0
-# 470 "data/maps/Route1N/scripts.pory"
+# 477 "data/maps/Route1N/scripts.pory"
 	msgbox TrainersSchool_BattleVs_Joseph4_Text_6
 	goto TrainersSchool_BattleVs_Joseph4_1
 
 
 TrainersSchool_BlockingTauros::
-# 486 "data/maps/Route1N/scripts.pory"
-	lock
-# 487 "data/maps/Route1N/scripts.pory"
-	applymovement trainerschool_tauros, TrainersSchool_Lillie_Movement_0
-# 488 "data/maps/Route1N/scripts.pory"
-	waitmovement
-# 489 "data/maps/Route1N/scripts.pory"
-	playmoncry SPECIES_TAUROS, 0
-# 490 "data/maps/Route1N/scripts.pory"
-	msgbox TrainersSchool_BlockingTauros_Text_0, MSGBOX_AUTOCLOSE
-# 491 "data/maps/Route1N/scripts.pory"
-	waitmoncry
-# 492 "data/maps/Route1N/scripts.pory"
-	playse SE_PIN
 # 493 "data/maps/Route1N/scripts.pory"
-	applymovement LOCALID_PLAYER, TrainersSchool_BlockingTauros_Movement_0
+	lock
 # 494 "data/maps/Route1N/scripts.pory"
-	waitmovement LOCALID_PLAYER
+	applymovement trainerschool_tauros, TrainersSchool_Lillie_Movement_0
 # 495 "data/maps/Route1N/scripts.pory"
+	waitmovement
+# 496 "data/maps/Route1N/scripts.pory"
+	playmoncry SPECIES_TAUROS, 0
+# 497 "data/maps/Route1N/scripts.pory"
+	msgbox TrainersSchool_BlockingTauros_Text_0, MSGBOX_AUTOCLOSE
+# 498 "data/maps/Route1N/scripts.pory"
+	waitmoncry
+# 499 "data/maps/Route1N/scripts.pory"
+	playse SE_PIN
+# 500 "data/maps/Route1N/scripts.pory"
+	applymovement LOCALID_PLAYER, TrainersSchool_BlockingTauros_Movement_0
+# 501 "data/maps/Route1N/scripts.pory"
+	waitmovement LOCALID_PLAYER
+# 502 "data/maps/Route1N/scripts.pory"
 	release
 	end
 
@@ -788,25 +802,23 @@ TrainersSchool_BattleVs_Joseph4_Movement_0:
 	walk_left
 # 443 "data/maps/Route1N/scripts.pory"
 	walk_left
-# 443 "data/maps/Route1N/scripts.pory"
-	walk_left
-# 443 "data/maps/Route1N/scripts.pory"
-	walk_left
-# 443 "data/maps/Route1N/scripts.pory"
-	walk_down
-# 443 "data/maps/Route1N/scripts.pory"
-	walk_down
-# 443 "data/maps/Route1N/scripts.pory"
-	face_down
 	step_end
 
-# 493 "data/maps/Route1N/scripts.pory"
-TrainersSchool_BlockingTauros_Movement_0:
-# 493 "data/maps/Route1N/scripts.pory"
+# 445 "data/maps/Route1N/scripts.pory"
+TrainersSchool_BattleVs_Joseph4_Movement_1:
+# 445 "data/maps/Route1N/scripts.pory"
+	face_down
+# 445 "data/maps/Route1N/scripts.pory"
 	emote_exclamation_mark
-# 493 "data/maps/Route1N/scripts.pory"
+	step_end
+
+# 500 "data/maps/Route1N/scripts.pory"
+TrainersSchool_BlockingTauros_Movement_0:
+# 500 "data/maps/Route1N/scripts.pory"
+	emote_exclamation_mark
+# 500 "data/maps/Route1N/scripts.pory"
 	lock_facing_direction
-# 493 "data/maps/Route1N/scripts.pory"
+# 500 "data/maps/Route1N/scripts.pory"
 	jump_right
 	step_end
 
@@ -1059,37 +1071,37 @@ TrainersSchool_BattleVs_Joseph4_Text_0:
 	.string "Take this Technical Machine!$"
 
 TrainersSchool_BattleVs_Joseph4_Text_1:
-# 448 "data/maps/Route1N/scripts.pory"
-	.string "Oh, that's the school bell$"
+# 454 "data/maps/Route1N/scripts.pory"
+	.string "Oh, that's the school bell.$"
 
 TrainersSchool_BattleVs_Joseph4_Text_2:
-# 451 "data/maps/Route1N/scripts.pory"
+# 457 "data/maps/Route1N/scripts.pory"
 	.string "Attention all students…\p"
 	.string "Would {PLAYER} please come to the\n"
 	.string "office on 2F?\p"
 	.string "{PLAYER} to the 2F office, please.$"
 
 TrainersSchool_BattleVs_Joseph4_Text_3:
-# 461 "data/maps/Route1N/scripts.pory"
+# 468 "data/maps/Route1N/scripts.pory"
 	.string "What terrible thing did you do to get\n"
 	.string "called to the office so soon?$"
 
 TrainersSchool_BattleVs_Joseph4_Text_4:
-# 463 "data/maps/Route1N/scripts.pory"
+# 470 "data/maps/Route1N/scripts.pory"
 	.string "Nothing!$"
 
 TrainersSchool_BattleVs_Joseph4_Text_5:
-# 463 "data/maps/Route1N/scripts.pory"
+# 470 "data/maps/Route1N/scripts.pory"
 	.string "Well…$"
 
 TrainersSchool_BattleVs_Joseph4_Text_6:
-# 470 "data/maps/Route1N/scripts.pory"
+# 477 "data/maps/Route1N/scripts.pory"
 	.string "That's what you say…$"
 
 TrainersSchool_BattleVs_Joseph4_Text_7:
-# 479 "data/maps/Route1N/scripts.pory"
+# 486 "data/maps/Route1N/scripts.pory"
 	.string "So you did do something?!$"
 
 TrainersSchool_BlockingTauros_Text_0:
-# 490 "data/maps/Route1N/scripts.pory"
+# 497 "data/maps/Route1N/scripts.pory"
 	.string "Graah!$"
