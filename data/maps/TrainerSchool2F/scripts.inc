@@ -50,9 +50,9 @@ TrainerSchool2F_BattleVsTeacher_10:
 # 69 "data/maps/TrainerSchool2F/scripts.pory"
 	giveitem ITEM_GREAT_BALL, 5
 # 70 "data/maps/TrainerSchool2F/scripts.pory"
-	msgbox TrainerSchool2F_BattleVsTeacher_Text_6, MSGBOX_AUTOCLOSE
-# 73 "data/maps/TrainerSchool2F/scripts.pory"
 	startcutscene CUTSCENE_TRAINER_SCHOOL_TEACHER_BATTLE
+# 71 "data/maps/TrainerSchool2F/scripts.pory"
+	msgbox TrainerSchool2F_BattleVsTeacher_Text_6, MSGBOX_AUTOCLOSE
 # 74 "data/maps/TrainerSchool2F/scripts.pory"
 	setobjectxy trainerschool2f_kukui, 18, 9
 # 75 "data/maps/TrainerSchool2F/scripts.pory"
@@ -355,7 +355,7 @@ TrainerSchool2F_BattleVsTeacher_Text_5:
 	.string "It's a little reward for beating me.$"
 
 TrainerSchool2F_BattleVsTeacher_Text_6:
-# 70 "data/maps/TrainerSchool2F/scripts.pory"
+# 71 "data/maps/TrainerSchool2F/scripts.pory"
 	.string "They're Great Balls. Great Balls are\n"
 	.string "better at catching Pokémon than\l"
 	.string "normal Poké Balls.$"
