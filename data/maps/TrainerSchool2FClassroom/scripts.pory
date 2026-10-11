@@ -1,0 +1,224 @@
+mapscripts TrainerSchool2FClassroom_MapScripts{}
+
+script TrainersSchool2FClassroom_Teacher{
+    lock
+    faceplayer
+    msgbox("Abilities are basically special skills all
+    Pokémon have that can make special
+    things happen.
+    
+    Take the Ability called Limber,
+    for example\.
+    
+    Any Pokémon who has that Ability won't
+    ever be paralyzed by a foe's moves!", MSGBOX_DEFAULT)
+    release
+    end
+}
+
+script TrainersSchool2FClassroom_Student1{
+    lock
+    faceplayer
+    if (!flag(FLAG_LILLIPUP_PICKUP_ITEM)) {
+        msgbox("My Lillipup picked this up.
+        Here, you take it.", MSGBOX_AUTOCLOSE)
+        giveitem(ITEM_POTION)
+        msgbox("Lillipup's Ability is Pickup!
+        
+        It's an awesome Ability that works
+        even when you're not in battle.
+        
+        I went all the way to Akala Island to
+        find a Lillipup and catch it just to
+        have this Ability.", MSGBOX_AUTOCLOSE)
+        setflag(FLAG_LILLIPUP_PICKUP_ITEM)
+    }
+    else
+    {   
+        msgbox("Lillipup's Ability is Pickup!
+        
+        It's an awesome Ability that works
+        even when you're not in battle.
+        
+        I went all the way to Akala Island to
+        find a Lillipup and catch it just to
+        have this Ability.", MSGBOX_AUTOCLOSE)
+    }
+
+    release
+    end
+}
+
+script TrainersSchool2FClassroom_Student2{
+    lock
+    faceplayer
+    msgbox("When you begin to level up as a Trainer
+    and learn advanced strategies, you'll
+    want to pay attention to Abilities.
+    They can be a huge help!", MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+script TrainersSchool2FClassroom_Student3{
+    lock
+    faceplayer
+    msgbox("Let's see here\.
+    
+    If you view a Pokémon's summary,
+    you can see what Ability it has.
+    
+    Underneath you can see what that
+    Ability does.
+    
+    Maybe I'd remember it all better if the
+    textbook wasn't so boring!", MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+script TrainersSchool2FClassroom_Student4{
+    lock
+    faceplayer
+    msgbox("All Pokémon have some sort of Ability\.
+    
+    But even members of the same species
+    don't always have the same Ability
+    as one another.
+    
+    Which Ability you'll want your Pokémon
+    to have will depend somewhat on how
+    you like to battle.", MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+script TrainersSchool2FClassroom_Blackboard{
+    lock
+    msgbox("There is writing on the blackboard.
+
+    It lists status changes that may
+    affect Pok\emon in battle.
+
+    What would you like to read about?")
+    dynmultichoice(22,4, FALSE, 4, 0, DYN_MULTICHOICE_CB_NONE, "Poisoning", "Paralysis", "Falling asleep", "Getting Burned", "Being Frozen", "Never mind")
+        if (var(VAR_RESULT) == 0){
+            msgbox("If a Pokémon is poisoned, it will
+	        steadily lose HP.
+
+	        The effects of poison remain after
+            a battle.
+
+            A poisoned Pokémon's HP will drop
+            while it is traveling.
+
+            Heal a poisoning using an Antidote.")
+            call(TrainersSchool2FClassroom_Blackboard2)
+        }
+        elif (var(VAR_RESULT) == 1){
+            msgbox("If a Pokémon becomes paralyzed,
+	        its Speed drops.
+
+	        It may also not be able to move while
+	        it is in battle.
+
+	        Paralysis remains after battle.
+	        Cure it using a Paralyze Heal.")
+            call(TrainersSchool2FClassroom_Blackboard2)
+        }
+        elif (var(VAR_RESULT) == 2){
+            msgbox("If a Pokémon falls asleep, it will be
+            unable to attack.
+
+            A Pokémon may wake up on its own,
+            but if a battle ends while it is
+            sleeping, it will stay asleep.
+
+            Wake it up using an Awakening.")
+            call(TrainersSchool2FClassroom_Blackboard2)
+        }
+        elif (var(VAR_RESULT) == 3){
+            msgbox("A burn reduces Attack power, and it
+            steadily reduces the victim's HP.
+
+            A burn lingers after battle.
+            Cure a burn using a Burn Heal.")
+            call(TrainersSchool2FClassroom_Blackboard2)
+        }
+        elif (var(VAR_RESULT) == 4){
+            msgbox("If a Pokémon is frozen, it becomes
+            completely helpless.
+
+            It will remain frozen after battle.
+            Thaw it out using an Ice Heal.")
+            call(TrainersSchool2FClassroom_Blackboard2)
+        }
+        elif (var(VAR_RESULT) == 5){
+            release
+            end
+        }
+    release
+    end
+}
+
+script TrainersSchool2FClassroom_Blackboard2{
+    msgbox("What would you like to read about?")
+        dynmultichoice(22,4, FALSE, 4, 0, DYN_MULTICHOICE_CB_NONE, "Poisoning", "Paralysis", "Falling asleep", "Getting Burned", "Being Frozen", "Never mind")
+        if (var(VAR_RESULT) == 0){
+            msgbox("If a Pokémon is poisoned, it will
+	        steadily lose HP.
+
+	        The effects of poison remain after
+            a battle.
+
+            A poisoned Pokémon's HP will drop
+            while it is traveling.
+
+            Heal a poisoning using an Antidote.")
+            call(TrainersSchool2FClassroom_Blackboard2)
+        }
+        elif (var(VAR_RESULT) == 1){
+            msgbox("If a Pokémon becomes paralyzed,
+	        its Speed drops.
+
+	        It may also not be able to move while
+	        it is in battle.
+
+	        Paralysis remains after battle.
+	        Cure it using a Paralyze Heal.")
+            call(TrainersSchool2FClassroom_Blackboard2)
+        }
+        elif (var(VAR_RESULT) == 2){
+            msgbox("If a Pokémon falls asleep, it will be
+            unable to attack.
+
+            A Pokémon may wake up on its own,
+            but if a battle ends while it is
+            sleeping, it will stay asleep.
+
+            Wake it up using an Awakening.")
+            call(TrainersSchool2FClassroom_Blackboard2)
+        }
+        elif (var(VAR_RESULT) == 3){
+            msgbox("A burn reduces Attack power, and it
+            steadily reduces the victim's HP.
+
+            A burn lingers after battle.
+            Cure a burn using a Burn Heal.")
+            call(TrainersSchool2FClassroom_Blackboard2)
+        }
+        elif (var(VAR_RESULT) == 4){
+            msgbox("If a Pokémon is frozen, it becomes
+            completely helpless.
+
+            It will remain frozen after battle.
+            Thaw it out using an Ice Heal.")
+            call(TrainersSchool2FClassroom_Blackboard2)
+        }
+        elif (var(VAR_RESULT) == 5){
+            release
+            end
+        }
+    release
+    end
+}

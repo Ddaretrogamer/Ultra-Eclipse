@@ -721,7 +721,7 @@
 #define FLAG_HIDE_TRAINERSCHOOL_TEACHER  0x29A // hide the trainer school teacher
 #define FLAG_HIDE_TRAINERSCHOOL_LILLIE_KUKUI 0x29B // hide lillie and kukui at the trainer
 #define FLAG_HIDE_TRAINERSCHOOL_BLOCKINGMEOWTH  0x29C // hide the blocking Meowth at the trainer school
-#define FLAG_UNUSED_0x29D  0x29D // Unused Flag
+#define FLAG_LILLIPUP_PICKUP_ITEM  0x29D // lillipup potion from kid at trainer school
 #define FLAG_UNUSED_0x29E  0x29E // Unused Flag
 #define FLAG_UNUSED_0x29F  0x29F // Unused Flag
 #define FLAG_UNUSED_0x2A0  0x2A0 // Unused Flag

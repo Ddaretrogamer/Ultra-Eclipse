@@ -1,0 +1,24 @@
+mapscripts TrainerSchool2FTeachersLounge_MapScripts{}
+
+script TrainerSchool2FTeachersLounge_Slowpoke{
+    lock
+    faceplayer
+    playmoncry(SPECIES_SLOWPOKE,0)
+    msgbox("Ya-a-awn\.", MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+script TrainerSchool2FTeachersLounge_Guy{
+    lock
+    faceplayer
+    msgbox("Slowpoke's Yawn is a move that can put
+    your opponent to sleep in battle.
+    
+    When a Pokémon is asleep, it can't do
+    anything until it wakes up, so it can
+    give you a chance against a Pokémon
+    you're having trouble with.", MSGBOX_AUTOCLOSE)
+    release
+    end
+}

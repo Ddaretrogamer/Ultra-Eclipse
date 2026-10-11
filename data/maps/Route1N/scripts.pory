@@ -135,6 +135,7 @@ script TrainersSchool_Intro_Skip{
     setflag(FLAG_HIDE_TRAINERSCHOOL_TEACHER)
     special(StopAllObjectMovements)
     special(CloseScriptMenus)
+    hideitemdescription
     checkitem(ITEM_EXP_SHARE, 1)
     if (var(VAR_RESULT) == FALSE){
         additem(ITEM_EXP_SHARE, 1)
@@ -164,7 +165,7 @@ script TrainersSchool_BattleVs_Hiromi2{
     applymovement(trainerschool_lass1, moves(emote_exclamation_mark))
     waitmovement(trainerschool_lass1)
     waitse
-    trainerbattle_single(TRAINER_LASS_HIROMI, "If my previous Bonsly takes damage,\nI'll want to use a Potion on it!", "Don't worry-I'll heal any pain that was\ncaused by our defeat!")
+    trainerbattle_single(TRAINER_LASS_HIROMI, "If my previous Bonsly takes damage,\nI'll want to use a Potion on it!", "Don't worry-I'll heal any pain that was\ncaused by our defeat!", music=FALSE)
     msgbox("You can help your Pokémon win by using
     items at the right time.
     
@@ -299,7 +300,7 @@ script TrainersSchool_BattleVS_joey2{
     waitmovement(trainerschool_joey)
     waitse
     trainerbattle_single(TRAINER_YOUNGSTER_JOEY, "I'll show you my Grimer's best move!\nWith Poison Gas, it'll poison\leveryone that comes at us!",
-    "No! The Grimer I found in the tall grass\nnear the school was defeated?")
+    "No! The Grimer I found in the tall grass\nnear the school was defeated?", music = FALSE)
     msgbox("Grass-type Pokémon are immune to
     powder moves, like Poison Powder and
     Sleep Powder.
@@ -377,7 +378,28 @@ script TrainersSchool_BattleVs_Joseph{
     applymovement(trainerschool_joseph, moves(emote_exclamation_mark, face_player))
     waitmovement(trainerschool_joseph)
     waitse
-    trainerbattle_single(TRAINER_SCHOOLKID_JOSEPH,"Looks like you beat everyone else, huh?\pDon't think you'll beat me the same way!\nEkan's Ability is gonna get you!","Even after your Attack is lowered\.\nAn indominable spirit indeed!", TrainersSchool_BattleVs_Joseph4)
+    fadescreenswapbuffers(FADE_TO_BLACK)
+    hidefollower
+    getplayerxy(VAR_TEMP_A, VAR_TEMP_B)
+    if (var(VAR_TEMP_A) == 13 && var(VAR_TEMP_B) == 19){
+        applymovement(LOCALID_PLAYER, moves(walk_faster_left*3, face_right))
+        waitmovement(LOCALID_PLAYER)
+    }
+    elif (var(VAR_TEMP_A) == 14 && var(VAR_TEMP_B) == 20){
+        applymovement(LOCALID_PLAYER, moves(walk_faster_left*4, walk_faster_up,face_right))
+        waitmovement(LOCALID_PLAYER)
+    }
+    elif (var(VAR_TEMP_A) == 14 && var(VAR_TEMP_B) == 18){
+        applymovement(LOCALID_PLAYER, moves(walk_faster_left*4, walk_faster_down,face_right))
+        waitmovement(LOCALID_PLAYER)
+    }
+    elif (var(VAR_TEMP_A) == 15 && var(VAR_TEMP_B) == 19){
+        applymovement(LOCALID_PLAYER, moves(walk_faster_left*5, face_right))
+        waitmovement(LOCALID_PLAYER)
+    }
+    delay(30)
+    fadescreenswapbuffers(FADE_FROM_BLACK)
+    trainerbattle_single(TRAINER_SCHOOLKID_JOSEPH,"Looks like you beat everyone else, huh?\pDon't think you'll beat me the same way!\nEkan's Ability is gonna get you!","Even after your Attack is lowered\.\nAn indominable spirit indeed!", TrainersSchool_BattleVs_Joseph4, music = FALSE)
     release
     end
 }
@@ -413,6 +435,7 @@ script TrainersSchool_BattleVs_Joseph3{
 
 script TrainersSchool_BattleVs_Joseph4{
     setflag(FLAG_HIDE_TRAINERSCHOOL_BLOCKINGMEOWTH)
+    startcutscene(CUTSCENE_TRAINER_SCHOOL_JOSEPH_BATTLE)
     msgbox("Intimidate is an Ability that lowers
     your opponent's Attack Stat.
     
@@ -440,10 +463,10 @@ script TrainersSchool_BattleVs_Joseph4{
     
     They don't wear out or get used up.
     Pretty nice gift from me, huh?", MSGBOX_AUTOCLOSE)
-    applymovement(trainerschool_lillie, moves(walk_faster_up*5, walk_left*6))
+    applymovement(trainerschool_lillie, moves(walk_faster_up*5, walk_left*8))
     waitmovement(0)
-    applymovement(trainerschool_lillie, moves(face_down, emote_exclamation_mark))
-    applymovement(LOCALID_PLAYER, moves(face_down, emote_exclamation_mark))
+    applymovement(trainerschool_lillie, moves(face_up, emote_exclamation_mark))
+    applymovement(LOCALID_PLAYER, moves(face_up, emote_exclamation_mark))
     waitmovement(0)
     playse(SE_PIN)
     playse(SE_DING_DONG)
@@ -454,6 +477,11 @@ script TrainersSchool_BattleVs_Joseph4{
     msgbox("Oh, that's the school bell.", MSGBOX_AUTOCLOSE)
     delay(30)
     setflag(FLAG_SUPPRESS_SPEAKER_NAME)
+    playse(SE_DING_DONG)
+    applymovement(trainerschool_lillie, moves(face_up, emote_exclamation_mark))
+    applymovement(LOCALID_PLAYER, moves(face_up, emote_exclamation_mark))
+    waitmovement(0)
+    waitse
     msgbox("Attention all students\.
     
     Would {PLAYER} please come to the
@@ -462,7 +490,7 @@ script TrainersSchool_BattleVs_Joseph4{
     {PLAYER} to the 2F office, please.")
     clearflag(FLAG_SUPPRESS_SPEAKER_NAME)   
     applymovement(trainerschool_lillie, moves(walk_in_place_down*2))
-    applymovement(LOCALID_PLAYER, moves(face_right))
+    applymovement(LOCALID_PLAYER, moves(face_up))
     waitmovement(0)
     speakername("Lillie")
     msgbox("What terrible thing did you do to get
@@ -485,6 +513,7 @@ script TrainersSchool_BattleVs_Joseph4{
         speakername("Lillie")
         msgbox("So you did do something?!")
     }
+    endcutscene
     release
     end
 }
@@ -499,6 +528,24 @@ script TrainersSchool_BlockingTauros{
     playse(SE_PIN)
     applymovement(LOCALID_PLAYER, moves(emote_exclamation_mark, lock_facing_direction, jump_right))
     waitmovement(LOCALID_PLAYER)
+    release
+    end
+}
+
+script TrainersSchool_Joseph_Battle_Skip{
+    closemessage
+    fadescreenswapbuffers(FADE_TO_BLACK)
+    setobjectxy(trainerschool_lillie, 12, 16)
+    applymovement(trainerschool_lillie, moves(face_down))
+    waitmovement(trainerschool_lillie)
+    special(StopAllObjectMovements)
+    special(CloseScriptMenus)
+    hideitemdescription
+    checkitem(ITEM_TM01, 1)
+    if (var(VAR_RESULT) == FALSE){
+        additem(ITEM_TM01, 1)
+    }
+    fadescreenswapbuffers(FADE_FROM_BLACK)
     release
     end
 }

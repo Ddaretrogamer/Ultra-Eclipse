@@ -13,7 +13,50 @@
   "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
-  "object_events": [],
+  "object_events": [
+    {
+      "local_id": "trainerschool2f_teacher",
+      "graphics_id": "OBJ_EVENT_GFX_WOMAN_4",
+      "x": 20,
+      "y": 10,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "TrainerSchool2F_BattleVsTeacher",
+      "flag": "FLAG_HIDE_TRAINERSCHOOL_LILLIE_KUKUI"
+    },
+    {
+      "local_id": "trainerschool2f_ilima",
+      "graphics_id": "OBJ_EVENT_GFX_ILIMA",
+      "x": 16,
+      "y": 7,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "0"
+    },
+    {
+      "local_id": "trainerschool2f_kukui",
+      "graphics_id": "OBJ_EVENT_GFX_KUKUI",
+      "x": 16,
+      "y": 7,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "0"
+    }
+  ],
   "warp_events": [
     {
       "x": 20,
@@ -33,27 +76,17 @@
       "x": 13,
       "y": 9,
       "elevation": 0,
-      "dest_map": "MAP_TRAINER_SCHOOL2FCLASSROOM",
+      "dest_map": "MAP_TRAINER_SCHOOL2FTEACHERS_LOUNGE",
       "dest_warp_id": "0"
     },
     {
       "x": 4,
       "y": 9,
       "elevation": 0,
-      "dest_map": "MAP_TRAINER_SCHOOL2FTEACHERS_LOUNGE",
+      "dest_map": "MAP_TRAINER_SCHOOL2FCLASSROOM",
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [
-    {
-      "type": "trigger",
-      "x": 20,
-      "y": 10,
-      "elevation": 0,
-      "var": "VAR_TEMP_0",
-      "var_value": "0",
-      "script": "NULL"
-    }
-  ],
+  "coord_events": [],
   "bg_events": []
 }

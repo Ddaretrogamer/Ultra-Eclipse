@@ -26,6 +26,8 @@ extern const u8 HauoliOutskirts_LillieOutsideLabSkip[];
 extern const u8 AlolaLaboratory_FirstTimeIntroSkip[];
 extern const u8 HauoliOutskirts_ExitLabEclipseSkip[];
 extern const u8 TrainersSchool_Intro_Skip[];
+extern const u8 TrainersSchool_Joseph_Battle_Skip[];
+extern const u8 TrainersSchool_Teacher_Battle_Skip[];
 
 const struct CutsceneSkip sCutsceneSkipScripts[] =
 {
@@ -111,6 +113,14 @@ const struct CutsceneSkip sCutsceneSkipScripts[] =
     {
         .scriptCutsceneSkipPtr = TrainersSchool_Intro_Skip,
     },
+    [CUTSCENE_TRAINER_SCHOOL_JOSEPH_BATTLE] =
+    {
+        .scriptCutsceneSkipPtr = TrainersSchool_Joseph_Battle_Skip,
+    },
+    [CUTSCENE_TRAINER_SCHOOL_TEACHER_BATTLE] =
+    {
+        .scriptCutsceneSkipPtr = TrainersSchool_Teacher_Battle_Skip,
+    }
 };
 
 #endif // GUARD_DATA_CUTSCENE_H

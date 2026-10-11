@@ -88,7 +88,7 @@ script TrainersSchool_BattleVS_Mia2{
     waitmovement(trainerschool_mia)
     waitse
     trainerbattle_single(TRAINER_SCHOOLKID_MIA, "Look at my Metapod!\nIt's got an Oran Berry!",
-    "Metapod\.here, have a Berry.")
+    "Metapod\.here, have a Berry.", music=FALSE)
     msgbox("I'll give you some Oran Berries, too!
     They're great to have your Pokémon
     hold!", MSGBOX_AUTOCLOSE)

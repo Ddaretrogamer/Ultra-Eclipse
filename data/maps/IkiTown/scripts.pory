@@ -655,6 +655,7 @@ script Ikitown_Trigger_FestivalBattleSkip3{
     fadescreenswapbuffers(FADE_TO_BLACK)
     special(StopAllObjectMovements)
     special(CloseScriptMenus)
+    hideitemdescription
     additem(ITEM_Z_POWER_RING, 1)
     call(Ikitown_LeavingIkitownFestival)
 }

@@ -90,7 +90,7 @@ TrainersSchool_BattleVS_Mia2::
 # 89 "data/maps/TrainerSchool1CR/scripts.pory"
 	waitse
 # 90 "data/maps/TrainerSchool1CR/scripts.pory"
-	trainerbattle_single TRAINER_SCHOOLKID_MIA, TrainersSchool_BattleVS_Mia2_Text_0, TrainersSchool_BattleVS_Mia2_Text_1
+	trainerbattle_single TRAINER_SCHOOLKID_MIA, TrainersSchool_BattleVS_Mia2_Text_0, TrainersSchool_BattleVS_Mia2_Text_1, music = FALSE
 # 92 "data/maps/TrainerSchool1CR/scripts.pory"
 	msgbox TrainersSchool_BattleVS_Mia2_Text_2, MSGBOX_AUTOCLOSE
 # 95 "data/maps/TrainerSchool1CR/scripts.pory"
