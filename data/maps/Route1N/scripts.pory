@@ -300,7 +300,7 @@ script TrainersSchool_BattleVS_joey2{
     waitmovement(trainerschool_joey)
     waitse
     trainerbattle_single(TRAINER_YOUNGSTER_JOEY, "I'll show you my Grimer's best move!\nWith Poison Gas, it'll poison\leveryone that comes at us!",
-    "No! The Grimer I found in the tall grass\nnear the school was defeated?", music = FALSE)
+    "No! The Grimer I found in the tall grass\nnear the school was defeated?", event_script=FALSE, music=FALSE)
     msgbox("Grass-type Pokémon are immune to
     powder moves, like Poison Powder and
     Sleep Powder.

@@ -929,7 +929,7 @@ Ikitown_LeavingIkitownFestival_1:
 # 645 "data/maps/IkiTown/scripts.pory"
 	clearflag FLAG_HIDE_IKITOWN_SOUTH_LASS
 # 646 "data/maps/IkiTown/scripts.pory"
-	warp MAP_PLAYER_HOUSE, 8, 15
+	warp MAP_PLAYER_HOUSE, 8, 14
 # 647 "data/maps/IkiTown/scripts.pory"
 	waitstate
 # 648 "data/maps/IkiTown/scripts.pory"
@@ -994,7 +994,7 @@ Ikitown_Trigger_FestivalBattleSkip4::
 # 678 "data/maps/IkiTown/scripts.pory"
 	clearflag FLAG_HIDE_IKITOWN_SOUTH_LASS
 # 679 "data/maps/IkiTown/scripts.pory"
-	warp MAP_PLAYER_HOUSE, 8, 15
+	warp MAP_PLAYER_HOUSE, 8, 14
 # 680 "data/maps/IkiTown/scripts.pory"
 	waitstate
 # 681 "data/maps/IkiTown/scripts.pory"
@@ -2100,7 +2100,7 @@ Ikitown_trigger_GiveHalaSparklingStoneSkip::
 # 1470 "data/maps/IkiTown/scripts.pory"
 	removeitem ITEM_SPARKLING_STONE, 1
 # 1471 "data/maps/IkiTown/scripts.pory"
-	warp MAP_PLAYER_HOUSE, 8, 15
+	warp MAP_PLAYER_HOUSE, 8, 14
 # 1472 "data/maps/IkiTown/scripts.pory"
 	waitstate
 # 1473 "data/maps/IkiTown/scripts.pory"

@@ -465,7 +465,7 @@ TrainersSchool_BattleVS_joey2::
 # 301 "data/maps/Route1N/scripts.pory"
 	waitse
 # 302 "data/maps/Route1N/scripts.pory"
-	trainerbattle_single TRAINER_YOUNGSTER_JOEY, TrainersSchool_BattleVS_joey2_Text_0, TrainersSchool_BattleVS_joey2_Text_1, music = FALSE
+	trainerbattle_single TRAINER_YOUNGSTER_JOEY, TrainersSchool_BattleVS_joey2_Text_0, TrainersSchool_BattleVS_joey2_Text_1, event_script = FALSE, music = FALSE
 # 304 "data/maps/Route1N/scripts.pory"
 	msgbox TrainersSchool_BattleVs_Joey_Text_0, MSGBOX_AUTOCLOSE
 # 310 "data/maps/Route1N/scripts.pory"

@@ -41,7 +41,6 @@ mapscripts PlayerHouse_MapScripts{
 
 script Playerhouse_WelcomeHomeAfterFestival{
     lock
-    applymovement(LOCALID_PLAYER, moves(walk_up))
     speakername("Mom")
     msgbox("Honey, I'm home!", MSGBOX_AUTOCLOSE)
     setflag(FLAG_SUPPRESS_SPEAKER_NAME)

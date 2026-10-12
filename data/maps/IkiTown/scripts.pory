@@ -643,7 +643,7 @@ script Ikitown_LeavingIkitownFestival{
     setflag(FLAG_HIDE_IKITOWN_SOUTH_YOUNGSTER)
     clearflag(FLAG_HIDE_IKITOWN_REGULARNPCS)
     clearflag(FLAG_HIDE_IKITOWN_SOUTH_LASS)
-    warp(MAP_PLAYER_HOUSE, 8, 15)
+    warp(MAP_PLAYER_HOUSE, 8, 14)
     waitstate
     release
     end
@@ -676,7 +676,7 @@ script Ikitown_Trigger_FestivalBattleSkip4{
     setflag(FLAG_HIDE_IKITOWN_SOUTH_YOUNGSTER)
     clearflag(FLAG_HIDE_IKITOWN_REGULARNPCS)
     clearflag(FLAG_HIDE_IKITOWN_SOUTH_LASS)
-    warp(MAP_PLAYER_HOUSE, 8, 15)
+    warp(MAP_PLAYER_HOUSE, 8, 14)
     waitstate
     release
     end
@@ -1468,7 +1468,7 @@ script Ikitown_trigger_GiveHalaSparklingStoneSkip{
     setflag(FLAG_MOM_IN_HOUSE_INTRO)
     clearflag(FLAG_HIDE_PLAYER_MOM3)
     removeitem(ITEM_SPARKLING_STONE, 1)
-    warp(MAP_PLAYER_HOUSE, 8, 15)
+    warp(MAP_PLAYER_HOUSE, 8, 14)
     waitstate
     release
     end
