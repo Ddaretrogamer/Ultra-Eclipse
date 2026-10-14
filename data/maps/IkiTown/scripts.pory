@@ -523,6 +523,7 @@ script Ikitown_FestivalBattleOnStage2{
     speakername("Kukui")
     msgbox("Yeah, doing the island challenge is the
     best way to really get to know Alola!", MSGBOX_AUTOCLOSE)
+    delay(30)
     fadescreenswapbuffers(FADE_TO_BLACK)
     endcutscene
     call(Ikitown_LeavingIkitownFestival)

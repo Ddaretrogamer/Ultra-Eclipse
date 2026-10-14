@@ -74,39 +74,41 @@ TrainerSchool1CR_BattleVs_Mia::
 # 78 "data/maps/TrainerSchool1CR/scripts.pory"
 	goto_if_not_defeated TRAINER_SCHOOLKID_MIA, TrainersSchool_BattleVS_Mia2
 # 79 "data/maps/TrainerSchool1CR/scripts.pory"
+	faceplayer
+# 80 "data/maps/TrainerSchool1CR/scripts.pory"
 	msgbox TrainerSchool1CR_BattleVs_Mia_Text_0, MSGBOX_AUTOCLOSE
-# 81 "data/maps/TrainerSchool1CR/scripts.pory"
+# 82 "data/maps/TrainerSchool1CR/scripts.pory"
 	release
 	end
 
 
 TrainersSchool_BattleVS_Mia2::
-# 86 "data/maps/TrainerSchool1CR/scripts.pory"
-	playse SE_PIN
 # 87 "data/maps/TrainerSchool1CR/scripts.pory"
-	applymovement trainerschool_mia, TrainersSchool_BattleVS_Mia2_Movement_0
+	playse SE_PIN
 # 88 "data/maps/TrainerSchool1CR/scripts.pory"
-	waitmovement trainerschool_mia
+	applymovement trainerschool_mia, TrainersSchool_BattleVS_Mia2_Movement_0
 # 89 "data/maps/TrainerSchool1CR/scripts.pory"
-	waitse
+	waitmovement trainerschool_mia
 # 90 "data/maps/TrainerSchool1CR/scripts.pory"
+	waitse
+# 91 "data/maps/TrainerSchool1CR/scripts.pory"
 	trainerbattle_single TRAINER_SCHOOLKID_MIA, TrainersSchool_BattleVS_Mia2_Text_0, TrainersSchool_BattleVS_Mia2_Text_1, music = FALSE
-# 92 "data/maps/TrainerSchool1CR/scripts.pory"
+# 93 "data/maps/TrainerSchool1CR/scripts.pory"
 	msgbox TrainersSchool_BattleVS_Mia2_Text_2, MSGBOX_AUTOCLOSE
-# 95 "data/maps/TrainerSchool1CR/scripts.pory"
-	giveitem ITEM_ORAN_BERRY, 3
 # 96 "data/maps/TrainerSchool1CR/scripts.pory"
+	giveitem ITEM_ORAN_BERRY, 3
+# 97 "data/maps/TrainerSchool1CR/scripts.pory"
 	msgbox TrainerSchool1CR_BattleVs_Mia_Text_0, MSGBOX_AUTOCLOSE
-# 98 "data/maps/TrainerSchool1CR/scripts.pory"
+# 99 "data/maps/TrainerSchool1CR/scripts.pory"
 	release
 	end
 
 
-# 87 "data/maps/TrainerSchool1CR/scripts.pory"
+# 88 "data/maps/TrainerSchool1CR/scripts.pory"
 TrainersSchool_BattleVS_Mia2_Movement_0:
-# 87 "data/maps/TrainerSchool1CR/scripts.pory"
+# 88 "data/maps/TrainerSchool1CR/scripts.pory"
 	emote_exclamation_mark
-# 87 "data/maps/TrainerSchool1CR/scripts.pory"
+# 88 "data/maps/TrainerSchool1CR/scripts.pory"
 	face_player
 	step_end
 
@@ -158,20 +160,20 @@ TrainerSchool1CR_Teacher_Text_0:
 	.string "Pokémon moves, after all.$"
 
 TrainerSchool1CR_BattleVs_Mia_Text_0:
-# 79 "data/maps/TrainerSchool1CR/scripts.pory"
+# 80 "data/maps/TrainerSchool1CR/scripts.pory"
 	.string "Metapod looks so cute munching down an\n"
 	.string "Oran Berry in the middle of battle!$"
 
 TrainersSchool_BattleVS_Mia2_Text_0:
-# 90 "data/maps/TrainerSchool1CR/scripts.pory"
+# 91 "data/maps/TrainerSchool1CR/scripts.pory"
 	.string "Look at my Metapod!\nIt's got an Oran Berry!$"
 
 TrainersSchool_BattleVS_Mia2_Text_1:
-# 91 "data/maps/TrainerSchool1CR/scripts.pory"
+# 92 "data/maps/TrainerSchool1CR/scripts.pory"
 	.string "Metapod…here, have a Berry.$"
 
 TrainersSchool_BattleVS_Mia2_Text_2:
-# 92 "data/maps/TrainerSchool1CR/scripts.pory"
+# 93 "data/maps/TrainerSchool1CR/scripts.pory"
 	.string "I'll give you some Oran Berries, too!\n"
 	.string "They're great to have your Pokémon\l"
 	.string "hold!$"

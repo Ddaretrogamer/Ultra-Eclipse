@@ -20,14 +20,14 @@
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_HAUOLI_WHITE_HOUSE",
-      "dest_warp_id": "2"
+      "dest_warp_id": "1"
     },
     {
       "x": 14,
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_HAUOLI_WHITE_HOUSE",
-      "dest_warp_id": "2"
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [],

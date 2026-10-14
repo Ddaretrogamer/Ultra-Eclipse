@@ -197,13 +197,41 @@
       "x": 2,
       "y": 25,
       "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_RIGHT",
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "TrainersSchool_BlockingTauros",
-      "flag": "0"
+      "flag": "FLAG_HIDE_TRAINERSCHOOL_TAUROS"
+    },
+    {
+      "local_id": "trainerschool_hala",
+      "graphics_id": "OBJ_EVENT_GFX_HALA",
+      "x": 2,
+      "y": 24,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "TrainersSchool_BlockingHala",
+      "flag": "FLAG_HIDE_TRAINERSCHOOL_HALA"
+    },
+    {
+      "local_id": "trainerschool_hau",
+      "graphics_id": "OBJ_EVENT_GFX_HAU",
+      "x": 2,
+      "y": 26,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "TrainersSchool_BlockingHau",
+      "flag": "FLAG_HIDE_TRAINERSCHOOL_HALA"
     }
   ],
   "warp_events": [
@@ -292,6 +320,33 @@
       "var": "VAR_IKITOWN_STATE",
       "var_value": "22",
       "script": "TrainersSchool_BlockingTauros"
+    },
+    {
+      "type": "trigger",
+      "x": 5,
+      "y": 25,
+      "elevation": 0,
+      "var": "VAR_IKITOWN_STATE",
+      "var_value": "23",
+      "script": "TrainersSchool_Trigger_BlockingHala"
+    },
+    {
+      "type": "trigger",
+      "x": 5,
+      "y": 24,
+      "elevation": 0,
+      "var": "VAR_IKITOWN_STATE",
+      "var_value": "23",
+      "script": "TrainersSchool_Trigger_BlockingHala"
+    },
+    {
+      "type": "trigger",
+      "x": 5,
+      "y": 26,
+      "elevation": 0,
+      "var": "VAR_IKITOWN_STATE",
+      "var_value": "23",
+      "script": "TrainersSchool_Trigger_BlockingHala"
     }
   ],
   "bg_events": [

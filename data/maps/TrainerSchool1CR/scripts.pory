@@ -76,6 +76,7 @@ script TrainerSchool1CR_Teacher{
 script TrainerSchool1CR_BattleVs_Mia{
     lock
     goto_if_not_defeated(TRAINER_SCHOOLKID_MIA, TrainersSchool_BattleVS_Mia2)
+    faceplayer
     msgbox("Metapod looks so cute munching down an
     Oran Berry in the middle of battle!", MSGBOX_AUTOCLOSE)
     release
