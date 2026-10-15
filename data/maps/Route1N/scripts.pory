@@ -600,7 +600,7 @@ script TrainersSchool_BlockingTauros{
         waitmovement(0)
         speakername("Hau")
         msgbox("The kahunas sure are something, eh?
-        Able to calm a raging Pok\emon!
+        Able to calm a raging Pok\emon
         without even needing to battle\.
         
         I mean, I like Tauros plenty and all\.
