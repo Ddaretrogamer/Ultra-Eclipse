@@ -4308,7 +4308,19 @@ static void DebugAction_DestroyFollowerNPC(u8 taskId)
     X(MUS_RG_ENCOUNTER_DEOXYS)      \
     X(MUS_RG_TRAINER_TOWER)         \
     X(MUS_RG_SLOW_PALLET)           \
-    X(MUS_RG_TEACHY_TV_MENU)
+    X(MUS_RG_TEACHY_TV_MENU)        \
+    X(MUS_USUM_IKITOWN_DAY)         \
+    X(MUS_USUM_HAUOLI_CITY)         \
+    X(MUS_USUM_ROUTE2)              \
+    X(MUS_USUM_BATTLE_GLADION)      \
+    X(MUS_USUM_VS_WILD)             \
+    X(MUS_USUM_TITLE_SCREEN)        \
+    X(MUS_USUM_KUKUI_THEME)         \
+    X(MUS_USUM_MALIE_CITY)          \
+    X(MUS_USUM_POKECENTER)          \
+    X(MUS_USUM_REGION_THEME)        \
+    X(MUS_USUM_TRAINER_BATTLE)      \
+    X(MUS_USUM_ROUTE1)
 
 #define SOUND_LIST_SE               \
     X(SE_USE_ITEM)                  \
