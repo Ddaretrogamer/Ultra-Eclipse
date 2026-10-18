@@ -201,6 +201,10 @@ script TrainerSchool2F_BattleVsTeacher{
         waitstate
     }
     else{
+        msgbox("You must be joking!
+
+        You do know how much experience you
+        could gain from battling me, right?")
         release
         end
     }

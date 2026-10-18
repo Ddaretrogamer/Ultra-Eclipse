@@ -29,6 +29,8 @@ TrainerSchool2F_BattleVsTeacher::
 	compare VAR_RESULT, YES
 	goto_if_eq TrainerSchool2F_BattleVsTeacher_1
 # 204 "data/maps/TrainerSchool2F/scripts.pory"
+	msgbox TrainerSchool2F_BattleVsTeacher_Text_20
+# 208 "data/maps/TrainerSchool2F/scripts.pory"
 	release
 	end
 
@@ -226,23 +228,23 @@ TrainerSchool2F_BattleVsTeacher_18:
 
 
 TrainersSchool_Teacher_Battle_Skip::
-# 210 "data/maps/TrainerSchool2F/scripts.pory"
-	closemessage
-# 211 "data/maps/TrainerSchool2F/scripts.pory"
-	fadescreenswapbuffers FADE_TO_BLACK
-# 212 "data/maps/TrainerSchool2F/scripts.pory"
-	setflag FLAG_HIDE_TRAINERSCHOOL_LILLIE_KUKUI
-# 213 "data/maps/TrainerSchool2F/scripts.pory"
-	setvar VAR_IKITOWN_STATE, 23
 # 214 "data/maps/TrainerSchool2F/scripts.pory"
-	special StopAllObjectMovements
+	closemessage
 # 215 "data/maps/TrainerSchool2F/scripts.pory"
-	special CloseScriptMenus
+	fadescreenswapbuffers FADE_TO_BLACK
 # 216 "data/maps/TrainerSchool2F/scripts.pory"
-	warpsilent MAP_ROUTE1N, 19, 14
+	setflag FLAG_HIDE_TRAINERSCHOOL_LILLIE_KUKUI
 # 217 "data/maps/TrainerSchool2F/scripts.pory"
-	waitstate
+	setvar VAR_IKITOWN_STATE, 23
 # 218 "data/maps/TrainerSchool2F/scripts.pory"
+	special StopAllObjectMovements
+# 219 "data/maps/TrainerSchool2F/scripts.pory"
+	special CloseScriptMenus
+# 220 "data/maps/TrainerSchool2F/scripts.pory"
+	warpsilent MAP_ROUTE1N, 19, 14
+# 221 "data/maps/TrainerSchool2F/scripts.pory"
+	waitstate
+# 222 "data/maps/TrainerSchool2F/scripts.pory"
 	release
 	end
 
@@ -451,3 +453,9 @@ TrainerSchool2F_BattleVsTeacher_Text_19:
 	.string "Attention, all students…\p"
 	.string "{PLAYER} has completed her lesson at\n"
 	.string "the Trainers' School!$"
+
+TrainerSchool2F_BattleVsTeacher_Text_20:
+# 204 "data/maps/TrainerSchool2F/scripts.pory"
+	.string "You must be joking!\p"
+	.string "You do know how much experience you\n"
+	.string "could gain from battling me, right?$"

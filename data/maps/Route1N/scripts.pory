@@ -550,7 +550,7 @@ script TrainersSchool_BlockingTauros{
         elif (var(VAR_RESULT) == 1){
             setflag(FLAG_SUPPRESS_SPEAKER_NAME)
             playmoncry(SPECIES_TAUROS, 0)
-            applymovement(trainerschool_tauros, moves(emote_heart))
+            applymovement(trainerschool_tauros, moves(emote_exclamation_mark))
             msgbox("Bwoh!", MSGBOX_AUTOCLOSE)
             waitmovement(trainerschool_tauros)
             delay(30)
@@ -558,11 +558,10 @@ script TrainersSchool_BlockingTauros{
             applymovement(trainerschool_hala, moves(face_right))
             waitmovement(trainerschool_hala)
             speakername("Hala")
-            msgbox("Ha ha ha! You see that? This rascal
-            already loves you!
-            
-            Pok\emon become happier when we show
-            them some {COLOR RED}care{COLOR DARK_GRAY}.", MSGBOX_AUTOCLOSE)
+            msgbox("Hrmmm. That doesn't seem to have
+            impressed Tauros very much.", MSGBOX_AUTOCLOSE)
+            release
+            end
         }
         elif (var(VAR_RESULT) == 2){
             setflag(FLAG_SUPPRESS_SPEAKER_NAME)
@@ -577,6 +576,8 @@ script TrainersSchool_BlockingTauros{
             speakername("Hala")
             msgbox("Hrmmm. That doesn't seem to have
             impressed Tauros very much.", MSGBOX_AUTOCLOSE)
+            release
+            end
         }
         applymovement(LOCALID_PLAYER, moves(walk_down, face_up, delay_16*2, face_right))
         applymovement(trainerschool_tauros, moves(walk_right*3))
@@ -640,7 +641,7 @@ script TrainersSchool_BlockingTauros{
         applymovement(trainerschool_tauros, moves(face_player))
         waitmovement
         playmoncry(SPECIES_TAUROS, 0)
-        msgbox("Graah!", MSGBOX_AUTOCLOSE)
+        msgbox("Moo-aaarrr!", MSGBOX_AUTOCLOSE)
         waitmoncry
         playse(SE_PIN)
         applymovement(LOCALID_PLAYER, moves(emote_exclamation_mark, lock_facing_direction, jump_right))
@@ -712,7 +713,8 @@ script TrainersSchool_BlockingHala{
     hidefollower
     faceplayer
     speakername("Hala")
-    msgbox("Why don't you give Tauros a little pat?", MSGBOX_AUTOCLOSE)
+    msgbox("Oh, but I've got an idea\.
+    Why don't you give Tauros a little pat?", MSGBOX_AUTOCLOSE)
     applymovement(LOCALID_PLAYER, moves(walk_down, face_left))
     applymovement(trainerschool_hala, moves(delay_16*3, face_down))
     waitmovement(0)
@@ -724,7 +726,10 @@ script TrainersSchool_BlockingHau{
     hidefollower
     faceplayer
     speakername("Hau")
-    msgbox("What are you waiting for, go on!", MSGBOX_AUTOCLOSE)
+    msgbox("Don't worry, {PLAYER}.
+    That Tauros likes being patted.
+
+    What are you waiting for, go on!", MSGBOX_AUTOCLOSE)
     applymovement(LOCALID_PLAYER, moves(walk_up, face_left))
     waitmovement(LOCALID_PLAYER)
     call(TrainersSchool_BlockingTauros)
