@@ -1817,7 +1817,7 @@ TrainersSchool_BlockingTauros_Text_9:
 TrainersSchool_BlockingTauros_Text_10:
 # 602 "data/maps/Route1N/scripts.pory"
 	.string "The kahunas sure are something, eh?\n"
-	.string "Able to calm a raging Pokémon!\l"
+	.string "Able to calm a raging Pokémon\l"
 	.string "without even needing to battle…\p"
 	.string "I mean, I like Tauros plenty and all…\n"
 	.string "{PAUSE 15}but it is pretty scary!\p"

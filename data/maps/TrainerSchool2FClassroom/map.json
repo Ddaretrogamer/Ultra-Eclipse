@@ -2,7 +2,7 @@
   "id": "MAP_TRAINER_SCHOOL2FCLASSROOM",
   "name": "TrainerSchool2FClassroom",
   "layout": "LAYOUT_TRAINER_SCHOOL2FCLASSROOM",
-  "music": "MUS_USUM_IKITOWN_DAY",
+  "music": "MUS_USUM_KUKUI_THEME",
   "region_map_section": "MAPSEC_TRAINERS_SCHOOL_SM",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
