@@ -1,7 +1,7 @@
 
 	.align 2
 voicegroup191:: @ 1188000
-	voice_keysplit voicegroup192, KeySplitTable6
+    voice_keysplit_all voicegroup002
 	voice_keysplit voicegroup193, KeySplitTable6
 	voice_keysplit voicegroup194, KeySplitTable6
 	voice_keysplit voicegroup195, KeySplitTable7
@@ -102,20 +102,20 @@ voicegroup191:: @ 1188000
 	voice_keysplit voicegroup286, KeySplitTable33
 	voice_keysplit voicegroup287, KeySplitTable34
 	voice_keysplit voicegroup288, KeySplitTable34
-	voice_directsound 60, 0, DirectSoundWaveData_1007514, 255, 0, 255, 235
-	voice_keysplit voicegroup289, KeySplitTable15
-	voice_keysplit voicegroup290, KeySplitTable32
-	voice_keysplit voicegroup291, KeySplitTable31
-	voice_keysplit voicegroup292, KeySplitTable35
-	voice_keysplit voicegroup293, KeySplitTable35
-	voice_keysplit voicegroup294, KeySplitTable29
-	voice_keysplit voicegroup295, KeySplitTable31
-	voice_keysplit voicegroup296, KeySplitTable30
-	voice_keysplit voicegroup297, KeySplitTable25
-	voice_keysplit voicegroup298, KeySplitTable35
-	voice_directsound 60, 0, DirectSoundWaveData_1008da0, 255, 252, 0, 235
-	voice_directsound 60, 0, DirectSoundWaveData_1008e98, 255, 242, 0, 235
-	voice_keysplit voicegroup299, KeySplitTable34
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_1, 10, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_2, 10, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_3, 10, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_4, 10, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_5, 10, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_6, 10, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_7, 10, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_8, 10, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_9, 10, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_10, 10, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_11, 10, 7, 15, 0
+	voice_square_2_alt 60, 0, 2, 0, 0, 15, 0
+	voice_square_2_alt 60, 0, 2, 0, 0, 15, 0
+	voice_square_2_alt 60, 0, 2, 0, 0, 15, 0
 	voice_directsound 60, 0, DirectSoundWaveData_10094ac, 255, 0, 255, 235
 	voice_directsound 60, 0, DirectSoundWaveData_1009b80, 255, 0, 255, 235
 	voice_directsound 60, 0, DirectSoundWaveData_100aeac, 255, 0, 255, 235
