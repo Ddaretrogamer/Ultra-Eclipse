@@ -67,6 +67,13 @@ static void FreeCurrentSurfPalette(void)
         FreeSpritePaletteByTag(paletteTag);
 }
 
+static void DestroySurfMonSprite(struct Sprite *sprite)
+{
+    u8 paletteNum = sprite->oam.paletteNum;
+    DestroySprite(sprite);
+    FieldEffectFreePaletteIfUnused(paletteNum);
+}
+
 static u8 FindActiveSurfOverlaySprite(void)
 {
     u8 i;
@@ -265,8 +272,7 @@ static void UpdateSurfMonOverlay(struct Sprite *sprite)
     }
     if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_SURFING))
     {
-        FreeCurrentSurfPalette();
-        DestroySprite(sprite);
+        DestroySurfMonSprite(sprite);
     }
 }
 
@@ -319,8 +325,7 @@ static void UpdateSurfMonBase(struct Sprite *sprite)
 
     if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_SURFING))
     {
-        FreeCurrentSurfPalette();
-        DestroySprite(sprite);
+        DestroySurfMonSprite(sprite);
     }
 }
 
@@ -370,14 +375,11 @@ void UpdateSurfTransformAnimation(u8 taskId)
         {
             if (gSprites[i].inUse)
             {
-                if (gSprites[i].callback == UpdateSurfMonOverlay || 
-                    gSprites[i].callback == UpdateSurfMonBase ||
-                    (gSprites[i].template >= &gSurfablePokemonOverworldSprites[0] && 
-                     gSprites[i].template <= &gSurfablePokemonOverworldSprites[ARRAY_COUNT(gSurfablePokemonOverworldSprites) - 1]))
+                if (i == playerObj->fieldEffectSpriteId ||
+                    gSprites[i].callback == UpdateSurfMonOverlay ||
+                    gSprites[i].callback == UpdateSurfMonBase)
                 {
-                    FreeSpriteTilesByTag(gSprites[i].template->tileTag);
-                    FreeSpritePaletteByTag(gSprites[i].template->paletteTag);
-                    DestroySprite(&gSprites[i]);
+                    DestroySurfMonSprite(&gSprites[i]);
                 }
             }
         }
