@@ -566,6 +566,8 @@
 #define MUS_USUM_REGION_THEME       619
 #define MUS_USUM_TRAINER_BATTLE     620
 #define MUS_USUM_ROUTE1             621
+#define MUS_USUM_AETHER_THEME             622
+#define MUS_USUM_BATTLE_KAHUNA             623
 
 
 #endif  // GUARD_CONSTANTS_SONGS_H

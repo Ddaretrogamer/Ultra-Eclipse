@@ -4320,7 +4320,9 @@ static void DebugAction_DestroyFollowerNPC(u8 taskId)
     X(MUS_USUM_POKECENTER)          \
     X(MUS_USUM_REGION_THEME)        \
     X(MUS_USUM_TRAINER_BATTLE)      \
-    X(MUS_USUM_ROUTE1)
+    X(MUS_USUM_ROUTE1)      \
+    X(MUS_USUM_AETHER_THEME)      \
+    X(MUS_USUM_BATTLE_KAHUNA)
 
 #define SOUND_LIST_SE               \
     X(SE_USE_ITEM)                  \
