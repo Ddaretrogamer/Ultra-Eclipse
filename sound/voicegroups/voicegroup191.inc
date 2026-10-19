@@ -108,7 +108,7 @@ voicegroup191:: @ 1188000
 	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_4, 10, 7, 15, 0
 	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_5, 10, 7, 15, 0
 	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_6, 10, 7, 15, 0
-	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_7, 10, 7, 15, 0
+	voice_keysplit voicegroup295, KeySplitTable31
 	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_8, 10, 7, 15, 0
 	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_9, 10, 7, 15, 0
 	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_10, 10, 7, 15, 0
