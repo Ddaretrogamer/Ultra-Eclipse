@@ -83,6 +83,6 @@ void ResetSpinTimer(void);
 bool32 CanTriggerSpinEvolution();
 
 void SetPlayerAvatarVsSeeker(void);
-u8 GetLinkPlayerAvatarGraphicsIdByStateIdLinkIdAndGender(u8 state, u8 linkId, u8 gender);
+u8 GetLinkPlayerAvatarGraphicsIdByStateIdLinkIdAndGender(u8 state, u8 linkId, enum Gender gender);
 
 #endif // GUARD_FIELD_PLAYER_AVATAR_H

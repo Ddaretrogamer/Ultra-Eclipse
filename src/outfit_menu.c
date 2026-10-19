@@ -153,8 +153,8 @@ static const u8 sText_OutfitError_Default[] = _(
 
 static const u16 sTiles[] = INCBIN_U16("graphics/outfit_menu/main.4bpp");
 static const u16 sPalette[] = INCBIN_U16("graphics/outfit_menu/main.gbapal");
-static const u32 sTilemap[] = INCBIN_U32("graphics/outfit_menu/main.bin.lz");
-static const u32 sScrollingBG_Tilemap[] = INCBIN_U32("graphics/outfit_menu/scroll.bin.lz");
+static const u32 sTilemap[] = INCGFX_U32("graphics/outfit_menu/main.bin", ".smolTM");
+static const u32 sScrollingBG_Tilemap[] = INCGFX_U32("graphics/outfit_menu/scroll.bin", ".smolTM");
 
 static const u16 sIndicatorSprite_Gfx[] = INCBIN_U16("graphics/outfit_menu/indicator.4bpp");
 static const u16 sIndicatorSprite_Pal[] = INCBIN_U16("graphics/outfit_menu/indicator.gbapal");
@@ -462,8 +462,8 @@ static bool32 SetupOutfitMenu_Graphics(void)
     case 1:
         if (FreeTempTileDataBuffersIfPossible() != TRUE)
         {
-            LZDecompressWram(sTilemap, sOutfitMenu->tilemapBuffers[0]);
-            LZDecompressWram(sScrollingBG_Tilemap, sOutfitMenu->tilemapBuffers[1]);
+            DecompressDataWithHeaderWram(sTilemap, sOutfitMenu->tilemapBuffers[0]);
+            DecompressDataWithHeaderWram(sScrollingBG_Tilemap, sOutfitMenu->tilemapBuffers[1]);
             sOutfitMenu->gfxState++;
         }
         break;
@@ -601,11 +601,10 @@ static void SpriteCB_Indicator(struct Sprite *s)
 
 static inline void ForEachCB_DrawIndicatorSprites(u32 idx, u32 col, u32 row)
 {
-    u32 x, y, i;
+    u32 x, y;
     if (idx >= sOutfitMenu->listCount)
         return;
 
-    i = sOutfitMenu->grid->topLeftItemIndex + idx;
     x = ((col % GRID_COLS) < ARRAY_COUNT(sGridPosX)) ? sGridPosX[col] : sGridPosX[0];
     y = ((row % GRID_ROWS) < ARRAY_COUNT(sGridPosY)) ? sGridPosY[row] : sGridPosY[0];
     x -= 8, y -= 8;
@@ -779,7 +778,7 @@ static void Task_WaitFadeInOutfitMenu(u8 taskId)
 
 static void Task_WaitMessage(u8 taskId)
 {
-    if (!IsTextPrinterActive(WIN_MSGBOX) && (JOY_NEW(A_BUTTON | B_BUTTON) || --gTasks[taskId].data[0] == 0))
+    if (!IsTextPrinterActiveOnWindow(WIN_MSGBOX) && (JOY_NEW(A_BUTTON | B_BUTTON) || --gTasks[taskId].data[0] == 0))
     {
         ClearDialogWindowAndFrame(WIN_MSGBOX, TRUE);
         UpdateOutfitInfo();

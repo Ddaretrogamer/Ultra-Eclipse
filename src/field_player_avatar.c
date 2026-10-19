@@ -1775,7 +1775,7 @@ static u16 GetOutfitGraphicsIdByStateAndGender(u8 outfit, u8 state, enum Gender 
     case PLAYER_AVATAR_STATE_VSSEEKER:
         return gOutfits[outfit].animGfxIds[gender][PLAYER_AVATAR_GFX_VSSEEKER];
     default:
-        return sPlayerAvatarGfxIds[state][gender];
+        return gOutfits[outfit].avatarGfxIds[gender][OUTFIT_AVATAR_NORMAL];
     }
 }
 

@@ -229,6 +229,9 @@ Debug_EventScript_Script_2::
 	end
 
 Debug_EventScript_Script_3::
+	giveitem ITEM_OUTFIT_BOX 1
+	unlockoutfit OUTFIT_USUAL_GREEN
+	unlockoutfit OUTFIT_UNUSUAL_RED
 	release
 	end
 
