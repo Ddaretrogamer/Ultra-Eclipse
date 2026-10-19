@@ -22,8 +22,10 @@
 #include "regions.h"
 #include "region_map.h"
 #include "decompress.h"
-#include "constants/region_map_sections.h"
+#include "data.h"
 #include "heal_location.h"
+#include "outfit_menu.h"
+#include "constants/region_map_sections.h"
 #include "constants/field_specials.h"
 #include "constants/heal_locations.h"
 #include "constants/rgb.h"
@@ -1862,6 +1864,11 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
     {
         sheet.data = sRegionMapPlayerIcon_RedGfx;
         palette.data = sRegionMapPlayerIcon_RedPal;
+    }
+    if (gSaveBlock2Ptr->currOutfitId != DEFAULT_OUTFIT && gSaveBlock2Ptr->currOutfitId != OUTFIT_NONE)
+    {
+        sheet.data = GetPlayerHeadGfxOrPal(GFX, FALSE);
+        palette.data = GetPlayerHeadGfxOrPal(PAL, FALSE);
     }
     LoadSpriteSheet(&sheet);
     LoadSpritePalette(&palette);

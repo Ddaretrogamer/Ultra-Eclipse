@@ -3,6 +3,7 @@
 #include "constants/species.h"
 #include "constants/event_objects.h"
 #include "event_data.h"
+#include "data.h"
 #include "field_effect.h"
 #include "field_player_avatar.h"
 #include "fieldmap.h"
@@ -605,6 +606,17 @@ void DetransformPlayer(struct ScriptContext *ctx)
     }
 }
 
+static u16 GetRiderGfxId(const struct RideMonInfo *info, u8 gender)
+{
+    u8 outfit = gSaveBlock2Ptr->currOutfitId;
+
+    if (outfit != OUTFIT_NONE && outfit != DEFAULT_OUTFIT && outfit < OUTFIT_COUNT
+     && gOutfits[outfit].riderGfxIds[gender] != 0)
+        return gOutfits[outfit].riderGfxIds[gender];
+
+    return info->riderGfxId[gender];
+}
+
 void CreatePlayerMountSprite(u16 species)
 {
     s16 spriteId;
@@ -612,15 +624,17 @@ void CreatePlayerMountSprite(u16 species)
     struct Sprite *mountSpr;
     const struct RideMonInfo *info;
     u8 gender = gSaveBlock2Ptr->playerGender;
+    u16 riderGfxId;
 
     DestroyPlayerMountSprite();
 
     info = &sRideMonInfo[species];
     if (info->riderGfxId[gender] == 0)
         return;
+    riderGfxId = GetRiderGfxId(info, gender);
 
     spriteId = CreateObjectGraphicsSpriteWithTag(
-        info->riderGfxId[gender],
+        riderGfxId,
         UpdatePlayerMountSpritePosition, // The callback
         0, 0,
         0,
@@ -637,7 +651,7 @@ void CreatePlayerMountSprite(u16 species)
 
     mountSpr->coordOffsetEnabled = TRUE;
     mountSpr->oam.priority = playerSpr->oam.priority;
-    mountSpr->images = GetObjectEventGraphicsInfo(info->riderGfxId[gender])->images;
+    mountSpr->images = GetObjectEventGraphicsInfo(riderGfxId)->images;
     
     // Set initial visibility
     mountSpr->invisible = playerSpr->invisible;

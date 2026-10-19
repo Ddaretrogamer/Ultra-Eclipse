@@ -2143,3 +2143,6 @@ const u16 gItemIconPalette_SwapSnack[] = INCGFX_U16("graphics/items/icon_palette
 
 const u32 gItemIcon_TwiceSpicedRadish[] = INCGFX_U32("graphics/items/icons/twice_spiced_radish.png", ".4bpp.smol");
 const u16 gItemIconPalette_TwiceSpicedRadish[] = INCGFX_U16("graphics/items/icon_palettes/twice_spiced_radish.pal", ".gbapal");
+
+const u32 gItemIcon_OutfitBox[] = INCGFX_U32("graphics/items/icons/outfit_box.png", ".4bpp.smol");
+const u16 gItemIconPalette_OutfitBox[] = INCGFX_U16("graphics/items/icon_palettes/outfit_box.pal", ".gbapal");

@@ -424,4 +424,26 @@ static inline const u16 *GetTrainerBackPicPalette(enum TrainerPicID trainerPic)
     return gTrainerPicInfo[SanitizeBackTrainerPic(trainerPic)].backPic->paletteData;
 }
 
+//! outfits
+
+struct Outfit
+{
+    u8 isHidden:1; //! Will not shows up in the menu if locked.
+    u32 prices[GENDER_COUNT]; //! heh
+    const u8 *name;
+    const u8 *desc;
+    enum TrainerPicID trainerPics[GENDER_COUNT];
+    u16 avatarGfxIds[GENDER_COUNT][OUTFIT_AVATAR_COUNT];
+    u16 animGfxIds[GENDER_COUNT][PLAYER_AVATAR_GFX_COUNT];
+    u16 riderGfxIds[GENDER_COUNT];
+    //! region map & frontier pass
+    const void *iconsRM[GENDER_COUNT]; //! region map
+    const void *iconsFP; //! frontier pass
+};
+
+extern const struct Outfit gOutfits[OUTFIT_COUNT];
+
+#define GFX 0
+#define PAL 1
+
 #endif // GUARD_DATA_H

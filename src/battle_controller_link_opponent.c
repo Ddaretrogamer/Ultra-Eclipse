@@ -24,6 +24,7 @@
 #include "text.h"
 #include "util.h"
 #include "window.h"
+#include "outfit_menu.h"
 #include "constants/battle_anim.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
@@ -313,7 +314,17 @@ static void LinkOpponentHandleDrawTrainerPic(enum BattlerId battler)
             }
             else
             {
-                trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetBattlerMultiplayerId(battler)].gender);
+                //! neverRead was set to 0 by vanilla, we use it to our
+                //! advantage so that our game won't freak out as much
+                //! we also defaults to 0 if the player has an outfit
+                //! our game don't
+                u8 outfit = gLinkPlayers[GetBattlerMultiplayerId(battler)].currOutfitId;
+                u8 gender = gLinkPlayers[GetBattlerMultiplayerId(battler)].gender;
+
+                if (outfit < OUTFIT_COUNT)
+                    trainerPicId = GetPlayerTrainerPicIdByOutfitAndGender(outfit, gender);
+                else
+                    trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetBattlerMultiplayerId(battler)].gender);
             }
         }
     }
@@ -342,7 +353,17 @@ static void LinkOpponentHandleDrawTrainerPic(enum BattlerId battler)
         }
         else
         {
-            trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender);
+            //! neverRead was set to 0 by vanilla, we use it to our
+            //! advantage so that our game won't freak out as much
+            //! we also defaults to 0 if the player has an outfit
+            //! our game don't
+            u8 outfit = gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].currOutfitId;
+            u8 gender = gLinkPlayers[GetMultiplayerId() ^ BIT_SIDE].gender;
+
+            if (outfit < OUTFIT_COUNT)
+                trainerPicId = GetPlayerTrainerPicIdByOutfitAndGender(outfit, gender);
+            else
+                trainerPicId = PlayerGenderToFrontTrainerPicId(gender);
         }
     }
 

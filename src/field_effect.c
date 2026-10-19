@@ -4697,7 +4697,7 @@ static void UseVsSeeker_DoPlayerAnimation(struct Task *task)
 
     if (gMapHeader.mapType != MAP_TYPE_UNDERWATER)
     {
-        SetPlayerAvatarFieldMove();
+        SetPlayerAvatarVsSeeker();
         ObjectEventSetHeldMovement(playerObj, MOVEMENT_ACTION_START_ANIM_IN_DIRECTION);
     }
     task->data[0]++;

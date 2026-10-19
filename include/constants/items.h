@@ -9,7 +9,7 @@ enum __attribute__((packed)) Item
 {
     ITEM_NONE = 0,
 
-    // Poké Balls
+    // PokÃ© Balls
     ITEM_POKE_BALL = 1,
     ITEM_GREAT_BALL = 2,
     ITEM_ULTRA_BALL = 3,
@@ -1067,6 +1067,7 @@ enum __attribute__((packed)) Item
 
     //UE NEW ITEMS
     ITEM_SPARKLING_STONE = 884,
+    ITEM_OUTFIT_BOX = 885,
 
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,

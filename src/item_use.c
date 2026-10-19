@@ -32,6 +32,7 @@
 #include "metatile_behavior.h"
 #include "oras_dowse.h"
 #include "overworld.h"
+#include "outfit_menu.h"
 #include "palette.h"
 #include "party_menu.h"
 #include "pokeblock.h"
@@ -100,6 +101,8 @@ static void UseTeleportToolYesNo(u8 taskId);
 static void AskPlayerTeleportTool(u8 taskId);
 static void CB2_OpenFlyToolFromBag(void);
 static void Task_OpenRegisteredFlyTool(u8 taskId);
+static void CB2_OpenOutfitBoxFromBag(void);
+static void Task_OpenRegisteredOutfitBox(u8 taskId);
 static void ItemUseOnFieldCB_RockSmashTool(u8 taskId);
 static void ItemUseOnFieldCB_RockSmashToolNoRock(u8 taskId);
 static void ItemUseOnFieldCB_StrengthToolNoRock(u8 taskId);
@@ -2450,5 +2453,39 @@ void ItemUseOnFieldCB_SweetScentTool(u8 taskId)
     DestroyTask(taskId);
 }
 // End qol_field_moves
+
+void ItemUseOutOfBattle_OutfitBox(u8 taskId)
+{
+    if (MenuHelpers_IsLinkActive() == TRUE)
+    {
+        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+    }
+    else if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
+    {
+        gBagMenu->newScreenCallback = CB2_OpenOutfitBoxFromBag;
+        Task_FadeAndCloseBagMenu(taskId);
+    }
+    else
+    {
+        gFieldCallback = FieldCB_ReturnToFieldNoScript;
+        FadeScreen(FADE_TO_BLACK, 0);
+        gTasks[taskId].func = Task_OpenRegisteredOutfitBox;
+    }
+}
+
+static void CB2_OpenOutfitBoxFromBag(void)
+{
+    OpenOutfitMenu(CB2_ReturnToBagMenuPocket);
+}
+
+static void Task_OpenRegisteredOutfitBox(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        CleanupOverworldWindowsAndTilemaps();
+        OpenOutfitMenu(CB2_ReturnToField);
+        DestroyTask(taskId);
+    }
+}
 
 #undef tUsingRegisteredKeyItem

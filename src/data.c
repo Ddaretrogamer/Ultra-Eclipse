@@ -238,3 +238,5 @@ const struct Trainer gTrainers[DIFFICULTY_COUNT][TRAINERS_COUNT] =
 #endif
 
 #include "data/text/follower_messages.h"
+#include "data/outfit_tables.h"
+

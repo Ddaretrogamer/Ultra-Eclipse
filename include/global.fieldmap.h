@@ -354,6 +354,26 @@ enum {
 #define PLAYER_AVATAR_FLAG_DASH         (1 << 7)
 
 #define PLAYER_AVATAR_FLAG_BIKE        (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE)
+
+// Slots in gOutfits[].avatarGfxIds (Mach and Acro bikes share the BIKE slot)
+enum {
+    OUTFIT_AVATAR_NORMAL,
+    OUTFIT_AVATAR_BIKE,
+    OUTFIT_AVATAR_SURFING,
+    OUTFIT_AVATAR_UNDERWATER,
+    OUTFIT_AVATAR_COUNT,
+};
+
+// Slots in gOutfits[].animGfxIds
+enum {
+    PLAYER_AVATAR_GFX_FIELD_MOVE,
+    PLAYER_AVATAR_GFX_FISHING,
+    PLAYER_AVATAR_GFX_WATERING,
+    PLAYER_AVATAR_GFX_DECORATING,
+    PLAYER_AVATAR_GFX_VSSEEKER,
+    PLAYER_AVATAR_GFX_COUNT,
+};
+
 // Player avatar flags for which follower Pokémon are hidden
 #define FOLLOWER_INVISIBLE_FLAGS       (PLAYER_AVATAR_FLAG_SURFING | PLAYER_AVATAR_FLAG_UNDERWATER | \
                                         PLAYER_AVATAR_FLAG_BIKE | PLAYER_AVATAR_FLAG_FORCED_MOVE)

@@ -1,8 +1,10 @@
 #include "global.h"
 #include "main.h"
 #include "bike.h"
+#include "data.h"
 #include "event_data.h"
 #include "event_object_movement.h"
+#include "field_control_avatar.h"
 #include "field_camera.h"
 #include "field_control_avatar.h"
 #include "field_effect.h"
@@ -26,6 +28,7 @@
 #include "surfable.h"
 #include "task.h"
 #include "tv.h"
+#include "link.h"
 #include "wild_encounter.h"
 #include "constants/abilities.h"
 #include "constants/event_objects.h"
@@ -448,7 +451,7 @@ static void npc_clear_strange_bits(struct ObjectEvent *objEvent)
 
 static void MovePlayerAvatarUsingKeypadInput(enum Direction direction, u16 newKeys, u16 heldKeys)
 {
-    if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+    if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_BIKE)
         MovePlayerOnBike(direction, newKeys, heldKeys);
     else
         MovePlayerNotOnBike(direction, heldKeys);
@@ -1408,7 +1411,7 @@ static void PlayerRunSlow(enum Direction direction)
     }
     else if (FlagGet(FLAG_PLAYER_IS_POKEMON))
     {
-        // Default behavior for other Pokémon forms
+        // Default behavior for other PokÃ©mon forms
         PlayerSetAnimId(GetWalkFastMovementAction(direction), COPY_MOVE_WALK);
     }
     else
@@ -1456,7 +1459,7 @@ static void PlayerRun(enum Direction direction)
     }
     else if (FlagGet(FLAG_PLAYER_IS_POKEMON))
     {
-        // Default behavior for other Pokémon forms
+        // Default behavior for other PokÃ©mon forms
         PlayerSetAnimId(GetWalkFastMovementAction(direction), COPY_MOVE_WALK);
     }
     else
@@ -1735,7 +1738,7 @@ void StopPlayerAvatar(void)
 
     npc_clear_strange_bits(playerObjEvent);
     SetObjectEventDirection(playerObjEvent, playerObjEvent->facingDirection);
-    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_BIKE))
     {
         Bike_HandleBumpySlopeJump();
         Bike_UpdateBikeCounterSpeed(0);
@@ -1750,12 +1753,52 @@ u16 GetRivalAvatarGraphicsIdByStateIdAndGender(u8 state, enum Gender gender)
         return sRivalAvatarGfxIds[state][gender];
 }
 
+static u16 GetOutfitGraphicsIdByStateAndGender(u8 outfit, u8 state, enum Gender gender)
+{
+    switch (state)
+    {
+    case PLAYER_AVATAR_STATE_NORMAL:
+        return gOutfits[outfit].avatarGfxIds[gender][OUTFIT_AVATAR_NORMAL];
+    case PLAYER_AVATAR_STATE_MACH_BIKE:
+    case PLAYER_AVATAR_STATE_ACRO_BIKE:
+        return gOutfits[outfit].avatarGfxIds[gender][OUTFIT_AVATAR_BIKE];
+    case PLAYER_AVATAR_STATE_SURFING:
+        return gOutfits[outfit].avatarGfxIds[gender][OUTFIT_AVATAR_SURFING];
+    case PLAYER_AVATAR_STATE_UNDERWATER:
+        return gOutfits[outfit].avatarGfxIds[gender][OUTFIT_AVATAR_UNDERWATER];
+    case PLAYER_AVATAR_STATE_FIELD_MOVE:
+        return gOutfits[outfit].animGfxIds[gender][PLAYER_AVATAR_GFX_FIELD_MOVE];
+    case PLAYER_AVATAR_STATE_FISHING:
+        return gOutfits[outfit].animGfxIds[gender][PLAYER_AVATAR_GFX_FISHING];
+    case PLAYER_AVATAR_STATE_WATERING:
+        return gOutfits[outfit].animGfxIds[gender][PLAYER_AVATAR_GFX_WATERING];
+    case PLAYER_AVATAR_STATE_VSSEEKER:
+        return gOutfits[outfit].animGfxIds[gender][PLAYER_AVATAR_GFX_VSSEEKER];
+    default:
+        return sPlayerAvatarGfxIds[state][gender];
+    }
+}
+
+// The default outfit keeps the vanilla table, so Mach bike and FRLG graphics are unchanged.
+u16 GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(u8 outfit, u8 state, enum Gender gender)
+{
+    if (outfit == OUTFIT_NONE || outfit == DEFAULT_OUTFIT)
+        return sPlayerAvatarGfxIds[state][gender];
+
+    return GetOutfitGraphicsIdByStateAndGender(outfit, state, gender);
+}
+
+u16 GetPlayerAnimGraphicsIdByOutfitStateIdAndGender(u8 outfit, u8 animSlot, enum Gender gender)
+{
+    return gOutfits[outfit].animGfxIds[gender][animSlot];
+}
+
 u16 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, enum Gender gender)
 {
     if (IsPlayerTransformed())
         return GetPlayerTransformGraphicsId();
 
-    return sPlayerAvatarGfxIds[state][gender];
+    return GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(gSaveBlock2Ptr->currOutfitId, state, gender);
 }
 
 u16 GetFRLGAvatarGraphicsIdByGender(enum Gender gender)
@@ -1801,6 +1844,11 @@ enum Gender GetPlayerAvatarGenderByGraphicsId(u16 gfxId)
     default:
         return MALE;
     }
+}
+
+u8 GetLinkPlayerAvatarGraphicsIdByStateIdLinkIdAndGender(u8 state, u8 linkId, enum Gender gender)
+{
+    return GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(gLinkPlayers[linkId].currOutfitId, state, gender);
 }
 
 bool8 PartyHasMonWithSurf(void)
@@ -1875,7 +1923,8 @@ static u8 GetPlayerAvatarStateTransitionByGraphicsId(u16 graphicsId, u8 gender)
 
     for (i = 0; i < ARRAY_COUNT(sPlayerAvatarGfxToStateFlag[0]); i++)
     {
-        if (sPlayerAvatarGfxToStateFlag[gender][i].graphicsId == graphicsId)
+        if (sPlayerAvatarGfxToStateFlag[gender][i].graphicsId == graphicsId
+         || GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(gSaveBlock2Ptr->currOutfitId, i, gender) == graphicsId)
             return sPlayerAvatarGfxToStateFlag[gender][i].playerFlag;
     }
     return PLAYER_AVATAR_FLAG_ON_FOOT;
@@ -1889,7 +1938,7 @@ u16 GetPlayerAvatarGraphicsIdByCurrentState(void)
     for (i = 0; i < ARRAY_COUNT(sPlayerAvatarGfxToStateFlag[0]); i++)
     {
         if (sPlayerAvatarGfxToStateFlag[gPlayerAvatar.gender][i].playerFlag & flags)
-            return sPlayerAvatarGfxToStateFlag[gPlayerAvatar.gender][i].graphicsId;
+            return GetPlayerAvatarGraphicsIdByStateIdAndGender(i, gPlayerAvatar.gender);
     }
     return 0;
 }
@@ -1930,7 +1979,6 @@ void InitPlayerAvatar(s16 x, s16 y, enum Direction direction, enum Gender gender
     gPlayerAvatar.tileTransitionState = T_NOT_MOVING;
     gPlayerAvatar.objectEventId = objectEventId;
     gPlayerAvatar.spriteId = objectEvent->spriteId;
-    gPlayerAvatar.gender = gender;
     SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_CONTROLLABLE | PLAYER_AVATAR_FLAG_ON_FOOT);
     // Create follower if not transformed and not disabled
     if (!FlagGet(FLAG_PLAYER_IS_POKEMON) && !FlagGet(FLAG_DISABLE_FOLLOWERS))
@@ -1955,18 +2003,21 @@ void SetPlayerInvisibility(bool8 invisible)
         gSprites[gObjectEvents[gPlayerAvatar.objectEventId].fieldEffectSpriteId].invisible = invisible;
 }
 
-void SetPlayerAvatarFieldMove(void)
+static void SetPlayerAvatarAnimation(u8 state, u32 animNum)
 {
     EndORASDowsing();
-    ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_FIELD_MOVE));
-    StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], ANIM_FIELD_MOVE);
+    ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByStateId(state));
+    StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], animNum);
+}
+
+void SetPlayerAvatarFieldMove(void)
+{
+    SetPlayerAvatarAnimation(PLAYER_AVATAR_STATE_FIELD_MOVE, ANIM_FIELD_MOVE);
 }
 
 void SetPlayerAvatarFishing(enum Direction direction)
 {
-    EndORASDowsing();
-    ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_FISHING));
-    StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], GetFishingDirectionAnimNum(direction));
+    SetPlayerAvatarAnimation(PLAYER_AVATAR_STATE_FISHING, GetFishingDirectionAnimNum(direction));
 }
 
 void PlayerUseAcroBikeOnBumpySlope(enum Direction direction)
@@ -1978,9 +2029,7 @@ void PlayerUseAcroBikeOnBumpySlope(enum Direction direction)
 
 void SetPlayerAvatarWatering(enum Direction direction)
 {
-    EndORASDowsing();
-    ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_WATERING));
-    StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], GetFaceDirectionAnimNum(direction));
+    SetPlayerAvatarAnimation(PLAYER_AVATAR_STATE_WATERING, GetFaceDirectionAnimNum(direction));
 }
 
 static void HideShowWarpArrow(struct ObjectEvent *objectEvent)
@@ -1992,7 +2041,7 @@ static void HideShowWarpArrow(struct ObjectEvent *objectEvent)
 
     for (x = 0, direction = DIR_SOUTH; x < 4; x++, direction++)
     {
-        if (sArrowWarpMetatileBehaviorChecks2[x](metatileBehavior) && direction == objectEvent->movementDirection)
+        if (sArrowWarpMetatileBehaviorChecks[x](metatileBehavior) && direction == objectEvent->movementDirection)
         {
             // Show warp arrow if applicable
             x = objectEvent->currentCoords.x;
@@ -2478,4 +2527,9 @@ bool8 ObjectMovingOnRockStairs(struct ObjectEvent *objectEvent, enum Direction d
     #else
         return FALSE;
     #endif
+}
+
+void SetPlayerAvatarVsSeeker(void)
+{
+    SetPlayerAvatarAnimation(PLAYER_AVATAR_STATE_VSSEEKER, 0);
 }
