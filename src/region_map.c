@@ -26,6 +26,7 @@
 #include "heal_location.h"
 #include "outfit_menu.h"
 #include "constants/region_map_sections.h"
+#include "constants/event_objects.h"
 #include "constants/field_specials.h"
 #include "constants/heal_locations.h"
 #include "constants/rgb.h"
@@ -1842,7 +1843,7 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
 {
     u8 spriteId;
     struct SpriteSheet sheet = {sRegionMapPlayerIcon_ElioGfx, 0x80, tileTag};
-    struct SpritePalette palette = {sRegionMapPlayerIcon_ElioPal, paletteTag};
+    struct SpritePalette palette = {GetCurrentOutfitObjectPalette(OBJ_EVENT_PAL_TAG_ELIO, sRegionMapPlayerIcon_ElioPal), paletteTag};
     struct SpriteTemplate template = {tileTag, paletteTag, &sRegionMapPlayerIconOam, sRegionMapPlayerIconAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy};
 
     if (IsEventIslandMapSecId(gMapHeader.regionMapSectionId))
@@ -1858,7 +1859,7 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
     else if (gSaveBlock2Ptr->playerGender == FEMALE)
     {
         sheet.data = sRegionMapPlayerIcon_SeleneGfx;
-        palette.data = sRegionMapPlayerIcon_SelenePal;
+        palette.data = GetCurrentOutfitObjectPalette(OBJ_EVENT_PAL_TAG_SELENE, sRegionMapPlayerIcon_SelenePal);
     }
     else if (IS_FRLG)
     {

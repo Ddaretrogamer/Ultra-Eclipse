@@ -231,7 +231,9 @@ Debug_EventScript_Script_2::
 Debug_EventScript_Script_3::
 	giveitem ITEM_OUTFIT_BOX 1
 	unlockoutfit OUTFIT_USUAL_GREEN
-	unlockoutfit OUTFIT_UNUSUAL_RED
+	unlockoutfit OUTFIT_TEAL
+	unlockoutfit OUTFIT_VIOLET
+	unlockoutfit OUTFIT_GREEN
 	release
 	end
 

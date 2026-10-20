@@ -610,6 +610,7 @@ struct SaveBlock2
              u16 optionsRotomPhonePalette:4; // whether the start menu is in the default palette
              u16 optionsTitleScreenPokemon:3; // what Pokemon displays on the title screen, must have enough space to contain enum TitleScreenPokemon
              u16 currOutfitId:4;
+             u16 currOutfitPalette:2; // Skin tone within the current outfit; uses existing padding.
              //u16 padding1:5;
              //u16 padding2;
     /*0x18*/ struct Pokedex pokedex;

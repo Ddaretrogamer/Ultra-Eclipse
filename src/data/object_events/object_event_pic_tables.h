@@ -3282,3 +3282,5 @@ static const struct SpriteFrameImage sPicTable_MomFrlg[] = {
 };
 
 #endif // IS_FRLG
+
+#include "outfit_pic_tables.h"

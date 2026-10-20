@@ -7855,3 +7855,5 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SSAnne = {
 };
 
 #endif // IS_FRLG
+
+#include "outfit_graphics_info.h"

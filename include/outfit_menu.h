@@ -1,8 +1,11 @@
 #ifndef GUARD_OUTFIT_MENU_H
 #define GUARD_OUTFIT_MENU_H
 
+#include "main.h"
+
 void OpenOutfitMenu(MainCallback retCB);
 void Task_OpenOutfitMenu(u8 taskId);
+const u16 *GetCurrentOutfitObjectPalette(u16 paletteTag, const u16 *palette);
 
 //! misc funcs
 void BufferOutfitStrings(u8 *dest, u8 outfitId, u8 dataType);

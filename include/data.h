@@ -389,9 +389,12 @@ static inline const u32 *GetTrainerFrontPicData(enum TrainerPicID trainerPic)
     return gTrainerPicInfo[SanitizeFrontTrainerPic(trainerPic)].frontPic->imageData;
 }
 
+const u16 *GetPlayerOutfitTrainerPalette(enum TrainerPicID trainerPic, const u16 *palette);
+
 static inline const u16 *GetTrainerFrontPicPalette(enum TrainerPicID trainerPic)
 {
-    return gTrainerPicInfo[SanitizeFrontTrainerPic(trainerPic)].frontPic->paletteData;
+    trainerPic = SanitizeFrontTrainerPic(trainerPic);
+    return GetPlayerOutfitTrainerPalette(trainerPic, gTrainerPicInfo[trainerPic].frontPic->paletteData);
 }
 
 static inline const struct Coords16 GetTrainerFrontPicMugshotCoords(enum TrainerPicID trainerPic)
@@ -421,7 +424,8 @@ static inline const union AnimCmd *const *GetTrainerBackPicAnims(enum TrainerPic
 
 static inline const u16 *GetTrainerBackPicPalette(enum TrainerPicID trainerPic)
 {
-    return gTrainerPicInfo[SanitizeBackTrainerPic(trainerPic)].backPic->paletteData;
+    trainerPic = SanitizeBackTrainerPic(trainerPic);
+    return GetPlayerOutfitTrainerPalette(trainerPic, gTrainerPicInfo[trainerPic].backPic->paletteData);
 }
 
 //! outfits

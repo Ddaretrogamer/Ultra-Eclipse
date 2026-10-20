@@ -30,6 +30,9 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
+#include "constants/event_objects.h"
+
+#include "data/outfit_palettes.h"
 
 #define GRID_COLS   1
 #define GRID_ROWS   4
@@ -73,6 +76,8 @@ enum SpriteTags {
     TAG_SCROLL_ARROWS = 0x9000,
     TAG_INDICATOR,
     TAG_CURSOR,
+    TAG_OUTFIT_PREVIEW,
+    TAG_TRAINER_PREVIEW = TAG_OUTFIT_PREVIEW + GRID_ROWS,
 };
 
 enum ColorId {
@@ -96,6 +101,7 @@ typedef struct {
     struct GridMenu *grid;
     u8 *list;
     u8 listCount;
+    u8 paletteIndices[OUTFIT_COUNT];
     u8 currentOutfitSpriteIds[GRID_ROWS];
     u8 slotId:1; // flipped each time its used, for trainer sprites
     u8 unused:7;
@@ -119,6 +125,12 @@ static void Task_CloseOutfitMenu(u8 taskId);
 static u32 BuildOutfitLists(void);
 static inline void UpdateOutfitInfo(void);
 static void UpdateCursorPosition(void);
+static u32 GetOutfitPaletteCount(u32 outfitId);
+static u32 GetSavedOutfitPalette(void);
+static const u16 *GetOutfitOverworldPalette(u32 outfitId, u32 paletteIndex);
+static void PrintOutfitPaletteInfo(u32 outfitId);
+static void InputCB_ChangePalette(void);
+static inline void PrintTexts(u8 winId, u8 font, u8 x, u8 y, u8 color, const u8 *str);
 
 static const u8 sText_OutfitLocked[] = _("???");
 static const u8 sText_OutfitLockedMsg[] =
@@ -162,6 +174,58 @@ static const u16 sCursorSprite_Gfx[] = INCBIN_U16("graphics/outfit_menu/cursor.4
 static const u16 sCursorSprite_Pal[] = INCBIN_U16("graphics/outfit_menu/cursor.gbapal");
 
 static EWRAM_DATA OutfitMenuResources *sOutfitMenu = NULL;
+
+static u32 GetOutfitPaletteCount(u32 outfitId)
+{
+    return outfitId < OUTFIT_COUNT && sOutfitPaletteSets[outfitId].overworld[MALE][0] != NULL
+           ? ARRAY_COUNT(sSkinToneNames) : 1;
+}
+
+static u32 GetSavedOutfitPalette(void)
+{
+    u32 paletteIndex = gSaveBlock2Ptr->currOutfitPalette;
+    return paletteIndex < GetOutfitPaletteCount(gSaveBlock2Ptr->currOutfitId) ? paletteIndex : 0;
+}
+
+static const u16 *GetOutfitOverworldPalette(u32 outfitId, u32 paletteIndex)
+{
+    u32 gfxId;
+    if (paletteIndex != 0 && paletteIndex < GetOutfitPaletteCount(outfitId))
+        return sOutfitPaletteSets[outfitId].overworld[gSaveBlock2Ptr->playerGender][paletteIndex - 1];
+
+    gfxId = GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(outfitId, PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender);
+    return GetObjectEventPaletteFromTag(GetObjectEventGraphicsInfo(gfxId)->paletteTag)->data;
+}
+
+const u16 *GetCurrentOutfitObjectPalette(u16 paletteTag, const u16 *palette)
+{
+    u32 paletteIndex = GetSavedOutfitPalette();
+    u32 gfxId = GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(gSaveBlock2Ptr->currOutfitId,
+                                                               PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender);
+    u32 playerTag = GetObjectEventGraphicsInfo(gfxId)->paletteTag;
+    if (paletteIndex != 0 && paletteTag == playerTag)
+        return sOutfitPaletteSets[gSaveBlock2Ptr->currOutfitId].overworld[gSaveBlock2Ptr->playerGender][paletteIndex - 1];
+    return palette;
+}
+
+const u16 *GetPlayerOutfitTrainerPalette(enum TrainerPicID trainerPic, const u16 *palette)
+{
+    u32 paletteIndex = GetSavedOutfitPalette();
+    if (paletteIndex != 0
+     && trainerPic == GetPlayerTrainerPicIdByOutfitAndGender(gSaveBlock2Ptr->currOutfitId, gSaveBlock2Ptr->playerGender))
+        return sOutfitPaletteSets[gSaveBlock2Ptr->currOutfitId].trainer[gSaveBlock2Ptr->playerGender][paletteIndex - 1];
+    return palette;
+}
+
+static void PrintOutfitPaletteInfo(u32 outfitId)
+{
+    if (GetOutfitStatus(outfitId) && GetOutfitPaletteCount(outfitId) > 1)
+    {
+        PrintTexts(WIN_INFO, FONT_NORMAL, 2, 32, COLORID_NORMAL, COMPOUND_STRING("{DPAD_LEFTRIGHT}"));
+        PrintTexts(WIN_INFO, FONT_NORMAL, 22, 32, COLORID_NORMAL,
+                   sSkinToneNames[sOutfitMenu->paletteIndices[outfitId]]);
+    }
+}
 
 static const struct BgTemplate sBGTemplates[] =
 {
@@ -333,18 +397,30 @@ void Task_OpenOutfitMenu(u8 taskId)
 
 void OpenOutfitMenu(MainCallback retCB)
 {
+    u32 i;
     sOutfitMenu = AllocZeroed(sizeof(*sOutfitMenu));
     if (sOutfitMenu == NULL)
     {
         //! Alloc failed, exit
         SetMainCallback2(retCB);
+        return;
     }
     // measures for existing saves
-    if (gSaveBlock2Ptr->currOutfitId == OUTFIT_NONE)
+    if (gSaveBlock2Ptr->currOutfitId == OUTFIT_NONE
+     || gSaveBlock2Ptr->currOutfitId == OUTFIT_UNUSUAL_RED
+     || gSaveBlock2Ptr->currOutfitId >= OUTFIT_COUNT)
     {
         UnlockOutfit(DEFAULT_OUTFIT);
         gSaveBlock2Ptr->currOutfitId = DEFAULT_OUTFIT;
     }
+    // These template outfits are available immediately on existing saves too.
+    UnlockOutfit(OUTFIT_TEAL);
+    UnlockOutfit(OUTFIT_VIOLET);
+    UnlockOutfit(OUTFIT_GREEN);
+    for (i = OUTFIT_BEGIN; i < OUTFIT_COUNT; i++)
+        if (GetOutfitPaletteCount(i) > 1)
+            sOutfitMenu->paletteIndices[i] = GetSavedOutfitPalette();
+    memset(sOutfitMenu->currentOutfitSpriteIds, SPRITE_NONE, sizeof(sOutfitMenu->currentOutfitSpriteIds));
     sOutfitMenu->retCB = retCB;
     SetMainCallback2(CB2_SetupOutfitMenu);
 }
@@ -502,6 +578,7 @@ static void SetupOutfitMenu_PrintStr(void)
 {
     PrintTexts(WIN_INFO, FONT_NORMAL, 2, 0, COLORID_NORMAL, gOutfits[gSaveBlock2Ptr->currOutfitId].name);
     PrintTexts(WIN_INFO, FONT_NORMAL, 2, 16, COLORID_NORMAL, gOutfits[gSaveBlock2Ptr->currOutfitId].desc);
+    PrintOutfitPaletteInfo(gSaveBlock2Ptr->currOutfitId);
     CopyWindowToVram(WIN_INFO, COPYWIN_FULL);
 }
 
@@ -512,6 +589,7 @@ static inline void SetupOutfitMenu_Sprites_DrawTrainerSprite(bool32 update, bool
     u32 backSpriteId = picId;
     u32 frontPalSlot = sOutfitMenu->slotId ? 9 : 10;
     u32 backPalSlot = sOutfitMenu->slotId ? 12 : 13;
+    u32 paletteIndex = sOutfitMenu->paletteIndices[sOutfitMenu->idx];
     if (update)
     {
         FreeAndDestroyTrainerPicSprite(sOutfitMenu->spriteIds[GFX_FTS]);
@@ -520,7 +598,13 @@ static inline void SetupOutfitMenu_Sprites_DrawTrainerSprite(bool32 update, bool
 
     sOutfitMenu->spriteIds[GFX_FTS] = CreateTrainerPicSprite(frontSpriteId, TRUE, 32+27, 32+32, frontPalSlot, TAG_NONE);
     sOutfitMenu->spriteIds[GFX_BTS] = CreateTrainerPicSprite(backSpriteId, FALSE, 32+117, 32+32, backPalSlot, TAG_NONE);
-    LoadPalette(GetTrainerBackPicPalette(backSpriteId), OBJ_PLTT_ID(backPalSlot), PLTT_SIZE_4BPP);
+    // Use the hovered outfit's preview, independently of the equipped palette.
+    LoadPalette(paletteIndex ? sOutfitPaletteSets[sOutfitMenu->idx].trainer[gSaveBlock2Ptr->playerGender][paletteIndex - 1]
+                            : gTrainerPicInfo[picId].frontPic->paletteData,
+                OBJ_PLTT_ID(frontPalSlot), PLTT_SIZE_4BPP);
+    LoadPalette(paletteIndex ? sOutfitPaletteSets[sOutfitMenu->idx].trainer[gSaveBlock2Ptr->playerGender][paletteIndex - 1]
+                            : gTrainerPicInfo[picId].backPic->paletteData,
+                OBJ_PLTT_ID(backPalSlot), PLTT_SIZE_4BPP);
     gSprites[sOutfitMenu->spriteIds[GFX_BTS]].anims = GetTrainerBackPicAnims(backSpriteId);
     StartSpriteAnim(&gSprites[sOutfitMenu->spriteIds[GFX_BTS]], 0);
     if (!unlocked)
@@ -562,7 +646,8 @@ static u32 CountAndFilterTotalOutfit(void)
     u32 i = 0, j = OUTFIT_BEGIN;
     while (j < OUTFIT_COUNT)
     {
-        if ((gOutfits[j].isHidden && !GetOutfitStatus(j)))
+        // Keep the retired ID reserved for saves, but never list its placeholder.
+        if (j == OUTFIT_UNUSUAL_RED || (gOutfits[j].isHidden && !GetOutfitStatus(j)))
         {
             j++;
             continue; // skip
@@ -643,9 +728,12 @@ static void SpriteCB_Overworld(struct Sprite *s)
 
 static void ForEachCB_PopulateOutfitOverworlds(u32 idx, u32 col, u32 row)
 {
-    u32 i = sOutfitMenu->list[sOutfitMenu->grid->topLeftItemIndex + idx];
-    u32 gfx, x, y;
-    if (i >= OUTFIT_COUNT || idx >= sOutfitMenu->listCount)
+    u32 i, gfx, x, y, spriteId, paletteNum;
+    const u16 *palette;
+    if (sOutfitMenu->grid->topLeftItemIndex + idx >= sOutfitMenu->listCount)
+        return;
+    i = sOutfitMenu->list[sOutfitMenu->grid->topLeftItemIndex + idx];
+    if (i >= OUTFIT_COUNT)
         return;
 
     gfx = GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(i, PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender);
@@ -653,7 +741,20 @@ static void ForEachCB_PopulateOutfitOverworlds(u32 idx, u32 col, u32 row)
     y = ((row % GRID_ROWS) < ARRAY_COUNT(sGridPosY)) ? sGridPosY[row] : sGridPosY[0];
 
     sOutfitMenu->grid->iconSpriteIds[idx] = CreateObjectGraphicsSprite(gfx, SpriteCB_Overworld, x, y, 0);
-    gSprites[sOutfitMenu->grid->iconSpriteIds[idx]].data[0] = idx;
+    spriteId = sOutfitMenu->grid->iconSpriteIds[idx];
+    if (spriteId == MAX_SPRITES)
+    {
+        sOutfitMenu->grid->iconSpriteIds[idx] = SPRITE_NONE;
+        return;
+    }
+    gSprites[spriteId].data[0] = idx;
+    // Each visible outfit needs its own palette, even when graphics share a tag.
+    palette = GetOutfitOverworldPalette(i, sOutfitMenu->paletteIndices[i]);
+    paletteNum = LoadSpritePaletteWithTag(palette, TAG_OUTFIT_PREVIEW + idx);
+    if (paletteNum == 0xFF)
+        return;
+    gSprites[spriteId].oam.paletteNum = paletteNum;
+    LoadPalette(palette, OBJ_PLTT_ID(paletteNum), PLTT_SIZE_4BPP);
     if (!GetOutfitStatus(i))
     {
         // bc we're directly tint to idx 1-15, skipping idx 0
@@ -703,6 +804,39 @@ static void InputCB_Fail(void)
         PlaySE(SE_BOO);
 }
 
+static void InputCB_ChangePalette(void)
+{
+    u32 outfitId = sOutfitMenu->idx;
+    u32 count, spriteId, paletteIndex;
+
+    if (outfitId >= OUTFIT_COUNT)
+    {
+        InputCB_Fail();
+        return;
+    }
+    count = GetOutfitPaletteCount(outfitId);
+    spriteId = sOutfitMenu->grid->iconSpriteIds[sOutfitMenu->grid->selectedItem];
+    paletteIndex = sOutfitMenu->paletteIndices[outfitId];
+
+    if (!GetOutfitStatus(outfitId) || count <= 1 || spriteId >= MAX_SPRITES)
+    {
+        InputCB_Fail();
+        return;
+    }
+
+    if (JOY_REPEAT(DPAD_LEFT))
+        paletteIndex = (paletteIndex + count - 1) % count;
+    else
+        paletteIndex = (paletteIndex + 1) % count;
+
+    sOutfitMenu->paletteIndices[outfitId] = paletteIndex;
+    LoadPalette(GetOutfitOverworldPalette(outfitId, paletteIndex),
+                OBJ_PLTT_ID(gSprites[spriteId].oam.paletteNum), PLTT_SIZE_4BPP);
+    UpdateOutfitInfo();
+    if (!IsSEPlaying())
+        PlaySE(SE_RG_BAG_CURSOR);
+}
+
 // the return value here is the count
 static u32 BuildOutfitLists(void)
 {
@@ -710,7 +844,7 @@ static u32 BuildOutfitLists(void)
     sOutfitMenu->list = AllocZeroed(CountAndFilterTotalOutfit() * sizeof(u8));
     while (j < OUTFIT_COUNT)
     {
-        if ((gOutfits[j].isHidden && !GetOutfitStatus(j)))
+        if (j == OUTFIT_UNUSUAL_RED || (gOutfits[j].isHidden && !GetOutfitStatus(j)))
         {
             j++;
             continue; // skip
@@ -727,13 +861,29 @@ static u32 BuildOutfitLists(void)
 
 static void SetupOutfitMenu_Grids(void)
 {
+    u32 i;
+    const u8 trainerPaletteSlots[] = {9, 10, 12, 13};
+    struct SpritePalette trainerPalette = {sPalette, TAG_TRAINER_PREVIEW};
     sOutfitMenu->grid = GridMenu_Init(GRID_COLS, GRID_ROWS, CountAndFilterTotalOutfit());
 
+    // Reserve the fixed portrait slots before loading any tagged icon palettes.
+    for (i = 0; i < ARRAY_COUNT(trainerPaletteSlots); i++)
+    {
+        trainerPalette.tag = TAG_TRAINER_PREVIEW + i;
+        LoadSpritePaletteInSlot(&trainerPalette, trainerPaletteSlots[i]);
+    }
     LoadSpriteSheet(&sIndicator_SpriteSheet);
     LoadSpritePalette(&sIndicator_SpritePalette);
 
     GridMenu_EnableVerticalWrapAround(sOutfitMenu->grid);
-    GridMenu_SetIndex(sOutfitMenu->grid, gSaveBlock2Ptr->currOutfitId - 1);
+    for (i = 0; i < sOutfitMenu->listCount; i++)
+    {
+        if (sOutfitMenu->list[i] == gSaveBlock2Ptr->currOutfitId)
+        {
+            GridMenu_SetIndex(sOutfitMenu->grid, i);
+            break;
+        }
+    }
     sOutfitMenu->idx = sOutfitMenu->list[GridMenu_SelectedIndex(sOutfitMenu->grid)];
 
     GridMenu_SetInputCallback(sOutfitMenu->grid, InputCB_Move, DIRECTION_UP, TYPE_MOVE);
@@ -761,6 +911,7 @@ static inline void UpdateOutfitInfo(void)
     {
         PrintTexts(WIN_INFO, FONT_NORMAL, 2, 0, COLORID_NORMAL, gOutfits[sOutfitMenu->idx].name);
         PrintTexts(WIN_INFO, FONT_NORMAL, 2, 16, COLORID_NORMAL, gOutfits[sOutfitMenu->idx].desc);
+        PrintOutfitPaletteInfo(sOutfitMenu->idx);
     }
     CopyWindowToVram(WIN_INFO, COPYWIN_FULL);
 
@@ -843,9 +994,15 @@ static void UpdateCursorPosition(void)
 
 static void Task_OutfitMenuHandleInput(u8 taskId)
 {
-    GridMenu_HandleInput(sOutfitMenu->grid);
+    if (JOY_REPEAT(DPAD_UP | DPAD_DOWN))
+        GridMenu_HandleInput(sOutfitMenu->grid);
+    else if (JOY_REPEAT(DPAD_LEFT | DPAD_RIGHT))
+        InputCB_ChangePalette();
     if (JOY_NEW(CLOSE_BUTTONS))
+    {
         CloseOutfitMenu(taskId);
+        return;
+    }
 
     if (JOY_NEW(A_BUTTON))
     {
@@ -855,6 +1012,7 @@ static void Task_OutfitMenuHandleInput(u8 taskId)
             {
                 PlaySE(SE_SUCCESS);
                 gSaveBlock2Ptr->currOutfitId = sOutfitMenu->idx;
+                gSaveBlock2Ptr->currOutfitPalette = sOutfitMenu->paletteIndices[sOutfitMenu->idx];
             }
             else
             {
@@ -877,14 +1035,10 @@ static void Task_OutfitMenuHandleInput(u8 taskId)
 
 static void FreeOutfitMenuResources(void)
 {
-    u32 i;
-    DestroySprite(&gSprites[sOutfitMenu->spriteIds[GFX_OW]]);
     FreeAndDestroyTrainerPicSprite(sOutfitMenu->spriteIds[GFX_FTS]);
     FreeAndDestroyTrainerPicSprite(sOutfitMenu->spriteIds[GFX_BTS]);
-    for (i = 0; i < sOutfitMenu->grid->maxSize; i++)
-    {
-        DestroySprite(&gSprites[sOutfitMenu->currentOutfitSpriteIds[i]]);
-    }
+    GridMenu_ForAll(sOutfitMenu->grid, ForAllCB_FreeOutfitOverworlds);
+    GridMenu_ForAll(sOutfitMenu->grid, ForAllCb_DestroyIndicatorSprites);
     GridMenu_Destroy(sOutfitMenu->grid);
     TRY_FREE_AND_SET_NULL(sOutfitMenu->list);
     TRY_FREE_AND_SET_NULL(sOutfitMenu);
@@ -942,7 +1096,7 @@ const void *GetPlayerHeadGfxOrPal(u8 which, bool32 isFP)
         u32 tag = GetObjectEventGraphicsInfo(
             GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(gSaveBlock2Ptr->currOutfitId, PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender))->paletteTag;
 
-        return GetObjectEventPaletteFromTag(tag)->data;
+        return GetCurrentOutfitObjectPalette(tag, GetObjectEventPaletteFromTag(tag)->data);
     }
     else
     {
@@ -964,7 +1118,7 @@ const void *GetPlayerHeadGfxOrPal(u8 which, bool32 isFP)
 
 u16 *GetOutfitPointer(u16 id)
 {
-    if (id > OUTFIT_COUNT)
+    if (id >= OUTFIT_COUNT)
         return NULL;
     else
         return &gSaveBlock2Ptr->outfits[id / 8];

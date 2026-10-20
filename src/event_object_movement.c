@@ -26,6 +26,7 @@
 #include "mauville_old_man.h"
 #include "metatile_behavior.h"
 #include "overworld.h"
+#include "outfit_menu.h"
 #include "palette.h"
 #include "party_menu.h"
 #include "pokemon.h"
@@ -548,6 +549,12 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPalette_Kiawe,             OBJ_EVENT_PAL_TAG_KIAWE},
     {gObjectEventPalette_Kukui,             OBJ_EVENT_PAL_TAG_KUKUI},
     {gObjectEventPalette_Lillie,            OBJ_EVENT_PAL_TAG_LILLIE},
+    {gObjectEventPalette_ElioTeal, OBJ_EVENT_PAL_TAG_ELIO_TEAL},
+    {gObjectEventPalette_SeleneTeal, OBJ_EVENT_PAL_TAG_SELENE_TEAL},
+    {gObjectEventPalette_ElioViolet, OBJ_EVENT_PAL_TAG_ELIO_VIOLET},
+    {gObjectEventPalette_SeleneViolet, OBJ_EVENT_PAL_TAG_SELENE_VIOLET},
+    {gObjectEventPalette_ElioGreen, OBJ_EVENT_PAL_TAG_ELIO_GREEN},
+    {gObjectEventPalette_SeleneGreen, OBJ_EVENT_PAL_TAG_SELENE_GREEN},
     {gObjectEventPalette_Elio,              OBJ_EVENT_PAL_TAG_ELIO},
     {gObjectEventPalette_Selene,            OBJ_EVENT_PAL_TAG_SELENE},
     {gObjectEventPal_NpcBlue,               OBJ_EVENT_PAL_TAG_NPC_BLUE},
@@ -3141,6 +3148,10 @@ static void SetPlayerAvatarObjectEventIdAndObjectId(u8 objectEventId, u8 spriteI
 // Update sprite's palette, freeing old palette if necessary
 static u8 UpdateSpritePalette(const struct SpritePalette *spritePalette, struct Sprite *sprite)
 {
+    struct SpritePalette outfitPalette = *spritePalette;
+    outfitPalette.data = GetCurrentOutfitObjectPalette(outfitPalette.tag, outfitPalette.data);
+    spritePalette = &outfitPalette;
+
     // Free palette if otherwise unused
     sprite->inUse = FALSE;
     FieldEffectFreePaletteIfUnused(sprite->oam.paletteNum);
@@ -3392,7 +3403,7 @@ u8 LoadObjectEventPalette(u16 paletteTag)
 u8 LoadObjectEventPaletteCopy(u16 originalTag, u16 copyTag)
 {
     u32 i = FindObjectEventPaletteIndexByTag(originalTag);
-    const struct SpritePalette palette = {sObjectEventSpritePalettes[i].data, copyTag};
+    const struct SpritePalette palette = {GetCurrentOutfitObjectPalette(originalTag, sObjectEventSpritePalettes[i].data), copyTag};
     return LoadSpritePalette(&palette);
 }
 
@@ -3423,9 +3434,12 @@ static void UNUSED LoadObjectEventPaletteSet(u16 *paletteTags)
 // Really just loads the palette and applies weather fade
 static u8 LoadSpritePaletteIfTagExists(const struct SpritePalette *spritePalette)
 {
+    struct SpritePalette outfitPalette = *spritePalette;
     u8 paletteNum = IndexOfSpritePaletteTag(spritePalette->tag);
     if (paletteNum != 0xFF) // don't load twice; return
         return paletteNum;
+    outfitPalette.data = GetCurrentOutfitObjectPalette(outfitPalette.tag, outfitPalette.data);
+    spritePalette = &outfitPalette;
     paletteNum = LoadSpritePalette(spritePalette);
     if (paletteNum != 0xFF)
         UpdateSpritePaletteWithWeather(paletteNum, FALSE);
@@ -3437,7 +3451,7 @@ void PatchObjectPalette(u16 paletteTag, u8 paletteSlot)
     // paletteTag is assumed to exist in sObjectEventSpritePalettes
     u8 paletteIndex = FindObjectEventPaletteIndexByTag(paletteTag);
 
-    LoadPalette(sObjectEventSpritePalettes[paletteIndex].data, OBJ_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
+    LoadPalette(GetCurrentOutfitObjectPalette(paletteTag, sObjectEventSpritePalettes[paletteIndex].data), OBJ_PLTT_ID(paletteSlot), PLTT_SIZE_4BPP);
 }
 
 void PatchObjectPaletteRange(const u16 *paletteTags, u8 minSlot, u8 maxSlot)

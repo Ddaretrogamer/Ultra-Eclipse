@@ -174,7 +174,11 @@ static void ResetOutfitData(void)
 {
     memset(gSaveBlock2Ptr->outfits, 0, sizeof(gSaveBlock2Ptr->outfits));
     UnlockOutfit(DEFAULT_OUTFIT);
+    UnlockOutfit(OUTFIT_TEAL);
+    UnlockOutfit(OUTFIT_VIOLET);
+    UnlockOutfit(OUTFIT_GREEN);
     gSaveBlock2Ptr->currOutfitId = DEFAULT_OUTFIT;
+    gSaveBlock2Ptr->currOutfitPalette = 0;
 }
 
 void NewGameInitData(void)

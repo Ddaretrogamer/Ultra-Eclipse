@@ -111,3 +111,5 @@ graphics/surfing_minigame/surfing_pikachu_1c.png
 graphics/surfing_minigame/surfing_pikachu_1b.png
 graphics/surfing_minigame/surfing_pikachu_1a.png
 .map_version
+dev_scripts/outfits/generate_skin_palettes.py
+docs/outfits.md

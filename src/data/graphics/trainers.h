@@ -607,8 +607,57 @@ const union AnimCmd *const sBackAnims_OldManPokedude[] = {
         .animation = anim,                                                                   \
     }}
 
+const u32 gTrainerFrontPic_ElioTeal[] = INCGFX_U32("graphics/trainers/front_pics/elio_teal.png", ".4bpp.smol");
+const u8 gTrainerBackPic_ElioTeal[] = INCGFX_U8("graphics/trainers/back_pics/elio_teal.png", ".4bpp");
+const u16 gTrainerPalette_ElioTeal[] = INCGFX_U16("graphics/trainers/front_pics/elio_teal.png", ".gbapal");
+const u32 gTrainerFrontPic_SeleneTeal[] = INCGFX_U32("graphics/trainers/front_pics/selene_teal.png", ".4bpp.smol");
+const u8 gTrainerBackPic_SeleneTeal[] = INCGFX_U8("graphics/trainers/back_pics/selene_teal.png", ".4bpp");
+const u16 gTrainerPalette_SeleneTeal[] = INCGFX_U16("graphics/trainers/front_pics/selene_teal.png", ".gbapal");
+const u32 gTrainerFrontPic_ElioViolet[] = INCGFX_U32("graphics/trainers/front_pics/elio_violet.png", ".4bpp.smol");
+const u8 gTrainerBackPic_ElioViolet[] = INCGFX_U8("graphics/trainers/back_pics/elio_violet.png", ".4bpp");
+const u16 gTrainerPalette_ElioViolet[] = INCGFX_U16("graphics/trainers/front_pics/elio_violet.png", ".gbapal");
+const u32 gTrainerFrontPic_SeleneViolet[] = INCGFX_U32("graphics/trainers/front_pics/selene_violet.png", ".4bpp.smol");
+const u8 gTrainerBackPic_SeleneViolet[] = INCGFX_U8("graphics/trainers/back_pics/selene_violet.png", ".4bpp");
+const u16 gTrainerPalette_SeleneViolet[] = INCGFX_U16("graphics/trainers/front_pics/selene_violet.png", ".gbapal");
+const u32 gTrainerFrontPic_ElioGreen[] = INCGFX_U32("graphics/trainers/front_pics/elio_green.png", ".4bpp.smol");
+const u8 gTrainerBackPic_ElioGreen[] = INCGFX_U8("graphics/trainers/back_pics/elio_green.png", ".4bpp");
+const u16 gTrainerPalette_ElioGreen[] = INCGFX_U16("graphics/trainers/front_pics/elio_green.png", ".gbapal");
+const u32 gTrainerFrontPic_SeleneGreen[] = INCGFX_U32("graphics/trainers/front_pics/selene_green.png", ".4bpp.smol");
+const u8 gTrainerBackPic_SeleneGreen[] = INCGFX_U8("graphics/trainers/back_pics/selene_green.png", ".4bpp");
+const u16 gTrainerPalette_SeleneGreen[] = INCGFX_U16("graphics/trainers/front_pics/selene_green.png", ".gbapal");
+
 const struct TrainerPicInfo gTrainerPicInfo[TRAINER_PIC_COUNT] =
 {
+    [TRAINER_PIC_ELIO_TEAL] =
+    {
+        .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_ElioTeal, gTrainerPalette_ElioTeal),
+        .backPic = TRAINER_BACK_PIC(4, gTrainerBackPic_ElioTeal, gTrainerPalette_ElioTeal, sBackAnims_Hoenn),
+    },
+    [TRAINER_PIC_SELENE_TEAL] =
+    {
+        .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_SeleneTeal, gTrainerPalette_SeleneTeal),
+        .backPic = TRAINER_BACK_PIC(4, gTrainerBackPic_SeleneTeal, gTrainerPalette_SeleneTeal, sBackAnims_Hoenn),
+    },
+    [TRAINER_PIC_ELIO_VIOLET] =
+    {
+        .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_ElioViolet, gTrainerPalette_ElioViolet),
+        .backPic = TRAINER_BACK_PIC(4, gTrainerBackPic_ElioViolet, gTrainerPalette_ElioViolet, sBackAnims_Hoenn),
+    },
+    [TRAINER_PIC_SELENE_VIOLET] =
+    {
+        .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_SeleneViolet, gTrainerPalette_SeleneViolet),
+        .backPic = TRAINER_BACK_PIC(4, gTrainerBackPic_SeleneViolet, gTrainerPalette_SeleneViolet, sBackAnims_Hoenn),
+    },
+    [TRAINER_PIC_ELIO_GREEN] =
+    {
+        .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_ElioGreen, gTrainerPalette_ElioGreen),
+        .backPic = TRAINER_BACK_PIC(4, gTrainerBackPic_ElioGreen, gTrainerPalette_ElioGreen, sBackAnims_Hoenn),
+    },
+    [TRAINER_PIC_SELENE_GREEN] =
+    {
+        .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_SeleneGreen, gTrainerPalette_SeleneGreen),
+        .backPic = TRAINER_BACK_PIC(4, gTrainerBackPic_SeleneGreen, gTrainerPalette_SeleneGreen, sBackAnims_Hoenn),
+    },
     [TRAINER_PIC_NONE] =
     {
         .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_None, gTrainerPalette_None),
