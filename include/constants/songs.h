@@ -568,6 +568,7 @@
 #define MUS_USUM_ROUTE1             621
 #define MUS_USUM_AETHER_THEME             622
 #define MUS_USUM_BATTLE_KAHUNA             623
+#define MUS_USUM_BATTLE_TOTEM             624
 
 
 #endif  // GUARD_CONSTANTS_SONGS_H

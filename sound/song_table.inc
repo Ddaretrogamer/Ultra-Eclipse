@@ -631,6 +631,7 @@ gSongTable::
 	song mus_usum_route1, MUSIC_PLAYER_BGM, 0
 	song mus_usum_aether_theme, MUSIC_PLAYER_BGM, 0
 	song mus_usum_battle_kahuna, MUSIC_PLAYER_BGM, 0
+	song mus_usum_battle_totem, MUSIC_PLAYER_BGM, 0
 	
 	.align 2
 dummy_song_header:
