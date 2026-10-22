@@ -11,6 +11,7 @@ const u16 *GetCurrentOutfitObjectPalette(u16 paletteTag, const u16 *palette);
 void BufferOutfitStrings(u8 *dest, u8 outfitId, u8 dataType);
 enum TrainerPicID GetPlayerTrainerPicIdByOutfitAndGender(u32 outfitId, enum Gender gender);
 const void *GetPlayerHeadGfxOrPal(u8 which, bool32 isFP);
+const void *GetCurrentOutfitMugshot(u8 which);
 u16 *GetOutfitPointer(u16 id);
 u16 UnlockOutfit(u16 id);
 u16 ToggleOutfit(u16 id);

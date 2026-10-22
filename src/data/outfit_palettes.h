@@ -7,53 +7,95 @@ static const u16 sPalette_elio_overworld_skin_4[] = INCGFX_U16("graphics/object_
 static const u16 sPalette_elio_trainer_skin_2[] = INCGFX_U16("graphics/trainers/palettes/elio/skin_2.pal", ".gbapal");
 static const u16 sPalette_elio_trainer_skin_3[] = INCGFX_U16("graphics/trainers/palettes/elio/skin_3.pal", ".gbapal");
 static const u16 sPalette_elio_trainer_skin_4[] = INCGFX_U16("graphics/trainers/palettes/elio/skin_4.pal", ".gbapal");
+static const u16 sPalette_elio_mugshot_skin_1[] = INCGFX_U16("graphics/ui_main_menu/elio_mugshot.png", ".gbapal");
+static const u32 sMugshot_elio[] = INCGFX_U32("graphics/ui_main_menu/elio_mugshot.png", ".4bpp.lz");
+static const u16 sPalette_elio_mugshot_skin_2[] = INCGFX_U16("graphics/ui_main_menu/palettes/elio/skin_2.pal", ".gbapal");
+static const u16 sPalette_elio_mugshot_skin_3[] = INCGFX_U16("graphics/ui_main_menu/palettes/elio/skin_3.pal", ".gbapal");
+static const u16 sPalette_elio_mugshot_skin_4[] = INCGFX_U16("graphics/ui_main_menu/palettes/elio/skin_4.pal", ".gbapal");
 static const u16 sPalette_selene_overworld_skin_2[] = INCGFX_U16("graphics/object_events/palettes/selene/skin_2.pal", ".gbapal");
 static const u16 sPalette_selene_overworld_skin_3[] = INCGFX_U16("graphics/object_events/palettes/selene/skin_3.pal", ".gbapal");
 static const u16 sPalette_selene_overworld_skin_4[] = INCGFX_U16("graphics/object_events/palettes/selene/skin_4.pal", ".gbapal");
 static const u16 sPalette_selene_trainer_skin_2[] = INCGFX_U16("graphics/trainers/palettes/selene/skin_2.pal", ".gbapal");
 static const u16 sPalette_selene_trainer_skin_3[] = INCGFX_U16("graphics/trainers/palettes/selene/skin_3.pal", ".gbapal");
 static const u16 sPalette_selene_trainer_skin_4[] = INCGFX_U16("graphics/trainers/palettes/selene/skin_4.pal", ".gbapal");
+static const u16 sPalette_selene_mugshot_skin_1[] = INCGFX_U16("graphics/ui_main_menu/selene_mugshot.png", ".gbapal");
+static const u32 sMugshot_selene[] = INCGFX_U32("graphics/ui_main_menu/selene_mugshot.png", ".4bpp.lz");
+static const u16 sPalette_selene_mugshot_skin_2[] = INCGFX_U16("graphics/ui_main_menu/palettes/selene/skin_2.pal", ".gbapal");
+static const u16 sPalette_selene_mugshot_skin_3[] = INCGFX_U16("graphics/ui_main_menu/palettes/selene/skin_3.pal", ".gbapal");
+static const u16 sPalette_selene_mugshot_skin_4[] = INCGFX_U16("graphics/ui_main_menu/palettes/selene/skin_4.pal", ".gbapal");
 static const u16 sPalette_elio_teal_overworld_skin_2[] = INCGFX_U16("graphics/object_events/palettes/elio_teal/skin_2.pal", ".gbapal");
 static const u16 sPalette_elio_teal_overworld_skin_3[] = INCGFX_U16("graphics/object_events/palettes/elio_teal/skin_3.pal", ".gbapal");
 static const u16 sPalette_elio_teal_overworld_skin_4[] = INCGFX_U16("graphics/object_events/palettes/elio_teal/skin_4.pal", ".gbapal");
 static const u16 sPalette_elio_teal_trainer_skin_2[] = INCGFX_U16("graphics/trainers/palettes/elio_teal/skin_2.pal", ".gbapal");
 static const u16 sPalette_elio_teal_trainer_skin_3[] = INCGFX_U16("graphics/trainers/palettes/elio_teal/skin_3.pal", ".gbapal");
 static const u16 sPalette_elio_teal_trainer_skin_4[] = INCGFX_U16("graphics/trainers/palettes/elio_teal/skin_4.pal", ".gbapal");
+static const u16 sPalette_elio_teal_mugshot_skin_1[] = INCGFX_U16("graphics/ui_main_menu/elio_teal_mugshot.png", ".gbapal");
+static const u32 sMugshot_elio_teal[] = INCGFX_U32("graphics/ui_main_menu/elio_teal_mugshot.png", ".4bpp.lz");
+static const u16 sPalette_elio_teal_mugshot_skin_2[] = INCGFX_U16("graphics/ui_main_menu/palettes/elio_teal/skin_2.pal", ".gbapal");
+static const u16 sPalette_elio_teal_mugshot_skin_3[] = INCGFX_U16("graphics/ui_main_menu/palettes/elio_teal/skin_3.pal", ".gbapal");
+static const u16 sPalette_elio_teal_mugshot_skin_4[] = INCGFX_U16("graphics/ui_main_menu/palettes/elio_teal/skin_4.pal", ".gbapal");
 static const u16 sPalette_selene_teal_overworld_skin_2[] = INCGFX_U16("graphics/object_events/palettes/selene_teal/skin_2.pal", ".gbapal");
 static const u16 sPalette_selene_teal_overworld_skin_3[] = INCGFX_U16("graphics/object_events/palettes/selene_teal/skin_3.pal", ".gbapal");
 static const u16 sPalette_selene_teal_overworld_skin_4[] = INCGFX_U16("graphics/object_events/palettes/selene_teal/skin_4.pal", ".gbapal");
 static const u16 sPalette_selene_teal_trainer_skin_2[] = INCGFX_U16("graphics/trainers/palettes/selene_teal/skin_2.pal", ".gbapal");
 static const u16 sPalette_selene_teal_trainer_skin_3[] = INCGFX_U16("graphics/trainers/palettes/selene_teal/skin_3.pal", ".gbapal");
 static const u16 sPalette_selene_teal_trainer_skin_4[] = INCGFX_U16("graphics/trainers/palettes/selene_teal/skin_4.pal", ".gbapal");
+static const u16 sPalette_selene_teal_mugshot_skin_1[] = INCGFX_U16("graphics/ui_main_menu/selene_teal_mugshot.png", ".gbapal");
+static const u32 sMugshot_selene_teal[] = INCGFX_U32("graphics/ui_main_menu/selene_teal_mugshot.png", ".4bpp.lz");
+static const u16 sPalette_selene_teal_mugshot_skin_2[] = INCGFX_U16("graphics/ui_main_menu/palettes/selene_teal/skin_2.pal", ".gbapal");
+static const u16 sPalette_selene_teal_mugshot_skin_3[] = INCGFX_U16("graphics/ui_main_menu/palettes/selene_teal/skin_3.pal", ".gbapal");
+static const u16 sPalette_selene_teal_mugshot_skin_4[] = INCGFX_U16("graphics/ui_main_menu/palettes/selene_teal/skin_4.pal", ".gbapal");
 static const u16 sPalette_elio_violet_overworld_skin_2[] = INCGFX_U16("graphics/object_events/palettes/elio_violet/skin_2.pal", ".gbapal");
 static const u16 sPalette_elio_violet_overworld_skin_3[] = INCGFX_U16("graphics/object_events/palettes/elio_violet/skin_3.pal", ".gbapal");
 static const u16 sPalette_elio_violet_overworld_skin_4[] = INCGFX_U16("graphics/object_events/palettes/elio_violet/skin_4.pal", ".gbapal");
 static const u16 sPalette_elio_violet_trainer_skin_2[] = INCGFX_U16("graphics/trainers/palettes/elio_violet/skin_2.pal", ".gbapal");
 static const u16 sPalette_elio_violet_trainer_skin_3[] = INCGFX_U16("graphics/trainers/palettes/elio_violet/skin_3.pal", ".gbapal");
 static const u16 sPalette_elio_violet_trainer_skin_4[] = INCGFX_U16("graphics/trainers/palettes/elio_violet/skin_4.pal", ".gbapal");
+static const u16 sPalette_elio_violet_mugshot_skin_1[] = INCGFX_U16("graphics/ui_main_menu/elio_violet_mugshot.png", ".gbapal");
+static const u32 sMugshot_elio_violet[] = INCGFX_U32("graphics/ui_main_menu/elio_violet_mugshot.png", ".4bpp.lz");
+static const u16 sPalette_elio_violet_mugshot_skin_2[] = INCGFX_U16("graphics/ui_main_menu/palettes/elio_violet/skin_2.pal", ".gbapal");
+static const u16 sPalette_elio_violet_mugshot_skin_3[] = INCGFX_U16("graphics/ui_main_menu/palettes/elio_violet/skin_3.pal", ".gbapal");
+static const u16 sPalette_elio_violet_mugshot_skin_4[] = INCGFX_U16("graphics/ui_main_menu/palettes/elio_violet/skin_4.pal", ".gbapal");
 static const u16 sPalette_selene_violet_overworld_skin_2[] = INCGFX_U16("graphics/object_events/palettes/selene_violet/skin_2.pal", ".gbapal");
 static const u16 sPalette_selene_violet_overworld_skin_3[] = INCGFX_U16("graphics/object_events/palettes/selene_violet/skin_3.pal", ".gbapal");
 static const u16 sPalette_selene_violet_overworld_skin_4[] = INCGFX_U16("graphics/object_events/palettes/selene_violet/skin_4.pal", ".gbapal");
 static const u16 sPalette_selene_violet_trainer_skin_2[] = INCGFX_U16("graphics/trainers/palettes/selene_violet/skin_2.pal", ".gbapal");
 static const u16 sPalette_selene_violet_trainer_skin_3[] = INCGFX_U16("graphics/trainers/palettes/selene_violet/skin_3.pal", ".gbapal");
 static const u16 sPalette_selene_violet_trainer_skin_4[] = INCGFX_U16("graphics/trainers/palettes/selene_violet/skin_4.pal", ".gbapal");
+static const u16 sPalette_selene_violet_mugshot_skin_1[] = INCGFX_U16("graphics/ui_main_menu/selene_violet_mugshot.png", ".gbapal");
+static const u32 sMugshot_selene_violet[] = INCGFX_U32("graphics/ui_main_menu/selene_violet_mugshot.png", ".4bpp.lz");
+static const u16 sPalette_selene_violet_mugshot_skin_2[] = INCGFX_U16("graphics/ui_main_menu/palettes/selene_violet/skin_2.pal", ".gbapal");
+static const u16 sPalette_selene_violet_mugshot_skin_3[] = INCGFX_U16("graphics/ui_main_menu/palettes/selene_violet/skin_3.pal", ".gbapal");
+static const u16 sPalette_selene_violet_mugshot_skin_4[] = INCGFX_U16("graphics/ui_main_menu/palettes/selene_violet/skin_4.pal", ".gbapal");
 static const u16 sPalette_elio_green_overworld_skin_2[] = INCGFX_U16("graphics/object_events/palettes/elio_green/skin_2.pal", ".gbapal");
 static const u16 sPalette_elio_green_overworld_skin_3[] = INCGFX_U16("graphics/object_events/palettes/elio_green/skin_3.pal", ".gbapal");
 static const u16 sPalette_elio_green_overworld_skin_4[] = INCGFX_U16("graphics/object_events/palettes/elio_green/skin_4.pal", ".gbapal");
 static const u16 sPalette_elio_green_trainer_skin_2[] = INCGFX_U16("graphics/trainers/palettes/elio_green/skin_2.pal", ".gbapal");
 static const u16 sPalette_elio_green_trainer_skin_3[] = INCGFX_U16("graphics/trainers/palettes/elio_green/skin_3.pal", ".gbapal");
 static const u16 sPalette_elio_green_trainer_skin_4[] = INCGFX_U16("graphics/trainers/palettes/elio_green/skin_4.pal", ".gbapal");
+static const u16 sPalette_elio_green_mugshot_skin_1[] = INCGFX_U16("graphics/ui_main_menu/elio_green_mugshot.png", ".gbapal");
+static const u32 sMugshot_elio_green[] = INCGFX_U32("graphics/ui_main_menu/elio_green_mugshot.png", ".4bpp.lz");
+static const u16 sPalette_elio_green_mugshot_skin_2[] = INCGFX_U16("graphics/ui_main_menu/palettes/elio_green/skin_2.pal", ".gbapal");
+static const u16 sPalette_elio_green_mugshot_skin_3[] = INCGFX_U16("graphics/ui_main_menu/palettes/elio_green/skin_3.pal", ".gbapal");
+static const u16 sPalette_elio_green_mugshot_skin_4[] = INCGFX_U16("graphics/ui_main_menu/palettes/elio_green/skin_4.pal", ".gbapal");
 static const u16 sPalette_selene_green_overworld_skin_2[] = INCGFX_U16("graphics/object_events/palettes/selene_green/skin_2.pal", ".gbapal");
 static const u16 sPalette_selene_green_overworld_skin_3[] = INCGFX_U16("graphics/object_events/palettes/selene_green/skin_3.pal", ".gbapal");
 static const u16 sPalette_selene_green_overworld_skin_4[] = INCGFX_U16("graphics/object_events/palettes/selene_green/skin_4.pal", ".gbapal");
 static const u16 sPalette_selene_green_trainer_skin_2[] = INCGFX_U16("graphics/trainers/palettes/selene_green/skin_2.pal", ".gbapal");
 static const u16 sPalette_selene_green_trainer_skin_3[] = INCGFX_U16("graphics/trainers/palettes/selene_green/skin_3.pal", ".gbapal");
 static const u16 sPalette_selene_green_trainer_skin_4[] = INCGFX_U16("graphics/trainers/palettes/selene_green/skin_4.pal", ".gbapal");
+static const u16 sPalette_selene_green_mugshot_skin_1[] = INCGFX_U16("graphics/ui_main_menu/selene_green_mugshot.png", ".gbapal");
+static const u32 sMugshot_selene_green[] = INCGFX_U32("graphics/ui_main_menu/selene_green_mugshot.png", ".4bpp.lz");
+static const u16 sPalette_selene_green_mugshot_skin_2[] = INCGFX_U16("graphics/ui_main_menu/palettes/selene_green/skin_2.pal", ".gbapal");
+static const u16 sPalette_selene_green_mugshot_skin_3[] = INCGFX_U16("graphics/ui_main_menu/palettes/selene_green/skin_3.pal", ".gbapal");
+static const u16 sPalette_selene_green_mugshot_skin_4[] = INCGFX_U16("graphics/ui_main_menu/palettes/selene_green/skin_4.pal", ".gbapal");
 
 struct OutfitPaletteSet
 {
     const u16 *overworld[GENDER_COUNT][3];
     const u16 *trainer[GENDER_COUNT][3];
+    const u16 *mugshot[GENDER_COUNT][4];
+    const u32 *mugshotGfx[GENDER_COUNT];
 };
 
 static const struct OutfitPaletteSet sOutfitPaletteSets[OUTFIT_COUNT] =
@@ -67,6 +109,11 @@ static const struct OutfitPaletteSet sOutfitPaletteSets[OUTFIT_COUNT] =
             { sPalette_elio_trainer_skin_2, sPalette_elio_trainer_skin_3, sPalette_elio_trainer_skin_4 },
             { sPalette_selene_trainer_skin_2, sPalette_selene_trainer_skin_3, sPalette_selene_trainer_skin_4 },
         },
+        .mugshot = {
+            { sPalette_elio_mugshot_skin_1, sPalette_elio_mugshot_skin_2, sPalette_elio_mugshot_skin_3, sPalette_elio_mugshot_skin_4 },
+            { sPalette_selene_mugshot_skin_1, sPalette_selene_mugshot_skin_2, sPalette_selene_mugshot_skin_3, sPalette_selene_mugshot_skin_4 },
+        },
+        .mugshotGfx = { sMugshot_elio, sMugshot_selene },
     },
     [OUTFIT_TEAL] = {
         .overworld = {
@@ -77,6 +124,11 @@ static const struct OutfitPaletteSet sOutfitPaletteSets[OUTFIT_COUNT] =
             { sPalette_elio_teal_trainer_skin_2, sPalette_elio_teal_trainer_skin_3, sPalette_elio_teal_trainer_skin_4 },
             { sPalette_selene_teal_trainer_skin_2, sPalette_selene_teal_trainer_skin_3, sPalette_selene_teal_trainer_skin_4 },
         },
+        .mugshot = {
+            { sPalette_elio_teal_mugshot_skin_1, sPalette_elio_teal_mugshot_skin_2, sPalette_elio_teal_mugshot_skin_3, sPalette_elio_teal_mugshot_skin_4 },
+            { sPalette_selene_teal_mugshot_skin_1, sPalette_selene_teal_mugshot_skin_2, sPalette_selene_teal_mugshot_skin_3, sPalette_selene_teal_mugshot_skin_4 },
+        },
+        .mugshotGfx = { sMugshot_elio_teal, sMugshot_selene_teal },
     },
     [OUTFIT_VIOLET] = {
         .overworld = {
@@ -87,6 +139,11 @@ static const struct OutfitPaletteSet sOutfitPaletteSets[OUTFIT_COUNT] =
             { sPalette_elio_violet_trainer_skin_2, sPalette_elio_violet_trainer_skin_3, sPalette_elio_violet_trainer_skin_4 },
             { sPalette_selene_violet_trainer_skin_2, sPalette_selene_violet_trainer_skin_3, sPalette_selene_violet_trainer_skin_4 },
         },
+        .mugshot = {
+            { sPalette_elio_violet_mugshot_skin_1, sPalette_elio_violet_mugshot_skin_2, sPalette_elio_violet_mugshot_skin_3, sPalette_elio_violet_mugshot_skin_4 },
+            { sPalette_selene_violet_mugshot_skin_1, sPalette_selene_violet_mugshot_skin_2, sPalette_selene_violet_mugshot_skin_3, sPalette_selene_violet_mugshot_skin_4 },
+        },
+        .mugshotGfx = { sMugshot_elio_violet, sMugshot_selene_violet },
     },
     [OUTFIT_GREEN] = {
         .overworld = {
@@ -97,6 +154,11 @@ static const struct OutfitPaletteSet sOutfitPaletteSets[OUTFIT_COUNT] =
             { sPalette_elio_green_trainer_skin_2, sPalette_elio_green_trainer_skin_3, sPalette_elio_green_trainer_skin_4 },
             { sPalette_selene_green_trainer_skin_2, sPalette_selene_green_trainer_skin_3, sPalette_selene_green_trainer_skin_4 },
         },
+        .mugshot = {
+            { sPalette_elio_green_mugshot_skin_1, sPalette_elio_green_mugshot_skin_2, sPalette_elio_green_mugshot_skin_3, sPalette_elio_green_mugshot_skin_4 },
+            { sPalette_selene_green_mugshot_skin_1, sPalette_selene_green_mugshot_skin_2, sPalette_selene_green_mugshot_skin_3, sPalette_selene_green_mugshot_skin_4 },
+        },
+        .mugshotGfx = { sMugshot_elio_green, sMugshot_selene_green },
     },
 };
 

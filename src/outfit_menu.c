@@ -217,6 +217,19 @@ const u16 *GetPlayerOutfitTrainerPalette(enum TrainerPicID trainerPic, const u16
     return palette;
 }
 
+const void *GetCurrentOutfitMugshot(u8 which)
+{
+    u32 outfitId = gSaveBlock2Ptr->currOutfitId;
+    enum Gender gender = gSaveBlock2Ptr->playerGender;
+
+    if (outfitId >= OUTFIT_COUNT || sOutfitPaletteSets[outfitId].mugshotGfx[gender] == NULL)
+        outfitId = DEFAULT_OUTFIT;
+
+    if (which == PAL)
+        return sOutfitPaletteSets[outfitId].mugshot[gender][GetSavedOutfitPalette()];
+    return sOutfitPaletteSets[outfitId].mugshotGfx[gender];
+}
+
 static void PrintOutfitPaletteInfo(u32 outfitId)
 {
     if (GetOutfitStatus(outfitId) && GetOutfitPaletteCount(outfitId) > 1)

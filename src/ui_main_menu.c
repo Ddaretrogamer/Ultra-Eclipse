@@ -29,6 +29,7 @@
 #include "task.h"
 #include "text_window.h"
 #include "overworld.h"
+#include "outfit_menu.h"
 #include "event_data.h"
 #include "constants/items.h"
 #include "constants/field_weather.h"
@@ -217,10 +218,6 @@ static const u32 sIconBox_Gfx[] = INCGFX_U32("graphics/ui_main_menu/icon_shadow.
 static const u16 sIconBox_PalFem[] = INCGFX_U16("graphics/ui_main_menu/icon_shadow.png", ".gbapal");
 static const u32 sIconBox_GfxFem[] = INCGFX_U32("graphics/ui_main_menu/icon_shadow.png", ".4bpp.lz");
 
-static const u16 sBrendanMugshot_Pal[] = INCGFX_U16("graphics/ui_main_menu/elio_mugshot.png", ".gbapal");
-static const u32 sBrendanMugshot_Gfx[] = INCGFX_U32("graphics/ui_main_menu/elio_mugshot.png", ".4bpp.lz");
-static const u16 sMayMugshot_Pal[] = INCGFX_U16("graphics/ui_main_menu/selene_mugshot.png", ".gbapal");
-static const u32 sMayMugshot_Gfx[] = INCGFX_U32("graphics/ui_main_menu/selene_mugshot.png", ".4bpp.lz");
 
 
 static const struct ScanlineEffectParams sScanlineParams_Parallax =
@@ -322,32 +319,6 @@ static const struct OamData sOamData_Mugshot =
     .size = SPRITE_SIZE(64x64),
     .shape = SPRITE_SHAPE(64x64),
     .priority = 1,
-};
-
-static const struct CompressedSpriteSheet sSpriteSheet_BrendanMugshot =
-{
-    .data = sBrendanMugshot_Gfx,
-    .size = 64*64*1/2,
-    .tag = TAG_MUGSHOT,
-};
-
-static const struct SpritePalette sSpritePal_BrendanMugshot =
-{
-    .data = sBrendanMugshot_Pal,
-    .tag = TAG_MUGSHOT
-};
-
-static const struct CompressedSpriteSheet sSpriteSheet_MayMugshot =
-{
-    .data = sMayMugshot_Gfx,
-    .size = 64*64*1/2,
-    .tag = TAG_MUGSHOT,
-};
-
-static const struct SpritePalette sSpritePal_MayMugshot =
-{
-    .data = sMayMugshot_Pal,
-    .tag = TAG_MUGSHOT
 };
 
 static const union AnimCmd sSpriteAnim_Mugshot[] =
@@ -740,22 +711,23 @@ static bool8 MainMenu_LoadGraphics(void) // Load all the tilesets, tilemaps, spr
         break;
     case 4:
     {
+        const struct CompressedSpriteSheet mugshotSheet = {GetCurrentOutfitMugshot(GFX), 64 * 64 / 2, TAG_MUGSHOT};
+        const struct SpritePalette mugshotPalette = {GetCurrentOutfitMugshot(PAL), TAG_MUGSHOT};
+
         if(gSaveBlock2Ptr->playerGender == MALE)
         {
             LoadCompressedSpriteSheet(&sSpriteSheet_IconBox);
             LoadSpritePalette(&sSpritePal_IconBox);
-            LoadCompressedSpriteSheet(&sSpriteSheet_BrendanMugshot);
-            LoadSpritePalette(&sSpritePal_BrendanMugshot);
             LoadPalette(sMainBgPalette, 0, 32);
         }
         else
         {
             LoadCompressedSpriteSheet(&sSpriteSheet_IconBoxFem);
             LoadSpritePalette(&sSpritePal_IconBoxFem);
-            LoadCompressedSpriteSheet(&sSpriteSheet_MayMugshot);
-            LoadSpritePalette(&sSpritePal_MayMugshot);
             LoadPalette(sMainBgPaletteFem, 0, 32);
         }
+        LoadCompressedSpriteSheet(&mugshotSheet);
+        LoadSpritePalette(&mugshotPalette);
         LoadPalette(sScrollBgPalette, 16, 32);
     }
         sMainMenuDataPtr->gfxLoadState++;
