@@ -107,25 +107,25 @@ voicegroup302:: @ 11669a9
 	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
 	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
 	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
-	voice_directsound 60, 0, DirectSoundWaveData_1165b49, 255, 230, 0, 165
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0

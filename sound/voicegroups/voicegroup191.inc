@@ -102,17 +102,17 @@ voicegroup191:: @ 1188000
 	voice_keysplit voicegroup286, KeySplitTable33
 	voice_keysplit voicegroup287, KeySplitTable34
 	voice_keysplit voicegroup288, KeySplitTable34
-	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_1, 10, 7, 15, 0
-	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_2, 10, 7, 15, 0
-	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_3, 10, 7, 15, 0
-	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_4, 10, 7, 15, 0
-	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_5, 10, 7, 15, 0
-	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_6, 10, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_1, 0, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_2, 0, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_3, 0, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_4, 0, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_5, 0, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_6, 0, 7, 15, 0
 	voice_keysplit voicegroup295, KeySplitTable31
-	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_8, 10, 7, 15, 0
-	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_9, 10, 7, 15, 0
-	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_10, 10, 7, 15, 0
-	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_11, 10, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_8, 0, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_9, 0, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_10, 0, 7, 15, 0
+	voice_programmable_wave_alt 60, 0, ProgrammableWaveData_11, 0, 7, 15, 0
 	voice_square_2_alt 60, 0, 2, 0, 0, 15, 0
 	voice_square_2_alt 60, 0, 2, 0, 0, 15, 0
 	voice_square_2_alt 60, 0, 2, 0, 0, 15, 0
