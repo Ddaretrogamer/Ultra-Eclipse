@@ -127,5 +127,7 @@ voicegroup002::
 	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
 	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
 	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
+	voice_noise_alt 80, 0, 0, 0, 10, 50, 0
 
 
