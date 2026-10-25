@@ -62,6 +62,7 @@
       "flag": "0"
     },
     {
+      "local_id": "beachfront_alola_girl",
       "graphics_id": "OBJ_EVENT_GFX_WOMAN_1_FRLG",
       "x": 26,
       "y": 24,
@@ -71,7 +72,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "HauoliCityBeachfront_Trigger_AlolaNPC1",
       "flag": "0"
     },
     {
@@ -110,7 +111,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "HauoliCityBeachfront_WingullNPCguy",
       "flag": "0"
     },
     {
@@ -215,6 +216,43 @@
       "dest_warp_id": "2"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 29,
+      "y": 24,
+      "elevation": 0,
+      "var": "VAR_IKITOWN_STATE",
+      "var_value": "24",
+      "script": "HauoliCityBeachfront_Trigger_EnterBeachfront"
+    },
+    {
+      "type": "trigger",
+      "x": 29,
+      "y": 23,
+      "elevation": 0,
+      "var": "VAR_IKITOWN_STATE",
+      "var_value": "24",
+      "script": "HauoliCityBeachfront_Trigger_EnterBeachfront"
+    },
+    {
+      "type": "trigger",
+      "x": 29,
+      "y": 21,
+      "elevation": 0,
+      "var": "VAR_IKITOWN_STATE",
+      "var_value": "24",
+      "script": "HauoliCityBeachfront_Trigger_EnterBeachfront"
+    },
+    {
+      "type": "trigger",
+      "x": 29,
+      "y": 22,
+      "elevation": 0,
+      "var": "VAR_IKITOWN_STATE",
+      "var_value": "24",
+      "script": "HauoliCityBeachfront_Trigger_EnterBeachfront"
+    }
+  ],
   "bg_events": []
 }

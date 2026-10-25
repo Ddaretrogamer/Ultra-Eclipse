@@ -1,0 +1,73 @@
+mapscripts HauoliCityBeachfront_MapScripts{}
+
+script HauoliCityBeachfront_Trigger_EnterBeachfront{
+    lock
+    playse(SE_PIN)
+    applymovement(beachfront_alola_girl, moves(face_player, emote_question_mark))
+    waitmovement(0)
+    getplayerxy(VAR_TEMP_A, VAR_TEMP_B)
+    if (var(VAR_TEMP_B)==21){
+        applymovement(LOCALID_PLAYER, moves(walk_down*3, walk_left*2))
+        waitmovement(0)
+    }
+    elif (var(VAR_TEMP_B)==22){
+        applymovement(LOCALID_PLAYER, moves(walk_down*2, walk_left*2))
+        waitmovement(0)
+    }
+    elif (var(VAR_TEMP_B)==23){
+        applymovement(LOCALID_PLAYER, moves(walk_down, walk_left*2))
+        waitmovement(0)
+    }
+    else {
+        applymovement(LOCALID_PLAYER, moves(walk_left*2))
+        waitmovement(0)
+    }
+    msgbox("Hey, you\.
+    
+    You've come to Alola from someplace far
+    off, haven't you? I can tell!
+
+    Then let me teach you the proper way
+    to greet someone in Alola!", MSGBOX_AUTOCLOSE)
+    applymovement(beachfront_alola_girl, moves(jump_in_place_right*2))
+    playse(SE_LEDGE)
+    msgbox("Alola!")
+    waitse
+    playse(SE_LEDGE)
+    waitse
+    waitmovement(0)
+    msgbox("You give it a try, too! Just like that:
+    \qpAlola\qc”
+    
+    You'll make more friends if you say it!")
+    setvar(VAR_IKITOWN_STATE, 25)
+    release
+    end
+}
+
+script HauoliCityBeachfront_Trigger_AlolaNPC1{
+    lock
+    faceplayer
+    playse(SE_LEDGE)
+    msgbox("Alola!")
+    waitse
+    playse(SE_LEDGE)
+    waitse
+    waitmovement(0)
+    msgbox("You give it a try, too! Just like that:
+    \qpAlola\qc”
+    
+    You'll make more friends if you say it!")
+    release
+    end
+}
+
+script HauoliCityBeachfront_WingullNPCguy{
+    lock
+    faceplayer
+    msgbox("The Wingull fly\.
+    And their droppings fall\.
+    Ah, the beauty of nature!")
+    release
+    end
+}
