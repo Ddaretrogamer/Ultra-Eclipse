@@ -37,7 +37,7 @@ script HauoliCityBeachfront_Trigger_EnterBeachfront{
     waitse
     waitmovement(0)
     msgbox("You give it a try, too! Just like that:
-    \qpAlola\qc”
+    \qoAlola!\qc
     
     You'll make more friends if you say it!")
     setvar(VAR_IKITOWN_STATE, 25)
@@ -55,7 +55,7 @@ script HauoliCityBeachfront_Trigger_AlolaNPC1{
     waitse
     waitmovement(0)
     msgbox("You give it a try, too! Just like that:
-    \qpAlola\qc”
+    \qoAlola!\qc
     
     You'll make more friends if you say it!")
     release
