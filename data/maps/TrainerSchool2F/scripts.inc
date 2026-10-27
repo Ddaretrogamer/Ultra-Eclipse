@@ -28,9 +28,9 @@ TrainerSchool2F_BattleVsTeacher::
 # 28 "data/maps/TrainerSchool2F/scripts.pory"
 	compare VAR_RESULT, YES
 	goto_if_eq TrainerSchool2F_BattleVsTeacher_1
-# 204 "data/maps/TrainerSchool2F/scripts.pory"
+# 205 "data/maps/TrainerSchool2F/scripts.pory"
 	msgbox TrainerSchool2F_BattleVsTeacher_Text_20
-# 208 "data/maps/TrainerSchool2F/scripts.pory"
+# 209 "data/maps/TrainerSchool2F/scripts.pory"
 	release
 	end
 
@@ -186,10 +186,12 @@ TrainerSchool2F_BattleVsTeacher_17:
 # 198 "data/maps/TrainerSchool2F/scripts.pory"
 	setflag FLAG_HIDE_TRAINERSCHOOL_LILLIE_KUKUI
 # 199 "data/maps/TrainerSchool2F/scripts.pory"
-	setvar VAR_IKITOWN_STATE, 23
+	clearflag FLAG_HIDE_TRAINERSCHOOL_HALA
 # 200 "data/maps/TrainerSchool2F/scripts.pory"
-	warpsilent MAP_ROUTE1N, 19, 14
+	setvar VAR_IKITOWN_STATE, 23
 # 201 "data/maps/TrainerSchool2F/scripts.pory"
+	warpsilent MAP_ROUTE1N, 19, 14
+# 202 "data/maps/TrainerSchool2F/scripts.pory"
 	waitstate
 	return
 
@@ -228,23 +230,25 @@ TrainerSchool2F_BattleVsTeacher_18:
 
 
 TrainersSchool_Teacher_Battle_Skip::
-# 214 "data/maps/TrainerSchool2F/scripts.pory"
-	closemessage
 # 215 "data/maps/TrainerSchool2F/scripts.pory"
-	fadescreenswapbuffers FADE_TO_BLACK
+	closemessage
 # 216 "data/maps/TrainerSchool2F/scripts.pory"
-	setflag FLAG_HIDE_TRAINERSCHOOL_LILLIE_KUKUI
+	fadescreenswapbuffers FADE_TO_BLACK
 # 217 "data/maps/TrainerSchool2F/scripts.pory"
-	setvar VAR_IKITOWN_STATE, 23
+	setflag FLAG_HIDE_TRAINERSCHOOL_LILLIE_KUKUI
 # 218 "data/maps/TrainerSchool2F/scripts.pory"
-	special StopAllObjectMovements
+	clearflag FLAG_HIDE_TRAINERSCHOOL_HALA
 # 219 "data/maps/TrainerSchool2F/scripts.pory"
-	special CloseScriptMenus
+	setvar VAR_IKITOWN_STATE, 23
 # 220 "data/maps/TrainerSchool2F/scripts.pory"
-	warpsilent MAP_ROUTE1N, 19, 14
+	special StopAllObjectMovements
 # 221 "data/maps/TrainerSchool2F/scripts.pory"
-	waitstate
+	special CloseScriptMenus
 # 222 "data/maps/TrainerSchool2F/scripts.pory"
+	warpsilent MAP_ROUTE1N, 19, 14
+# 223 "data/maps/TrainerSchool2F/scripts.pory"
+	waitstate
+# 224 "data/maps/TrainerSchool2F/scripts.pory"
 	release
 	end
 
@@ -455,7 +459,7 @@ TrainerSchool2F_BattleVsTeacher_Text_19:
 	.string "the Trainers' School!$"
 
 TrainerSchool2F_BattleVsTeacher_Text_20:
-# 204 "data/maps/TrainerSchool2F/scripts.pory"
+# 205 "data/maps/TrainerSchool2F/scripts.pory"
 	.string "You must be joking!\p"
 	.string "You do know how much experience you\n"
 	.string "could gain from battling me, right?$"

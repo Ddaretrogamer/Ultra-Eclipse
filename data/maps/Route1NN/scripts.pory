@@ -1186,7 +1186,7 @@ script Route1NN_CatchingTutorial{
     fadescreenswapbuffers(FADE_FROM_BLACK)
     playfanfare(MUS_OBTAIN_ITEM)
     msgbox("{COLOR RED}Overworld Pokémon encounters{COLOR DARK_GRAY} can now
-    be enabled!")
+    be enabled!", MSGBOX_AUTOCLOSE)
     waitfanfare
     waitmessage
     clearflag(FLAG_SUPPRESS_SPEAKER_NAME)

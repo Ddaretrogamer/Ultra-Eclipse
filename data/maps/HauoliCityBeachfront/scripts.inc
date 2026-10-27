@@ -77,34 +77,164 @@ HauoliCityBeachfront_Trigger_AlolaNPC1::
 # 49 "data/maps/HauoliCityBeachfront/scripts.pory"
 	lock
 # 50 "data/maps/HauoliCityBeachfront/scripts.pory"
-	faceplayer
+	applymovement beachfront_alola_girl, HauoliCityBeachfront_Trigger_AlolaNPC1_Movement_0
 # 51 "data/maps/HauoliCityBeachfront/scripts.pory"
-	playse SE_LEDGE
-# 52 "data/maps/HauoliCityBeachfront/scripts.pory"
-	msgbox HauoliCityBeachfront_Trigger_EnterBeachfront_Text_1
-# 53 "data/maps/HauoliCityBeachfront/scripts.pory"
-	waitse
-# 54 "data/maps/HauoliCityBeachfront/scripts.pory"
-	playse SE_LEDGE
-# 55 "data/maps/HauoliCityBeachfront/scripts.pory"
-	waitse
-# 56 "data/maps/HauoliCityBeachfront/scripts.pory"
 	waitmovement 0
-# 57 "data/maps/HauoliCityBeachfront/scripts.pory"
+# 53 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_Trigger_AlolaNPC1_Text_0
+# 54 "data/maps/HauoliCityBeachfront/scripts.pory"
 	msgbox HauoliCityBeachfront_Trigger_EnterBeachfront_Text_2
-# 61 "data/maps/HauoliCityBeachfront/scripts.pory"
+# 58 "data/maps/HauoliCityBeachfront/scripts.pory"
 	release
 	end
 
 
 HauoliCityBeachfront_WingullNPCguy::
-# 66 "data/maps/HauoliCityBeachfront/scripts.pory"
+# 63 "data/maps/HauoliCityBeachfront/scripts.pory"
 	lock
-# 67 "data/maps/HauoliCityBeachfront/scripts.pory"
+# 64 "data/maps/HauoliCityBeachfront/scripts.pory"
 	faceplayer
-# 68 "data/maps/HauoliCityBeachfront/scripts.pory"
+# 65 "data/maps/HauoliCityBeachfront/scripts.pory"
 	msgbox HauoliCityBeachfront_WingullNPCguy_Text_0
-# 71 "data/maps/HauoliCityBeachfront/scripts.pory"
+# 68 "data/maps/HauoliCityBeachfront/scripts.pory"
+	release
+	end
+
+
+HauoliCityBeachfront_WomanInFrontOfBuilding::
+# 73 "data/maps/HauoliCityBeachfront/scripts.pory"
+	lock
+# 74 "data/maps/HauoliCityBeachfront/scripts.pory"
+	faceplayer
+# 75 "data/maps/HauoliCityBeachfront/scripts.pory"
+	goto_if_unset FLAG_HAUOLI_BEACHFRONT_NPC_POTION, HauoliCityBeachfront_WomanInFrontOfBuilding_2
+# 101 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_WomanInFrontOfBuilding_Text_4
+HauoliCityBeachfront_WomanInFrontOfBuilding_1:
+# 104 "data/maps/HauoliCityBeachfront/scripts.pory"
+	release
+	end
+
+HauoliCityBeachfront_WomanInFrontOfBuilding_2:
+# 76 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_WomanInFrontOfBuilding_Text_0
+# 80 "data/maps/HauoliCityBeachfront/scripts.pory"
+	dynmultichoice 22, 8, TRUE, 5, 0, DYN_MULTICHOICE_CB_NONE, HauoliCityBeachfront_WomanInFrontOfBuilding_Text_1, HauoliCityBeachfront_WomanInFrontOfBuilding_Text_2
+# 81 "data/maps/HauoliCityBeachfront/scripts.pory"
+	compare VAR_RESULT, 0
+	goto_if_eq HauoliCityBeachfront_WomanInFrontOfBuilding_5
+# 90 "data/maps/HauoliCityBeachfront/scripts.pory"
+	compare VAR_RESULT, 1
+	goto_if_eq HauoliCityBeachfront_WomanInFrontOfBuilding_6
+	goto HauoliCityBeachfront_WomanInFrontOfBuilding_1
+
+HauoliCityBeachfront_WomanInFrontOfBuilding_5:
+# 82 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_WomanInFrontOfBuilding_Text_3
+# 85 "data/maps/HauoliCityBeachfront/scripts.pory"
+	giveitem ITEM_POTION, 1
+# 86 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_WomanInFrontOfBuilding_Text_4
+# 88 "data/maps/HauoliCityBeachfront/scripts.pory"
+	setflag FLAG_HAUOLI_BEACHFRONT_NPC_POTION
+	goto HauoliCityBeachfront_WomanInFrontOfBuilding_1
+
+HauoliCityBeachfront_WomanInFrontOfBuilding_6:
+# 91 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_WomanInFrontOfBuilding_Text_3
+# 94 "data/maps/HauoliCityBeachfront/scripts.pory"
+	giveitem ITEM_POTION, 1
+# 95 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_WomanInFrontOfBuilding_Text_4
+# 97 "data/maps/HauoliCityBeachfront/scripts.pory"
+	setflag FLAG_HAUOLI_BEACHFRONT_NPC_POTION
+	goto HauoliCityBeachfront_WomanInFrontOfBuilding_1
+
+
+HauoliCityBeachfront_MovesGuy::
+# 109 "data/maps/HauoliCityBeachfront/scripts.pory"
+	lock
+# 110 "data/maps/HauoliCityBeachfront/scripts.pory"
+	faceplayer
+# 111 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_MovesGuy_Text_0
+# 119 "data/maps/HauoliCityBeachfront/scripts.pory"
+	release
+	end
+
+
+HauoliCityBeachfront_TanningWoman::
+# 124 "data/maps/HauoliCityBeachfront/scripts.pory"
+	lock
+# 125 "data/maps/HauoliCityBeachfront/scripts.pory"
+	faceplayer
+# 126 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_TanningWoman_Text_0
+# 133 "data/maps/HauoliCityBeachfront/scripts.pory"
+	release
+	end
+
+
+HauoliCityBeachfront_Pyukumuku::
+# 138 "data/maps/HauoliCityBeachfront/scripts.pory"
+	lock
+# 139 "data/maps/HauoliCityBeachfront/scripts.pory"
+	faceplayer
+# 140 "data/maps/HauoliCityBeachfront/scripts.pory"
+	playmoncry SPECIES_PYUKUMUKU, 0
+# 141 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_Pyukumuku_Text_0
+# 142 "data/maps/HauoliCityBeachfront/scripts.pory"
+	waitmoncry
+# 143 "data/maps/HauoliCityBeachfront/scripts.pory"
+	release
+	end
+
+
+HauoliCityBeachfront_CoupleConversation::
+# 148 "data/maps/HauoliCityBeachfront/scripts.pory"
+	lock
+# 149 "data/maps/HauoliCityBeachfront/scripts.pory"
+	applymovement hauolibeach_man, HauoliCityBeachfront_CoupleConversation_Movement_0
+# 150 "data/maps/HauoliCityBeachfront/scripts.pory"
+	waitmovement 0
+# 151 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_CoupleConversation_Text_0, MSGBOX_AUTOCLOSE
+# 152 "data/maps/HauoliCityBeachfront/scripts.pory"
+	applymovement hauolibeach_girl, HauoliCityBeachfront_CoupleConversation_Movement_1
+# 153 "data/maps/HauoliCityBeachfront/scripts.pory"
+	waitmovement 0
+# 154 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_CoupleConversation_Text_1, MSGBOX_AUTOCLOSE
+# 161 "data/maps/HauoliCityBeachfront/scripts.pory"
+	release
+	end
+
+
+HauoliCityBeachfront_SlowpokeNPC::
+# 166 "data/maps/HauoliCityBeachfront/scripts.pory"
+	lock
+# 167 "data/maps/HauoliCityBeachfront/scripts.pory"
+	faceplayer
+# 168 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_SlowpokeNPC_Text_0
+# 178 "data/maps/HauoliCityBeachfront/scripts.pory"
+	release
+	end
+
+
+HauoliCityBeachfront_Slowpoke::
+# 183 "data/maps/HauoliCityBeachfront/scripts.pory"
+	lock
+# 184 "data/maps/HauoliCityBeachfront/scripts.pory"
+	faceplayer
+# 185 "data/maps/HauoliCityBeachfront/scripts.pory"
+	playmoncry SPECIES_SLOWPOKE, 0
+# 186 "data/maps/HauoliCityBeachfront/scripts.pory"
+	msgbox HauoliCityBeachfront_Slowpoke_Text_0
+# 187 "data/maps/HauoliCityBeachfront/scripts.pory"
+	waitmoncry
+# 188 "data/maps/HauoliCityBeachfront/scripts.pory"
 	release
 	end
 
@@ -169,6 +299,28 @@ HauoliCityBeachfront_Trigger_EnterBeachfront_Movement_5:
 	jump_in_place_right
 	step_end
 
+# 50 "data/maps/HauoliCityBeachfront/scripts.pory"
+HauoliCityBeachfront_Trigger_AlolaNPC1_Movement_0:
+# 50 "data/maps/HauoliCityBeachfront/scripts.pory"
+	face_player
+	step_end
+
+# 149 "data/maps/HauoliCityBeachfront/scripts.pory"
+HauoliCityBeachfront_CoupleConversation_Movement_0:
+# 149 "data/maps/HauoliCityBeachfront/scripts.pory"
+	walk_in_place_right
+# 149 "data/maps/HauoliCityBeachfront/scripts.pory"
+	walk_in_place_right
+	step_end
+
+# 152 "data/maps/HauoliCityBeachfront/scripts.pory"
+HauoliCityBeachfront_CoupleConversation_Movement_1:
+# 152 "data/maps/HauoliCityBeachfront/scripts.pory"
+	walk_in_place_left
+# 152 "data/maps/HauoliCityBeachfront/scripts.pory"
+	walk_in_place_left
+	step_end
+
 HauoliCityBeachfront_Trigger_EnterBeachfront_Text_0:
 # 25 "data/maps/HauoliCityBeachfront/scripts.pory"
 	.string "Hey, you…\p"
@@ -187,8 +339,86 @@ HauoliCityBeachfront_Trigger_EnterBeachfront_Text_2:
 	.string "“Alola!”\p"
 	.string "You'll make more friends if you say it!$"
 
+HauoliCityBeachfront_Trigger_AlolaNPC1_Text_0:
+# 53 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "Alola!{PAUSE 15}$"
+
 HauoliCityBeachfront_WingullNPCguy_Text_0:
-# 68 "data/maps/HauoliCityBeachfront/scripts.pory"
+# 65 "data/maps/HauoliCityBeachfront/scripts.pory"
 	.string "The Wingull fly…\n"
 	.string "And their droppings fall…\l"
 	.string "Ah, the beauty of nature!$"
+
+HauoliCityBeachfront_WomanInFrontOfBuilding_Text_0:
+# 76 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "Alola!\p"
+	.string "You here on vacation, young friend?\n"
+	.string "Or are you perhaps a trial-goer?$"
+
+HauoliCityBeachfront_WomanInFrontOfBuilding_Text_1:
+# 80 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "I guess I'm a trial-goer$"
+
+HauoliCityBeachfront_WomanInFrontOfBuilding_Text_2:
+# 80 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "I'm just sightseeing$"
+
+HauoliCityBeachfront_WomanInFrontOfBuilding_Text_3:
+# 82 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "Well, you are most welcome to Alola\n"
+	.string "either way!\l"
+	.string "In fact, why don't you take this?$"
+
+HauoliCityBeachfront_WomanInFrontOfBuilding_Text_4:
+# 86 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "Enjoy Hau'oli! Enjoy Alola!\n"
+	.string "And most of all, enjoy Pokémon!$"
+
+HauoliCityBeachfront_MovesGuy_Text_0:
+# 111 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "If you want to study Pokémon moves…\p"
+	.string "I'd have a look at those unbelievable\n"
+	.string "moves that the island kahuna's\l"
+	.string "Pokémon can use!\p"
+	.string "There's gotta be some kinda secret to\n"
+	.string "why they are so amazingly strong.$"
+
+HauoliCityBeachfront_TanningWoman_Text_0:
+# 126 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "Ground-type moves won't reach Flying-\n"
+	.string "type Pokémon, right?\l"
+	.string "So they don't do any damage to them…\p"
+	.string "But Water-type moves will wash away\n"
+	.string "any Ground types.\l"
+	.string "They're very effective at that.$"
+
+HauoliCityBeachfront_Pyukumuku_Text_0:
+# 141 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "Pyu!$"
+
+HauoliCityBeachfront_CoupleConversation_Text_0:
+# 151 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "Look! Catch!$"
+
+HauoliCityBeachfront_CoupleConversation_Text_1:
+# 154 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "Would you stop?\p"
+	.string "I know they're squishy, but that's no\n"
+	.string "reason to throw Pyukumuku at me!\p"
+	.string "Throw a Poké Ball if you must throw\n"
+	.string "something!$"
+
+HauoliCityBeachfront_SlowpokeNPC_Text_0:
+# 168 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "Slowpoke really has its own tempo,\n"
+	.string "huh?\p"
+	.string "It's never confused by other Pokémon's\n"
+	.string "moves.\l"
+	.string "It's too slow to get confused…or to\l"
+	.string "take a hint.\p"
+	.string "Leave me alone already, would you,\n"
+	.string "Slowpoke?$"
+
+HauoliCityBeachfront_Slowpoke_Text_0:
+# 186 "data/maps/HauoliCityBeachfront/scripts.pory"
+	.string "Slo-o-o-ow…$"

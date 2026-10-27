@@ -101,6 +101,7 @@ script Playerhouse_WelcomeHomeAfterFestival{
     openscreenshot(3, WARP, BLACK)
     waitfanfare
     setvar(VAR_IKITOWN_STATE, 16)
+    setflag(FLAG_HIDE_TRAINERSCHOOL_HALA)
     clearflag(FLAG_HIDE_ROUTE1_LILLIE)
     delay(30)
     warpsilent(MAP_PLAYER_ROOM, 12, 10)

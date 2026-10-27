@@ -47,13 +47,10 @@ script HauoliCityBeachfront_Trigger_EnterBeachfront{
 
 script HauoliCityBeachfront_Trigger_AlolaNPC1{
     lock
-    faceplayer
-    playse(SE_LEDGE)
-    msgbox("Alola!")
-    waitse
-    playse(SE_LEDGE)
-    waitse
+    applymovement(beachfront_alola_girl, moves(face_player))
     waitmovement(0)
+
+    msgbox("Alola!{PAUSE 15}")
     msgbox("You give it a try, too! Just like that:
     \qoAlola!\qc
     
@@ -68,6 +65,126 @@ script HauoliCityBeachfront_WingullNPCguy{
     msgbox("The Wingull fly\.
     And their droppings fall\.
     Ah, the beauty of nature!")
+    release
+    end
+}
+
+script HauoliCityBeachfront_WomanInFrontOfBuilding{
+    lock
+    faceplayer
+    if(!flag(FLAG_HAUOLI_BEACHFRONT_NPC_POTION)){
+    msgbox("Alola!
+    
+    You here on vacation, young friend?
+    Or are you perhaps a trial-goer?")
+    dynmultichoice(22,8,TRUE, 5, 0, DYN_MULTICHOICE_CB_NONE, "I guess I'm a trial-goer", "I'm just sightseeing")
+    if (var(VAR_RESULT)==0){
+        msgbox("Well, you are most welcome to Alola
+        either way!
+        In fact, why don't you take this?")
+        giveitem(ITEM_POTION, 1)
+        msgbox("Enjoy Hau'oli! Enjoy Alola!
+        And most of all, enjoy Pokémon!")
+        setflag(FLAG_HAUOLI_BEACHFRONT_NPC_POTION)
+    }
+    elif (var(VAR_RESULT)==1){
+        msgbox("Well, you are most welcome to Alola
+        either way!
+        In fact, why don't you take this?")
+        giveitem(ITEM_POTION, 1)
+        msgbox("Enjoy Hau'oli! Enjoy Alola!
+        And most of all, enjoy Pokémon!")
+        setflag(FLAG_HAUOLI_BEACHFRONT_NPC_POTION)
+    }
+    }
+    else{
+        msgbox("Enjoy Hau'oli! Enjoy Alola!
+        And most of all, enjoy Pokémon!")
+    }
+    release
+    end
+}
+
+script HauoliCityBeachfront_MovesGuy{
+    lock
+    faceplayer
+    msgbox("If you want to study Pokémon moves\.
+    
+    I'd have a look at those unbelievable
+    moves that the island kahuna's
+    Pokémon can use!
+    
+    There's gotta be some kinda secret to
+    why they are so amazingly strong.")
+    release
+    end
+}
+
+script HauoliCityBeachfront_TanningWoman{
+    lock
+    faceplayer
+    msgbox("Ground-type moves won't reach Flying-
+    type Pokémon, right?
+    So they don't do any damage to them\.
+    
+    But Water-type moves will wash away
+    any Ground types.
+    They're very effective at that.")
+    release
+    end
+}
+
+script HauoliCityBeachfront_Pyukumuku{
+    lock
+    faceplayer
+    playmoncry(SPECIES_PYUKUMUKU, 0)
+    msgbox("Pyu!")
+    waitmoncry
+    release
+    end
+}
+
+script HauoliCityBeachfront_CoupleConversation{
+    lock
+    applymovement(hauolibeach_man, moves(walk_in_place_right*2))
+    waitmovement(0)
+    msgbox("Look! Catch!", MSGBOX_AUTOCLOSE)
+    applymovement(hauolibeach_girl, moves(walk_in_place_left*2))
+    waitmovement(0)
+    msgbox("Would you stop?
+    
+    I know they're squishy, but that's no
+    reason to throw Pyukumuku at me!
+    
+    Throw a Pok\e Ball if you must throw
+    something!", MSGBOX_AUTOCLOSE)
+    release
+    end
+}
+
+script HauoliCityBeachfront_SlowpokeNPC{
+    lock
+    faceplayer
+    msgbox("Slowpoke really has its own tempo,
+    huh?
+    
+    It's never confused by other Pokémon's
+    moves.
+    It's too slow to get confused\.or to
+    take a hint.
+
+    Leave me alone already, would you,
+    Slowpoke?")
+    release
+    end
+}
+
+script HauoliCityBeachfront_Slowpoke{
+    lock
+    faceplayer
+    playmoncry(SPECIES_SLOWPOKE, 0)
+    msgbox("Slo-o-o-ow\.")
+    waitmoncry
     release
     end
 }

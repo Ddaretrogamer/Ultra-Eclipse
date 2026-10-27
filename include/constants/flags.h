@@ -724,7 +724,7 @@
 #define FLAG_LILLIPUP_PICKUP_ITEM  0x29D // lillipup potion from kid at trainer school
 #define FLAG_HIDE_TRAINERSCHOOL_TAUROS  0x29E // hide the Tauros at the trainer school
 #define FLAG_HIDE_TRAINERSCHOOL_HALA  0x29F // hide Hala at the trainer school
-#define FLAG_UNUSED_0x2A0  0x2A0 // Unused Flag
+#define FLAG_HAUOLI_BEACHFRONT_NPC_POTION  0x2A0 // Used to track if the Hauoli Beachfront NPC has given the player a potion
 #define FLAG_UNUSED_0x2A1  0x2A1 // Unused Flag
 #define FLAG_UNUSED_0x2A2  0x2A2 // Unused Flag
 #define FLAG_UNUSED_0x2A3  0x2A3 // Unused Flag
@@ -1057,7 +1057,7 @@
 #define FLAG_ITEM_TRAINER_SCHOOL_POTION_1                           0x3EC
 #define FLAG_ITEM_TRAINER_SCHOOL_POTION_2                           0x3ED
 #define FLAG_ITEM_TRAINER_SCHOOL_ANTIDOTE                           0x3EE
-#define FLAG_ITEM_ROUTE_110_DIRE_HIT                                0x3EF
+#define FLAG_ITEM_HAUOLI_CITY_BEACHFRONT_POKEBALL                   0x3EF
 #define FLAG_ITEM_ROUTE_111_TM_SANDSTORM                            0x3F0
 #define FLAG_ITEM_ROUTE_111_STARDUST                                0x3F1
 #define FLAG_ITEM_ROUTE_111_HP_UP                                   0x3F2

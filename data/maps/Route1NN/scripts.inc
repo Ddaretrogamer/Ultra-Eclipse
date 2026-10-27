@@ -1866,7 +1866,7 @@ Route1NN_CatchingTutorial_10:
 # 1187 "data/maps/Route1NN/scripts.pory"
 	playfanfare MUS_OBTAIN_ITEM
 # 1188 "data/maps/Route1NN/scripts.pory"
-	msgbox Route1NN_CatchingTutorial_Text_4
+	msgbox Route1NN_CatchingTutorial_Text_4, MSGBOX_AUTOCLOSE
 # 1190 "data/maps/Route1NN/scripts.pory"
 	waitfanfare
 # 1191 "data/maps/Route1NN/scripts.pory"
