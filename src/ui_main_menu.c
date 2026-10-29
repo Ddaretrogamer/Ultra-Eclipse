@@ -1,224 +1,147 @@
 #include "global.h"
 #include "ui_main_menu.h"
-#include "strings.h"
 #include "bg.h"
-#include "data.h"
 #include "decompress.h"
 #include "event_data.h"
-#include "field_weather.h"
 #include "gpu_regs.h"
-#include "graphics.h"
-#include "item.h"
-#include "item_menu.h"
-#include "item_menu_icons.h"
-#include "list_menu.h"
-#include "item_icon.h"
-#include "item_use.h"
 #include "international_string_util.h"
 #include "main.h"
+#include "main_menu.h"
 #include "malloc.h"
 #include "menu.h"
 #include "menu_helpers.h"
-#include "palette.h"
-#include "party_menu.h"
-#include "scanline_effect.h"
-#include "script.h"
-#include "sound.h"
-#include "string_util.h"
-#include "strings.h"
-#include "task.h"
-#include "text_window.h"
-#include "overworld.h"
-#include "outfit_menu.h"
-#include "event_data.h"
-#include "constants/items.h"
-#include "constants/field_weather.h"
-#include "constants/songs.h"
-#include "constants/rgb.h"
-#include "pokemon_icon.h"
-#include "region_map.h"
-#include "pokedex.h"
-#include "title_screen.h"
-#include "main_menu.h"
 #include "option_menu.h"
-#include "mystery_event_menu.h"
-#include "mystery_gift_menu.h"
-#include "link.h"
+#include "overworld.h"
+#include "palette.h"
+#include "pokedex.h"
+#include "region_map.h"
+#include "scanline_effect.h"
+#include "sound.h"
+#include "sprite.h"
+#include "string_util.h"
+#include "task.h"
+#include "title_screen.h"
+#include "constants/rgb.h"
+#include "constants/flags.h"
+#include "constants/songs.h"
 
-/*
- * 
- */
- 
-//==========DEFINES==========//
+#define TAG_CURSOR 30012
+#define PORTRAIT_TILE 256
+#define PORTRAIT_BG_TILE (PORTRAIT_TILE + 36)
+#define PANEL_TILE_BYTES (128 * 80)
+#define CRYSTAL_PALETTE_OFFSET 48
+#define CRYSTAL_PALETTE_COLORS 74
+#define CRYSTAL_ROW_X 6
+#define CRYSTAL_ROW_Y 13
+
+enum { OPTION_CONTINUE, OPTION_NEW_GAME, OPTION_OPTIONS };
+enum { WIN_HEADER, WIN_INFO, WIN_NEW_GAME, WIN_OPTIONS, WIN_COUNT };
+
 struct MainMenuResources
 {
-    MainCallback savedCallback;     // determines callback to run when we exit. e.g. where do we want to go after closing the menu
-    u8 gfxLoadState;
-    u16 iconBoxSpriteIds[6];
-    u16 iconMonSpriteIds[6];
-    u16 mugshotSpriteId;
-    u8 sSelectedOption;
+    MainCallback savedCallback;
+    u16 panelTilemap[32 * 32];
+    u16 waterTilemap[32 * 32];
+    u16 portraitTilemap[32 * 32];
+    u8 *panelTiles;
+    u8 cursorSpriteId;
 };
 
-enum WindowIds
+static EWRAM_DATA struct MainMenuResources *sMainMenu = NULL;
+static EWRAM_DATA u8 sSelectedOption = OPTION_CONTINUE;
+
+static const struct BgTemplate sBgTemplates[] =
 {
-    WINDOW_HEADER,
-    WINDOW_MIDDLE,
+    {.bg = 0, .charBaseIndex = 0, .mapBaseIndex = 31, .priority = 0},
+    {.bg = 1, .charBaseIndex = 1, .mapBaseIndex = 30, .paletteMode = 1, .priority = 2},
+    {.bg = 2, .charBaseIndex = 2, .mapBaseIndex = 28, .priority = 3},
+    {.bg = 3, .charBaseIndex = 0, .mapBaseIndex = 29, .priority = 1},
 };
 
-enum {
-    HW_WIN_CONTINUE,
-    HW_WIN_NEW_GAME,
-    HW_WIN_OPTIONS,
-    HW_WIN_MYSTERY_GIFT,
-    HW_WIN_MYSTERY_EVENT,
-    HW_WIN_MYSTERY_BOTH,
-};
-
-enum Colors
+static const struct WindowTemplate sWindowTemplates[] =
 {
-    FONT_BLACK,
-    FONT_WHITE,
-    FONT_RED,
-    FONT_BLUE,
-};
-
-enum
-{
-    HAS_NO_SAVED_GAME,  //NEW GAME, OPTION
-    HAS_SAVED_GAME,     //CONTINUE, NEW GAME, OPTION
-    HAS_MYSTERY_GIFT,   //CONTINUE, NEW GAME, MYSTERY GIFT, OPTION
-    HAS_MYSTERY_EVENTS, //CONTINUE, NEW GAME, MYSTERY GIFT, MYSTERY EVENTS, OPTION
-};
-
-#define try_free(ptr) ({        \
-    void ** ptr__ = (void **)&(ptr);   \
-    if (*ptr__ != NULL)                \
-        Free(*ptr__);                  \
-})
-
-//==========EWRAM==========//
-static EWRAM_DATA struct MainMenuResources *sMainMenuDataPtr = NULL;
-static EWRAM_DATA u8 *sBg1TilemapBuffer = NULL;
-static EWRAM_DATA u8 *sBg2TilemapBuffer = NULL;
-static EWRAM_DATA u8 sSelectedOption = {0};
-static EWRAM_DATA u8 menuType = {0};
-
-//==========STATIC=DEFINES==========//
-static void MainMenu_RunSetup(void);
-static bool8 MainMenu_DoGfxSetup(void);
-static bool8 MainMenu_InitBgs(void);
-static void MainMenu_FadeAndBail(void);
-static bool8 MainMenu_LoadGraphics(void);
-static void MainMenu_InitWindows(void);
-static void PrintToWindow(u8 windowId, u8 colorIdx);
-static void Task_MainMenuWaitFadeIn(u8 taskId);
-static void Task_MainMenuMain(u8 taskId);
-static void MainMenu_InitializeGPUWindows(void);
-
-static void CreateMugshot();
-static void DestroyMugshot();
-static void CreateIconShadow();
-static void DestroyIconShadow();
-static u32 GetHPEggCyclePercent(u32 partyIndex);
-static void CreatePartyMonIcons();
-static void DestroyMonIcons();
-
-
-//==========Background and Window Data==========//
-static const struct BgTemplate sMainMenuBgTemplates[] =
-{
-    {
-        .bg = 0,                // Text Background
-        .charBaseIndex = 0,
-        .mapBaseIndex = 31,
-        .priority = 0
-    }, 
-    {
-        .bg = 1,                // Main Background
-        .charBaseIndex = 3,
-        .mapBaseIndex = 30,
-        .priority = 2
-    },
-    {
-        .bg = 2,                // Scroll Background
-        .charBaseIndex = 2,
-        .mapBaseIndex = 28,
-        .priority = 2
-    }
-};
-
-static const struct WindowTemplate sMainMenuWindowTemplates[] = 
-{
-    [WINDOW_HEADER] = // Prints the Map and Playtime
-    {
-        .bg = 0,            // which bg to print text on
-        .tilemapLeft = 10,  // position from left (per 8 pixels)
-        .tilemapTop = 1,    // position from top (per 8 pixels)
-        .width = 18,        // width (per 8 pixels)
-        .height = 2,        // height (per 8 pixels)
-        .paletteNum = 0,    // palette index to use for text
-        .baseBlock = 1,     // tile start in VRAM
-    },
-
-    [WINDOW_MIDDLE] = // Prints the name, dex number, and badges
-    {
-        .bg = 0,                   // which bg to print text on
-        .tilemapLeft = 8,          // position from left (per 8 pixels)
-        .tilemapTop = 4,           // position from top (per 8 pixels)
-        .width = 18,               // width (per 8 pixels)
-        .height = 7,               // height (per 8 pixels)
-        .paletteNum = 0,           // palette index to use for text
-        .baseBlock = 1 + (18 * 2), // tile start in VRAM
-    },
+    [WIN_HEADER] = {.bg = 0, .tilemapLeft = 3, .tilemapTop = 1, .width = 14, .height = 2, .paletteNum = 15, .baseBlock = 1},
+    [WIN_INFO] = {.bg = 0, .tilemapLeft = 12, .tilemapTop = 4, .width = 15, .height = 9, .paletteNum = 15, .baseBlock = 29},
+    [WIN_NEW_GAME] = {.bg = 0, .tilemapLeft = 3, .tilemapTop = 17, .width = 10, .height = 2, .paletteNum = 15, .baseBlock = 164},
+    [WIN_OPTIONS] = {.bg = 0, .tilemapLeft = 18, .tilemapTop = 17, .width = 10, .height = 2, .paletteNum = 15, .baseBlock = 184},
     DUMMY_WIN_TEMPLATE
 };
 
-//  Positions of Hardware/GPU Windows
-//       that highlight and hide sections of the Bg
-struct HighlightWindowCoords {
-    u8 left;
-    u8 right;
-};
-
-struct HWWindowPosition {
-    struct HighlightWindowCoords winh;
-    struct HighlightWindowCoords winv;
-};
-
-static const struct HWWindowPosition HWinCoords[6] = 
+static const u32 sPanelTiles[] = INCGFX_U32("graphics/ui_main_menu/sm/bg_tiles.png", ".8bpp.lz");
+// The supplied map is a packed 30 x 20 rectangle, including flip bits.
+static const u16 sPanelTilemap[] = INCBIN_U16("graphics/ui_main_menu/sm/bg_tiles.bin");
+static const u16 sPanelPalette[] = INCGFX_U16("graphics/ui_main_menu/sm/bg_tiles.png", ".gbapal", "-num_colors 32");
+static const u8 sCrystalTiles[] = INCGFX_U8("graphics/ui_main_menu/sm/crystals.png", ".8bpp");
+static const u16 sCrystalPalette[] = INCGFX_U16("graphics/ui_main_menu/sm/crystals.png", ".gbapal", "-num_colors 74");
+// Matches the left-to-right tile order in crystals.png.
+static const u16 sCrystalFlags[] =
 {
-    [HW_WIN_CONTINUE]        = {{7, 233},   {7, 89},},
-    [HW_WIN_NEW_GAME]        = {{7, 113},   {103, 122},},
-    [HW_WIN_OPTIONS]         = {{126, 233}, {103, 122},},
-    [HW_WIN_MYSTERY_GIFT]    = {{7, 113},   {135, 154},},
-    [HW_WIN_MYSTERY_EVENT]   = {{126, 233}, {135, 154},},
-    [HW_WIN_MYSTERY_BOTH]    = {{7, 233},   {135, 154}},
+    FLAG_COLLECTED_NORMALIUM_Z, FLAG_COLLECTED_FIRIUM_Z, FLAG_COLLECTED_WATERIUM_Z, FLAG_COLLECTED_ELECTRIUM_Z,
+    FLAG_COLLECTED_GRASSIUM_Z, FLAG_COLLECTED_ICIUM_Z, FLAG_COLLECTED_FIGHTINIUM_Z, FLAG_COLLECTED_POISONIUM_Z,
+    FLAG_COLLECTED_GROUNDIUM_Z, FLAG_COLLECTED_FLYINIUM_Z, FLAG_COLLECTED_PSYCHIUM_Z, FLAG_COLLECTED_BUGINIUM_Z,
+    FLAG_COLLECTED_ROCKIUM_Z, FLAG_COLLECTED_GHOSTIUM_Z, FLAG_COLLECTED_DRAGONIUM_Z, FLAG_COLLECTED_DARKINIUM_Z,
+    FLAG_COLLECTED_STEELIUM_Z, FLAG_COLLECTED_FAIRIUM_Z,
 };
-
-
-//
-//  Graphic and Tilemap Pointers for Bgs and Mughsots
-//
-static const u32 sMainBgTiles[] = INCGFX_U32("graphics/ui_main_menu/main_tiles.png", ".4bpp.lz");
-static const u32 sMainBgTilemap[] = INCGFX_U32("graphics/ui_main_menu/main_tiles.bin", ".lz");
-static const u16 sMainBgPalette[] = INCGFX_U16("graphics/ui_main_menu/main_tiles.png", ".gbapal");
-
-static const u32 sMainBgTilesFem[] = INCGFX_U32("graphics/ui_main_menu/main_tiles.png", ".4bpp.lz");
-static const u32 sMainBgTilemapFem[] = INCGFX_U32("graphics/ui_main_menu/main_tiles.bin", ".lz");
-static const u16 sMainBgPaletteFem[] = INCGFX_U16("graphics/ui_main_menu/main_tiles.png", ".gbapal");
-
+STATIC_ASSERT(sizeof(sCrystalTiles) == ARRAY_COUNT(sCrystalFlags) * 64, CrystalTileCount);
 static const u32 sScrollBgTiles[] = INCGFX_U32("graphics/ui_main_menu/waterscroll.png", ".4bpp.lz");
 static const u32 sScrollBgTilemap[] = INCGFX_U32("graphics/ui_main_menu/waterscroll.bin", ".lz");
 static const u16 sScrollBgPalette[] = INCGFX_U16("graphics/ui_main_menu/waterscroll.png", ".gbapal");
+static const u16 sPortraitBgTiles[] = INCGFX_U16("graphics/ui_main_menu/sm/mugshot_BG.png", ".4bpp");
+static const u16 sPortraitBgPalette[] = INCGFX_U16("graphics/ui_main_menu/sm/mugshot_BG.png", ".gbapal");
+static const u16 sPortrait_male1[] = INCGFX_U16("graphics/ui_main_menu/sm/male_1.png", ".4bpp");
+static const u16 sPalette_male1[] = INCGFX_U16("graphics/ui_main_menu/sm/male_1.png", ".gbapal");
+static const u16 sPortrait_male2[] = INCGFX_U16("graphics/ui_main_menu/sm/male_2.png", ".4bpp");
+static const u16 sPalette_male2[] = INCGFX_U16("graphics/ui_main_menu/sm/male_2.png", ".gbapal");
+static const u16 sPortrait_male3[] = INCGFX_U16("graphics/ui_main_menu/sm/male_3.png", ".4bpp");
+static const u16 sPalette_male3[] = INCGFX_U16("graphics/ui_main_menu/sm/male_3.png", ".gbapal");
+static const u16 sPortrait_male4[] = INCGFX_U16("graphics/ui_main_menu/sm/male_4.png", ".4bpp");
+static const u16 sPalette_male4[] = INCGFX_U16("graphics/ui_main_menu/sm/male_4.png", ".gbapal");
+static const u16 sPortrait_female1[] = INCGFX_U16("graphics/ui_main_menu/sm/female_1.png", ".4bpp");
+static const u16 sPalette_female1[] = INCGFX_U16("graphics/ui_main_menu/sm/female_1.png", ".gbapal");
+static const u16 sPortrait_female2[] = INCGFX_U16("graphics/ui_main_menu/sm/female_2.png", ".4bpp");
+static const u16 sPalette_female2[] = INCGFX_U16("graphics/ui_main_menu/sm/female_2.png", ".gbapal");
+static const u16 sPortrait_female3[] = INCGFX_U16("graphics/ui_main_menu/sm/female_3.png", ".4bpp");
+static const u16 sPalette_female3[] = INCGFX_U16("graphics/ui_main_menu/sm/female_3.png", ".gbapal");
+static const u16 sPortrait_female4[] = INCGFX_U16("graphics/ui_main_menu/sm/female_4.png", ".4bpp");
+static const u16 sPalette_female4[] = INCGFX_U16("graphics/ui_main_menu/sm/female_4.png", ".gbapal");
 
-static const u16 sIconBox_Pal[] = INCGFX_U16("graphics/ui_main_menu/icon_shadow.png", ".gbapal");
-static const u32 sIconBox_Gfx[] = INCGFX_U32("graphics/ui_main_menu/icon_shadow.png", ".4bpp.lz");
+static const u16 *const sPortraits[2][4] =
+{
+    {sPortrait_male1, sPortrait_male2, sPortrait_male3, sPortrait_male4},
+    {sPortrait_female1, sPortrait_female2, sPortrait_female3, sPortrait_female4},
+};
+static const u16 *const sPortraitPalettes[2][4] =
+{
+    {sPalette_male1, sPalette_male2, sPalette_male3, sPalette_male4},
+    {sPalette_female1, sPalette_female2, sPalette_female3, sPalette_female4},
+};
+static const u32 sCursorTiles[] = INCGFX_U32("graphics/ui_main_menu/sm/cursor.png", ".4bpp.lz");
+static const u16 sCursorPalette[] = INCGFX_U16("graphics/ui_main_menu/sm/cursor.png", ".gbapal");
+static const struct CompressedSpriteSheet sCursorSheet = {sCursorTiles, 16 * 16 / 2 * 3, TAG_CURSOR};
+static const struct SpritePalette sCursorPal = {sCursorPalette, TAG_CURSOR};
+static const struct OamData sCursorOam =
+{
+    .shape = SPRITE_SHAPE(16x16), .size = SPRITE_SIZE(16x16), .priority = 0,
+};
+static const union AnimCmd sCursorAnim[] =
+{
+    ANIMCMD_FRAME(0, 8), ANIMCMD_FRAME(4, 8), ANIMCMD_FRAME(8, 8), ANIMCMD_JUMP(0),
+};
+static const union AnimCmd *const sCursorAnims[] = {sCursorAnim};
+static const struct SpriteTemplate sCursorTemplate =
+{
+    .tileTag = TAG_CURSOR, .paletteTag = TAG_CURSOR, .oam = &sCursorOam,
+    .anims = sCursorAnims, .affineAnims = gDummySpriteAffineAnimTable, .callback = SpriteCallbackDummy,
+};
+static const u16 sTextPalette[16] = {[1] = RGB(9, 8, 7), [2] = RGB(27, 25, 21)};
+static const u8 sTextContinue[] = _("Continue");
+static const u8 sTextNewGame[] = _("New Game");
+static const u8 sTextOptions[] = _("Options");
+static const u8 sTextDex[] = _("Pokédex:                {STR_VAR_1}");
+static const u8 sTextTime[] = _("Time:                  {STR_VAR_1}:{STR_VAR_2}");
 
-static const u16 sIconBox_PalFem[] = INCGFX_U16("graphics/ui_main_menu/icon_shadow.png", ".gbapal");
-static const u32 sIconBox_GfxFem[] = INCGFX_U32("graphics/ui_main_menu/icon_shadow.png", ".4bpp.lz");
-
-
+static void MainMenu_RunSetup(void);
+static void Task_MainMenuInput(u8 taskId);
 
 static const struct ScanlineEffectParams sScanlineParams_Parallax =
 {
@@ -309,152 +232,6 @@ static void InitParallaxEffect(void)
     CreateTask(Task_ParallaxScroll, 0);
 }
 
-//
-//  Sprite Data for Mugshots and Icon Shadows 
-//
-#define TAG_MUGSHOT 30012
-#define TAG_ICON_BOX 30006
-static const struct OamData sOamData_Mugshot =
-{
-    .size = SPRITE_SIZE(64x64),
-    .shape = SPRITE_SHAPE(64x64),
-    .priority = 1,
-};
-
-static const union AnimCmd sSpriteAnim_Mugshot[] =
-{
-    ANIMCMD_FRAME(0, 32),
-    ANIMCMD_JUMP(0),
-};
-
-static const union AnimCmd *const sSpriteAnimTable_Mugshot[] =
-{
-    sSpriteAnim_Mugshot,
-};
-
-static const struct SpriteTemplate sSpriteTemplate_Mugshot =
-{
-    .tileTag = TAG_MUGSHOT,
-    .paletteTag = TAG_MUGSHOT,
-    .oam = &sOamData_Mugshot,
-    .anims = sSpriteAnimTable_Mugshot,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy
-};
-
-static const struct OamData sOamData_IconBox =
-{
-    .size = SPRITE_SIZE(32x32),
-    .shape = SPRITE_SHAPE(32x32),
-    .priority = 1,
-};
-
-static const struct CompressedSpriteSheet sSpriteSheet_IconBox =
-{
-    .data = sIconBox_Gfx,
-    .size = 32*32*1/2,
-    .tag = TAG_ICON_BOX,
-};
-
-static const struct CompressedSpriteSheet sSpriteSheet_IconBoxFem =
-{
-    .data = sIconBox_GfxFem,
-    .size = 32*32*1/2,
-    .tag = TAG_ICON_BOX,
-};
-
-static const struct SpritePalette sSpritePal_IconBox =
-{
-    .data = sIconBox_Pal,
-    .tag = TAG_ICON_BOX
-};
-
-static const struct SpritePalette sSpritePal_IconBoxFem =
-{
-    .data = sIconBox_PalFem,
-    .tag = TAG_ICON_BOX
-};
-
-static const union AnimCmd sSpriteAnim_IconBox0[] =
-{
-    ANIMCMD_FRAME(0, 32),
-    ANIMCMD_JUMP(0),
-};
-
-static const union AnimCmd *const sSpriteAnimTable_IconBox[] =
-{
-    sSpriteAnim_IconBox0,
-};
-
-static const struct SpriteTemplate sSpriteTemplate_IconBox =
-{
-    .tileTag = TAG_ICON_BOX,
-    .paletteTag = TAG_ICON_BOX,
-    .oam = &sOamData_IconBox,
-    .anims = sSpriteAnimTable_IconBox,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy
-};
-
-//==========UI Initialization from Ghoulslash's UI Shell Branch==========//
-void Task_OpenMainMenu(u8 taskId)
-{
-    s16 *data = gTasks[taskId].data;
-    if (!gPaletteFade.active)
-    {   
-        switch (data[0]) // This data[0] comes from the main_menu.c Task_DisplayMainMenu, 
-        {                //  where the UI is initialized by swapping a task func with this one 
-            case HAS_NO_SAVED_GAME:
-            default:
-                SetMainCallback2(CB2_NewGameBirchSpeech_FromNewMainMenu);
-                DestroyTask(taskId);
-                return;
-            case HAS_SAVED_GAME:       
-            case HAS_MYSTERY_GIFT:
-            case HAS_MYSTERY_EVENTS:
-                menuType = data[0];
-                break;
-        }
-        CleanupOverworldWindowsAndTilemaps();
-        MainMenu_Init(CB2_InitTitleScreen); // if need to bail go to title screen
-        DestroyTask(taskId);
-    }
-}
-
-//
-//  Setup Menu Functions
-//
-void MainMenu_Init(MainCallback callback)
-{
-    u32 i = 0;
-    if ((sMainMenuDataPtr = AllocZeroed(sizeof(struct MainMenuResources))) == NULL)
-    {
-        SetMainCallback2(callback);
-        return;
-    }
-    
-    // initialize stuff
-    sMainMenuDataPtr->gfxLoadState = 0;
-    sMainMenuDataPtr->savedCallback = callback;
-    for(i = 0; i < 6; i++)
-    {
-        sMainMenuDataPtr->iconBoxSpriteIds[i] = SPRITE_NONE;
-        sMainMenuDataPtr->iconMonSpriteIds[i] = SPRITE_NONE;
-    }
-    
-    SetMainCallback2(MainMenu_RunSetup);
-}
-
-static void MainMenu_RunSetup(void)
-{
-    while (1)
-    {
-        if (MainMenu_DoGfxSetup() == TRUE)
-            break;
-    }
-}
 
 static void MainMenu_MainCB(void)
 {
@@ -470,55 +247,171 @@ static void MainMenu_VBlankCB(void)
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
-
-    // Initialize HBlank DMA transfer for the scanline effect
     ScanlineEffect_InitHBlankDmaTransfer();
 }
 
-//
-//  Quit Out Functions
-//
-static void MainMenu_FreeResources(void)
+static void UpdateCursor(void)
 {
-    try_free(sMainMenuDataPtr);
-    try_free(sBg1TilemapBuffer);
-    try_free(sBg2TilemapBuffer);
-    FreeAllWindowBuffers();
-    DestroyMugshot();
-    DestroyIconShadow();
-    DestroyMonIcons();
-    DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
-}
-
-static void Task_MainMenuWaitFadeAndBail(u8 taskId)
-{
-    if (!gPaletteFade.active)
+    static const s16 positions[][2] = {{16, 72}, {8, 144}, {128, 144}};
+    if (sMainMenu->cursorSpriteId != SPRITE_NONE)
     {
-        SetMainCallback2(sMainMenuDataPtr->savedCallback);
-        MainMenu_FreeResources();
-        DestroyTask(taskId);
+        gSprites[sMainMenu->cursorSpriteId].x = positions[sSelectedOption][0];
+        gSprites[sMainMenu->cursorSpriteId].y = positions[sSelectedOption][1];
     }
 }
 
-static void MainMenu_FadeAndBail(void)
+static void PrintText(u8 window, u8 x, u8 y, const u8 *text)
 {
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-    CreateTask(Task_MainMenuWaitFadeAndBail, 0);
-    SetVBlankCallback(MainMenu_VBlankCB);
-    SetMainCallback2(MainMenu_MainCB);
+    static const u8 colors[] = {0, 1, 2};
+    AddTextPrinterParameterized4(window, FONT_NORMAL, x, y, 0, 0, colors, TEXT_SKIP_DRAW, text);
 }
 
-static void Task_MainMenuWaitFadeIn(u8 taskId)
+static void InitWindowsAndPortrait(void)
 {
-    if (!gPaletteFade.active)
-        gTasks[taskId].func = Task_MainMenuMain;
-}
+    u32 i, x, y;
+    u32 gender = gSaveBlock2Ptr->playerGender == FEMALE ? FEMALE : MALE;
+    u32 variant = gSaveBlock2Ptr->currOutfitPalette;
+    u32 dexCount = 0;
+    u8 mapName[MAP_NAME_LENGTH + 1];
 
-static void Task_MainMenuTurnOff(u8 taskId)
-{
-    if (!gPaletteFade.active)
+    if (variant >= 4)
+        variant = 0;
+    InitWindows(sWindowTemplates);
+    DeactivateAllTextPrinters();
+    LoadPalette(sTextPalette, 15 * 16, sizeof(sTextPalette));
+    LoadPalette(sPortraitPalettes[gender][variant], 13 * 16, 32);
+    LoadPalette(sPortraitBgPalette, 14 * 16, 32);
+    LoadBgTiles(0, sPortraits[gender][variant], 48 * 48 / 2, PORTRAIT_TILE);
+    LoadBgTiles(3, sPortraitBgTiles, sizeof(sPortraitBgTiles), PORTRAIT_BG_TILE);
+    for (i = 0; i < WIN_COUNT; i++)
     {
+        FillWindowPixelBuffer(i, PIXEL_FILL(0));
+        PutWindowTilemap(i);
+    }
+    // Each portrait is six tiles wide; BG3 supplies the separate backdrop.
+    for (y = 0; y < 6; y++)
+    {
+        for (x = 0; x < 6; x++)
+        {
+            FillBgTilemapBufferRect(0, PORTRAIT_TILE + y * 6 + x, 4 + x, 6 + y, 1, 1, 13);
+            FillBgTilemapBufferRect(3, PORTRAIT_BG_TILE + y * 6 + x, 4 + x, 6 + y, 1, 1, 14);
+        }
+    }
+    // Box centers are x = 72, 60, and 180; account for each window's origin.
+    PrintText(WIN_HEADER, GetStringCenterAlignXOffset(FONT_NORMAL, sTextContinue, 96), 0, sTextContinue);
+    PrintText(WIN_INFO, 0, 0, gSaveBlock2Ptr->playerName);
+    GetMapName(mapName, GetCurrentRegionMapSectionId(), 0);
+    PrintText(WIN_INFO, 0, 16, mapName);
+    if (FlagGet(FLAG_SYS_POKEDEX_GET))
+        dexCount = IsNationalPokedexEnabled() ? GetNationalPokedexCount(FLAG_GET_CAUGHT) : GetHoennPokedexCount(FLAG_GET_CAUGHT);
+    ConvertIntToDecimalStringN(gStringVar1, dexCount, STR_CONV_MODE_LEFT_ALIGN, 4);
+    StringExpandPlaceholders(gStringVar4, sTextDex);
+    PrintText(WIN_INFO, 0, 32, gStringVar4);
+    ConvertIntToDecimalStringN(gStringVar1, gSaveBlock2Ptr->playTimeHours, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(gStringVar2, gSaveBlock2Ptr->playTimeMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+    StringExpandPlaceholders(gStringVar4, sTextTime);
+    PrintText(WIN_INFO, 0, 48, gStringVar4);
+    PrintText(WIN_NEW_GAME, GetStringCenterAlignXOffset(FONT_NORMAL, sTextNewGame, 72), 0, sTextNewGame);
+    PrintText(WIN_OPTIONS, GetStringCenterAlignXOffset(FONT_NORMAL, sTextOptions, 72), 0, sTextOptions);
+    for (i = 0; i < WIN_COUNT; i++)
+        CopyWindowToVram(i, COPYWIN_FULL);
+    ScheduleBgCopyTilemapToVram(0);
+    ScheduleBgCopyTilemapToVram(3);
+}
+
+void MainMenu_Init(MainCallback callback)
+{
+    sMainMenu = AllocZeroed(sizeof(*sMainMenu));
+    if (sMainMenu == NULL)
+    {
+        SetMainCallback2(callback);
+        return;
+    }
+    sMainMenu->savedCallback = callback;
+    sMainMenu->cursorSpriteId = SPRITE_NONE;
+    if (sSelectedOption > OPTION_OPTIONS)
+        sSelectedOption = OPTION_CONTINUE;
+    gMain.state = 0;
+    SetMainCallback2(MainMenu_RunSetup);
+}
+
+void Task_OpenMainMenu(u8 taskId)
+{
+    if (gPaletteFade.active)
+        return;
+    if (gTasks[taskId].data[0] == 0)
+        SetMainCallback2(CB2_NewGameBirchSpeech_FromNewMainMenu);
+    else
+    {
+        CleanupOverworldWindowsAndTilemaps();
+        MainMenu_Init(CB2_InitTitleScreen);
+    }
+    DestroyTask(taskId);
+}
+
+static void MainMenu_FreeResources(void)
+{
+    ScanlineEffect_Stop();
+    SetVBlankCallback(NULL);
+    ResetSpriteData();
+    FreeAllSpritePalettes();
+    FreeAllWindowBuffers();
+    UnsetBgTilemapBuffer(1);
+    UnsetBgTilemapBuffer(2);
+    UnsetBgTilemapBuffer(3);
+    if (sMainMenu->panelTiles != NULL)
+        Free(sMainMenu->panelTiles);
+    Free(sMainMenu);
+    sMainMenu = NULL;
+}
+
+static void DrawCrystalProgress(void)
+{
+    u32 crystal, x, y;
+
+    for (crystal = 0; crystal < ARRAY_COUNT(sCrystalFlags); crystal++)
+    {
+        u16 *entry = &sMainMenu->panelTilemap[CRYSTAL_ROW_Y * 32 + CRYSTAL_ROW_X + crystal];
+        u16 originalTile = *entry;
+        u8 *dest = sMainMenu->panelTiles + PANEL_TILE_BYTES + crystal * 64;
+
+        if (!FlagGet(sCrystalFlags[crystal]))
+            continue;
+
+        // Composite onto the existing panel so transparent pixels keep its artwork.
+        for (y = 0; y < 8; y++)
+        {
+            for (x = 0; x < 8; x++)
+            {
+                u32 sourceX = (originalTile & 0x400) ? 7 - x : x;
+                u32 sourceY = (originalTile & 0x800) ? 7 - y : y;
+                u8 pixel = sCrystalTiles[crystal * 64 + y * 8 + x];
+
+                dest[y * 8 + x] = sMainMenu->panelTiles[(originalTile & 0x3FF) * 64 + sourceY * 8 + sourceX];
+                if (pixel != 0)
+                    dest[y * 8 + x] = CRYSTAL_PALETTE_OFFSET + pixel;
+            }
+        }
+        *entry = PANEL_TILE_BYTES / 64 + crystal;
+    }
+}
+
+static void MainMenu_RunSetup(void)
+{
+    u32 i;
+    switch (gMain.state)
+    {
+    case 0:
+        SetVBlankHBlankCallbacksToNull();
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
+        ResetVramOamAndBgCntRegs();
+        DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
+        ClearScheduledBgCopiesToVram();
+        ScanlineEffect_Stop();
+        FreeAllSpritePalettes();
+        ResetPaletteFade();
+        ResetSpriteData();
+        ResetTasks();
         SetGpuReg(REG_OFFSET_WIN0H, 0);
         SetGpuReg(REG_OFFSET_WIN0V, 0);
         SetGpuReg(REG_OFFSET_WIN1H, 0);
@@ -528,574 +421,127 @@ static void Task_MainMenuTurnOff(u8 taskId)
         SetGpuReg(REG_OFFSET_BLDCNT, 0);
         SetGpuReg(REG_OFFSET_BLDALPHA, 0);
         SetGpuReg(REG_OFFSET_BLDY, 0);
-        SetMainCallback2(sMainMenuDataPtr->savedCallback);
-        MainMenu_FreeResources();
-        DestroyTask(taskId);
-    }
-}
-
-
-//
-//  Load Graphics Functions
-//
-static bool8 MainMenu_DoGfxSetup(void)
-{
-    switch (gMain.state)
-    {
-    case 0:
-        DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000)
-        SetGpuReg(REG_OFFSET_DISPCNT, 0);
-        SetGpuReg(REG_OFFSET_WIN0H, 0);
-        SetGpuReg(REG_OFFSET_WIN0V, 0);
-        SetGpuReg(REG_OFFSET_WININ, 0);
-        SetGpuReg(REG_OFFSET_WINOUT, 0);
-        SetGpuReg(REG_OFFSET_BLDCNT, 0);
-        SetGpuReg(REG_OFFSET_BLDALPHA, 0);
-        SetGpuReg(REG_OFFSET_BLDY, 0);
-        SetVBlankHBlankCallbacksToNull();
-        ClearScheduledBgCopiesToVram();
-        ResetVramOamAndBgCntRegs();
-        gMain.state++;
-        break;
-    case 1:
-        ScanlineEffect_Stop();
-        FreeAllSpritePalettes();
-        ResetPaletteFade();
-        ResetSpriteData();
-        ResetTasks();
-        MainMenu_InitializeGPUWindows();
-        gMain.state++;
-        break;
-    case 2:
-        if (MainMenu_InitBgs())
+        ResetAllBgsCoordinates();
+        ResetBgsAndClearDma3BusyFlags(0);
+        InitBgsFromTemplates(0, sBgTemplates, ARRAY_COUNT(sBgTemplates));
+        SetBgTilemapBuffer(1, sMainMenu->panelTilemap);
+        SetBgTilemapBuffer(2, sMainMenu->waterTilemap);
+        SetBgTilemapBuffer(3, sMainMenu->portraitTilemap);
+        sMainMenu->panelTiles = Alloc(PANEL_TILE_BYTES + sizeof(sCrystalTiles));
+        if (sMainMenu->panelTiles == NULL)
         {
-            sMainMenuDataPtr->gfxLoadState = 0;
-            gMain.state++;
+            MainCallback callback = sMainMenu->savedCallback;
+            MainMenu_FreeResources();
+            SetMainCallback2(callback);
+            return;
         }
-        else
+        DecompressDataWithHeaderWram(sPanelTiles, sMainMenu->panelTiles);
+        // Index 30 is the supplied magenta backdrop. Index 1 duplicates white 0.
+        for (i = 0; i < PANEL_TILE_BYTES; i++)
         {
-            MainMenu_FadeAndBail();
-            return TRUE;
+            if (sMainMenu->panelTiles[i] == 0)
+                sMainMenu->panelTiles[i] = 1;
+            else if (sMainMenu->panelTiles[i] == 30)
+                sMainMenu->panelTiles[i] = 0;
         }
-        break;
-    case 3:
-        if (MainMenu_LoadGraphics() == TRUE)
-            gMain.state++;
-        break;
-    case 4:
-        LoadMessageBoxAndBorderGfx();
-        MainMenu_InitWindows();
-        gMain.state++;
-        break;
-    case 5: // Here is where the sprites are drawn and text is printed
-        PrintToWindow(WINDOW_HEADER, FONT_WHITE);
-        CreateIconShadow();
-        CreatePartyMonIcons();
-        CreateMugshot();
-        InitParallaxEffect(); // Initialize the parallax effect
-            // Enable HBlank interrupts
-        EnableInterrupts(INTR_FLAG_HBLANK);
-
-        CreateTask(Task_MainMenuWaitFadeIn, 0);
-        BlendPalettes(0xFFFFFFFF, 16, RGB_BLACK);
-        gMain.state++;
-        break;
-    case 6:
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
-        gMain.state++;
-        break;
-    default:
-        SetVBlankCallback(MainMenu_VBlankCB);
-        SetMainCallback2(MainMenu_MainCB);
-        return TRUE;
-    }
-    return FALSE;
-}
-
-static bool8 MainMenu_InitBgs(void)
-{
-    ResetAllBgsCoordinates();
-    ResetBgsAndClearDma3BusyFlags(0);
-    InitBgsFromTemplates(0, sMainMenuBgTemplates, NELEMS(sMainMenuBgTemplates));
-
-    sBg1TilemapBuffer = Alloc(0x800);
-    if (sBg1TilemapBuffer == NULL)
-        return FALSE;
-    memset(sBg1TilemapBuffer, 0, 0x800);
-    SetBgTilemapBuffer(1, sBg1TilemapBuffer);
-    ScheduleBgCopyTilemapToVram(1);
-
-    sBg2TilemapBuffer = Alloc(0x800);
-    if (sBg2TilemapBuffer == NULL)
-        return FALSE;
-    memset(sBg2TilemapBuffer, 0, 0x800);
-    SetBgTilemapBuffer(2, sBg2TilemapBuffer);
-    ScheduleBgCopyTilemapToVram(2);
-
-    ShowBg(0);
-    ShowBg(1);
-    ShowBg(2);
-    return TRUE;
-}
-
-static void MainMenu_InitializeGPUWindows(void) // This function creates the windows that highlight an option and cover mystery options when not enabled
-{
-    SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_WIN1_ON | DISPCNT_WIN0_ON | DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP); // Turn on Windows 0 and 1 and Enable Sprites
-    SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(HWinCoords[sSelectedOption].winh.left, HWinCoords[sSelectedOption].winh.right));  // Set Window 0 width/height Which defines the not darkened space
-    SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(HWinCoords[sSelectedOption].winv.left, HWinCoords[sSelectedOption].winv.right));
-    switch(menuType)
-    {
-            case HAS_SAVED_GAME:    // The three Window 1 states either block out the mystery buttons both, just the mystery event, or nothing. 
-                SetGpuReg(REG_OFFSET_WIN1H,  WIN_RANGE(HWinCoords[HW_WIN_MYSTERY_BOTH].winh.left, HWinCoords[HW_WIN_MYSTERY_BOTH].winh.right));
-                SetGpuReg(REG_OFFSET_WIN1V,  WIN_RANGE(HWinCoords[HW_WIN_MYSTERY_BOTH].winv.left, HWinCoords[HW_WIN_MYSTERY_BOTH].winv.right));
-                break;   
-            case HAS_MYSTERY_GIFT:
-                SetGpuReg(REG_OFFSET_WIN1H,  WIN_RANGE(HWinCoords[HW_WIN_MYSTERY_EVENT].winh.left, HWinCoords[HW_WIN_MYSTERY_EVENT].winh.right));
-                SetGpuReg(REG_OFFSET_WIN1V,  WIN_RANGE(HWinCoords[HW_WIN_MYSTERY_EVENT].winv.left, HWinCoords[HW_WIN_MYSTERY_EVENT].winv.right));
-                break;
-        }
-
-    SetGpuReg(REG_OFFSET_WININ, (WININ_WIN1_BG0 | WININ_WIN1_BG2) | (WININ_WIN0_BG_ALL | WININ_WIN0_OBJ)); // Set Win 0 Active everywhere, Win 1 active on everything except bg 1 
-    SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_ALL);                                                                     // where the main tiles are so the window hides whats behind it
-    SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_EFFECT_DARKEN | BLDCNT_TGT1_BG0 | BLDCNT_TGT1_BG1 | BLDCNT_TGT1_OBJ);   // Set Darken Effect on things not in the window on bg 0, 1, and sprite layer
-    SetGpuReg(REG_OFFSET_BLDY, 7);  // Set Level of Darken effect, can be changed 0-16
-}
-
-static void MoveHWindowsWithInput(void) // Update GPU windows after selection is changed
-{
-    SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(HWinCoords[sSelectedOption].winh.left, HWinCoords[sSelectedOption].winh.right));
-    SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(HWinCoords[sSelectedOption].winv.left, HWinCoords[sSelectedOption].winv.right));
-}
-
-static bool8 MainMenu_LoadGraphics(void) // Load all the tilesets, tilemaps, spritesheets, and palettes
-{
-    switch (sMainMenuDataPtr->gfxLoadState)
-    {
-    case 0:
-        ResetTempTileDataBuffers();
-        if (gSaveBlock2Ptr->playerGender == MALE)
-        {
-            DecompressAndCopyTileDataToVram(1, sMainBgTiles, 0, 0, 0);
-        }
-        else
-        {
-            DecompressAndCopyTileDataToVram(1, sMainBgTilesFem, 0, 0, 0);
-        }
-        sMainMenuDataPtr->gfxLoadState++;
-        break;
-    case 1:
-        if (FreeTempTileDataBuffersIfPossible() != TRUE)
-        {
-            if (gSaveBlock2Ptr->playerGender == MALE)
-            {
-                DecompressDataWithHeaderVram(sMainBgTilemap, sBg1TilemapBuffer);
-            }
-            else
-            {
-                DecompressDataWithHeaderVram(sMainBgTilemapFem, sBg1TilemapBuffer);
-            }
-            sMainMenuDataPtr->gfxLoadState++;
-        }
-        break;
-    case 2:
+        CopyToBgTilemapBufferRect(1, sPanelTilemap, 0, 0, 30, 20);
+        DrawCrystalProgress();
+        LoadBgTiles(1, sMainMenu->panelTiles, PANEL_TILE_BYTES + sizeof(sCrystalTiles), 0);
         ResetTempTileDataBuffers();
         DecompressAndCopyTileDataToVram(2, sScrollBgTiles, 0, 0, 0);
-        sMainMenuDataPtr->gfxLoadState++;
+        gMain.state++;
         break;
-    case 3:
-        if (FreeTempTileDataBuffersIfPossible() != TRUE)
-        {
-            DecompressDataWithHeaderVram(sScrollBgTilemap, sBg2TilemapBuffer);
-            sMainMenuDataPtr->gfxLoadState++;
-        }
+    case 1:
+        if (FreeTempTileDataBuffersIfPossible() || IsDma3ManagerBusyWithBgCopy())
+            return;
+        Free(sMainMenu->panelTiles);
+        sMainMenu->panelTiles = NULL;
+        DecompressDataWithHeaderWram(sScrollBgTilemap, sMainMenu->waterTilemap);
+        // Relocate the water's original palette bank 1 beyond the panel's 32 colors.
+        for (i = 0; i < ARRAY_COUNT(sMainMenu->waterTilemap); i++)
+            sMainMenu->waterTilemap[i] = (sMainMenu->waterTilemap[i] & 0x0FFF) | (2 << 12);
+        LoadPalette(sPanelPalette, 0, 32 * sizeof(u16));
+        LoadPalette(sScrollBgPalette, 2 * 16, 32);
+        LoadPalette(sCrystalPalette, CRYSTAL_PALETTE_OFFSET, CRYSTAL_PALETTE_COLORS * sizeof(u16));
+        LoadCompressedSpriteSheet(&sCursorSheet);
+        LoadSpritePalette(&sCursorPal);
+        InitWindowsAndPortrait();
+        ScheduleBgCopyTilemapToVram(1);
+        ScheduleBgCopyTilemapToVram(2);
+        gMain.state++;
         break;
-    case 4:
-    {
-        const struct CompressedSpriteSheet mugshotSheet = {GetCurrentOutfitMugshot(GFX), 64 * 64 / 2, TAG_MUGSHOT};
-        const struct SpritePalette mugshotPalette = {GetCurrentOutfitMugshot(PAL), TAG_MUGSHOT};
+    case 2:
+        if (IsDma3ManagerBusyWithBgCopy())
+            return;
+        sMainMenu->cursorSpriteId = CreateSprite(&sCursorTemplate, 0, 0, 0);
+        UpdateCursor();
+        InitParallaxEffect();
+        SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
+        for (i = 0; i < 4; i++)
+            ShowBg(i);
+        BlendPalettes(PALETTES_ALL, 16, RGB_BLACK);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
+        CreateTask(Task_MainMenuInput, 0);
+        SetVBlankCallback(MainMenu_VBlankCB);
+        SetMainCallback2(MainMenu_MainCB);
+        break;
+    }
+}
 
-        if(gSaveBlock2Ptr->playerGender == MALE)
+static void Task_MainMenuExit(u8 taskId)
+{
+    MainCallback callback;
+    if (gPaletteFade.active)
+        return;
+    callback = sMainMenu->savedCallback;
+    SetGpuReg(REG_OFFSET_DISPCNT, 0);
+    MainMenu_FreeResources();
+    DestroyTask(taskId);
+    SetMainCallback2(callback);
+}
+
+static void Task_MainMenuInput(u8 taskId)
+{
+    u8 previous = sSelectedOption;
+    if (gPaletteFade.active)
+        return;
+    if (JOY_NEW(A_BUTTON | B_BUTTON))
+    {
+        if (JOY_NEW(B_BUTTON))
         {
-            LoadCompressedSpriteSheet(&sSpriteSheet_IconBox);
-            LoadSpritePalette(&sSpritePal_IconBox);
-            LoadPalette(sMainBgPalette, 0, 32);
+            PlaySE(SE_PC_OFF);
+            sMainMenu->savedCallback = CB2_InitTitleScreen;
+            sSelectedOption = OPTION_CONTINUE;
         }
         else
         {
-            LoadCompressedSpriteSheet(&sSpriteSheet_IconBoxFem);
-            LoadSpritePalette(&sSpritePal_IconBoxFem);
-            LoadPalette(sMainBgPaletteFem, 0, 32);
+            PlaySE(SE_SELECT);
+            switch (sSelectedOption)
+            {
+            case OPTION_CONTINUE:
+                sMainMenu->savedCallback = CB2_ContinueSavedGame;
+                break;
+            case OPTION_NEW_GAME:
+                sMainMenu->savedCallback = CB2_NewGameBirchSpeech_FromNewMainMenu;
+                sSelectedOption = OPTION_CONTINUE;
+                break;
+            case OPTION_OPTIONS:
+                gMain.savedCallback = CB2_ReinitMainMenu;
+                sMainMenu->savedCallback = CB2_InitOptionMenu;
+                break;
+            }
         }
-        LoadCompressedSpriteSheet(&mugshotSheet);
-        LoadSpritePalette(&mugshotPalette);
-        LoadPalette(sScrollBgPalette, 16, 32);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+        gTasks[taskId].func = Task_MainMenuExit;
+        return;
     }
-        sMainMenuDataPtr->gfxLoadState++;
-        break;
-    default:
-        sMainMenuDataPtr->gfxLoadState = 0;
-        return TRUE;
-    }
-    return FALSE;
-}
-
-static void MainMenu_InitWindows(void) // Init Text Windows
-{
-    InitWindows(sMainMenuWindowTemplates);
-    DeactivateAllTextPrinters();
-    ScheduleBgCopyTilemapToVram(0);
-    
-    FillWindowPixelBuffer(WINDOW_HEADER, 0);
-    PutWindowTilemap(WINDOW_HEADER);
-    CopyWindowToVram(WINDOW_HEADER, 3);
-
-    FillWindowPixelBuffer(WINDOW_MIDDLE, 0);
-    PutWindowTilemap(WINDOW_MIDDLE);
-    CopyWindowToVram(WINDOW_MIDDLE, 3);
-}
-
-
-/*    Sprite Creation Functions     */
-
-//
-//      Mugshot Functions
-//
-static void CreateMugshot()
-{
-    sMainMenuDataPtr->mugshotSpriteId = CreateSprite(&sSpriteTemplate_Mugshot, 48, 56, 1);
-    gSprites[sMainMenuDataPtr->mugshotSpriteId].invisible = FALSE;
-    StartSpriteAnim(&gSprites[sMainMenuDataPtr->mugshotSpriteId], 0);
-    gSprites[sMainMenuDataPtr->mugshotSpriteId].oam.priority = 0;
-    return;
-}
-
-static void DestroyMugshot()
-{
-    DestroySprite(&gSprites[sMainMenuDataPtr->mugshotSpriteId]);
-    sMainMenuDataPtr->mugshotSpriteId = SPRITE_NONE;
-}
-
-//
-//  Create Mon Icon and Shadow Sprites
-//
-#define ICON_BOX_1_START_X          136 + 8
-#define ICON_BOX_1_START_Y          38
-#define ICON_BOX_X_DIFFERENCE       32
-#define ICON_BOX_Y_DIFFERENCE       32
-static void CreateIconShadow()
-{
-    u8 i = 0;
-
-    sMainMenuDataPtr->iconBoxSpriteIds[0] = CreateSprite(&sSpriteTemplate_IconBox, ICON_BOX_1_START_X + (ICON_BOX_X_DIFFERENCE * 0), ICON_BOX_1_START_Y, 2);
-    sMainMenuDataPtr->iconBoxSpriteIds[1] = CreateSprite(&sSpriteTemplate_IconBox, ICON_BOX_1_START_X + (ICON_BOX_X_DIFFERENCE * 1), ICON_BOX_1_START_Y, 2);
-    sMainMenuDataPtr->iconBoxSpriteIds[2] = CreateSprite(&sSpriteTemplate_IconBox, ICON_BOX_1_START_X + (ICON_BOX_X_DIFFERENCE * 2), ICON_BOX_1_START_Y, 2);
-    
-    sMainMenuDataPtr->iconBoxSpriteIds[3] = CreateSprite(&sSpriteTemplate_IconBox, ICON_BOX_1_START_X + (ICON_BOX_X_DIFFERENCE * 0), ICON_BOX_1_START_Y + (ICON_BOX_Y_DIFFERENCE * 1), 2);
-    sMainMenuDataPtr->iconBoxSpriteIds[4] = CreateSprite(&sSpriteTemplate_IconBox, ICON_BOX_1_START_X + (ICON_BOX_X_DIFFERENCE * 1), ICON_BOX_1_START_Y + (ICON_BOX_Y_DIFFERENCE * 1), 2);
-    sMainMenuDataPtr->iconBoxSpriteIds[5] = CreateSprite(&sSpriteTemplate_IconBox, ICON_BOX_1_START_X + (ICON_BOX_X_DIFFERENCE * 2), ICON_BOX_1_START_Y + (ICON_BOX_Y_DIFFERENCE * 1), 2);
-
-    for(i = 0; i < gPlayerPartyCount; i++)
-    {
-        gSprites[sMainMenuDataPtr->iconBoxSpriteIds[i]].invisible = FALSE;
-        StartSpriteAnim(&gSprites[sMainMenuDataPtr->iconBoxSpriteIds[i]], 0);
-        gSprites[sMainMenuDataPtr->iconBoxSpriteIds[i]].oam.priority = 1;
-    }
-
-    for(i = gPlayerPartyCount; i < 6; i++) // Hide Shadows For Mons that don't exist
-    {
-        gSprites[sMainMenuDataPtr->iconBoxSpriteIds[i]].invisible = TRUE;
-    }
-
-    return;
-}
-
-static void DestroyIconShadow()
-{
-    u8 i = 0;
-    for(i = 0; i < gPlayerPartyCount; i++)
-    {
-        DestroySprite(&gSprites[sMainMenuDataPtr->iconBoxSpriteIds[i]]);
-        sMainMenuDataPtr->iconBoxSpriteIds[i] = SPRITE_NONE;
-    }
-}
-
-static u32 GetHPEggCyclePercent(u32 partyIndex) // Random HP function from psf's hack written by Rioluwott
-{
-    struct Pokemon *mon = &gPlayerParty[partyIndex];
-    if (!GetMonData(mon, MON_DATA_IS_EGG))
-        return ((GetMonData(mon, MON_DATA_HP)) * 100 / (GetMonData(mon,MON_DATA_MAX_HP)));
-    else
-        return ((GetMonData(mon, MON_DATA_FRIENDSHIP)) * 100 / (gSpeciesInfo[GetMonData(mon,MON_DATA_SPECIES)].eggCycles));
-}
-
-static void CreatePartyMonIcons()
-{
-    u8 i = 0;
-    s16 x = ICON_BOX_1_START_X;
-    s16 y = ICON_BOX_1_START_Y;
-    struct Pokemon *mon;
-    LoadMonIconPalettes();
-    for(i = 0; i < gPlayerPartyCount; i++)
-    {   
-        switch (i) // choose position for each icon
-        {
-            case 0:
-                x = ICON_BOX_1_START_X;
-                y = ICON_BOX_1_START_Y;
-                break;
-            case 1:
-                x = ICON_BOX_1_START_X + ICON_BOX_X_DIFFERENCE;
-                y = ICON_BOX_1_START_Y;
-                break;
-            case 2:
-                x = ICON_BOX_1_START_X + (ICON_BOX_X_DIFFERENCE * 2);
-                y = ICON_BOX_1_START_Y;
-                break;
-            case 3:
-                x = ICON_BOX_1_START_X;
-                y = ICON_BOX_1_START_Y + (ICON_BOX_Y_DIFFERENCE * 1);
-                break;
-            case 4:
-                x = ICON_BOX_1_START_X + ICON_BOX_X_DIFFERENCE;
-                y = ICON_BOX_1_START_Y + (ICON_BOX_X_DIFFERENCE * 1);
-                break;
-            case 5:
-                x = ICON_BOX_1_START_X + (ICON_BOX_X_DIFFERENCE * 2);
-                y = ICON_BOX_1_START_Y + (ICON_BOX_Y_DIFFERENCE * 1);
-                break;
-        }
-
-#ifdef RHH_EXPANSION
-            sMainMenuDataPtr->iconMonSpriteIds[i] = CreateMonIcon(GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG), SpriteCB_MonIcon, x, y - 2, 0, GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY));
-#else
-            sMainMenuDataPtr->iconMonSpriteIds[i] = CreateMonIcon(GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG), SpriteCB_MonIcon, x, y - 2, 0, GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY), TRUE);
-#endif
-
-        gSprites[sMainMenuDataPtr->iconMonSpriteIds[i]].oam.priority = 0;
-
-        if (GetHPEggCyclePercent(i) == 0)
-        {
-            gSprites[sMainMenuDataPtr->iconMonSpriteIds[i]].callback = SpriteCallbackDummy;
-        }
-
-    }
-}
-
-static void DestroyMonIcons()
-{
-    u8 i = 0;
-    for(i = 0; i < 6; i++)
-    {
-        DestroySprite(&gSprites[sMainMenuDataPtr->iconMonSpriteIds[i]]);
-        sMainMenuDataPtr->iconMonSpriteIds[i] = SPRITE_NONE;
-    }
-}
-
-
-//
-//  Print The Text For Dex Num, Badges, Name, Playtime, Location
-//
-static const u8 sText_DexNum[] = _("Dex {STR_VAR_1}");
-static const u8 sText_Badges[] = _(" ");
-static void PrintToWindow(u8 windowId, u8 colorIdx)
-{
-    const u8 colors[3] = {0,  2,  3}; 
-    u8 mapDisplayHeader[24];
-    u8 *withoutPrefixPtr, *playTimePtr;
-    u16 dexCount = 0; u8 badgeCount = 0;
-    u32 i = 0;
-
-    FillWindowPixelBuffer(WINDOW_HEADER, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
-    FillWindowPixelBuffer(WINDOW_MIDDLE, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
-
-    // Print Map Name In Header
-    withoutPrefixPtr = &(mapDisplayHeader[3]);
-    GetMapName(withoutPrefixPtr, GetCurrentRegionMapSectionId(), 0);
-    mapDisplayHeader[0] = EXT_CTRL_CODE_BEGIN;
-    mapDisplayHeader[1] = EXT_CTRL_CODE_HIGHLIGHT;
-    mapDisplayHeader[2] = TEXT_COLOR_TRANSPARENT;
-    AddTextPrinterParameterized4(WINDOW_HEADER, FONT_NARROW, GetStringCenterAlignXOffset(FONT_NARROW, withoutPrefixPtr, 10 * 8), 1, 0, 0, colors, 0xFF, mapDisplayHeader);
-
-    // Print Playtime In Header
-    playTimePtr = ConvertIntToDecimalStringN(gStringVar4, gSaveBlock2Ptr->playTimeHours, STR_CONV_MODE_LEFT_ALIGN, 3);
-    *playTimePtr = 0xF0;
-    ConvertIntToDecimalStringN(playTimePtr + 1, gSaveBlock2Ptr->playTimeMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
-    AddTextPrinterParameterized4(WINDOW_HEADER, FONT_NORMAL, (104 - 12) + GetStringRightAlignXOffset(FONT_NORMAL, gStringVar4, (6*8)), 1, 0, 0, colors, TEXT_SKIP_DRAW, gStringVar4);
-
-    // Print Dex Numbers if You Have It
-    if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
-    {
-        if (IsNationalPokedexEnabled())
-            dexCount = GetNationalPokedexCount(FLAG_GET_CAUGHT);
-        else
-            dexCount = GetHoennPokedexCount(FLAG_GET_CAUGHT);
-        ConvertIntToDecimalStringN(gStringVar1, dexCount, STR_CONV_MODE_RIGHT_ALIGN, 4);
-        StringExpandPlaceholders(gStringVar4, sText_DexNum);
-        AddTextPrinterParameterized4(WINDOW_MIDDLE, FONT_NORMAL, 8 + 8, 16 + 2, 0, 0, colors, TEXT_SKIP_DRAW, gStringVar4);
-    }
-
-    // Print Badge Numbers if You Have Them
-    for (i = FLAG_BADGE01_GET; i < FLAG_BADGE01_GET + NUM_BADGES; i++)
-    {
-        if (FlagGet(i))
-            badgeCount++;
-    } 
-    ConvertIntToDecimalStringN(gStringVar1, badgeCount, STR_CONV_MODE_LEADING_ZEROS, 1);
-    StringExpandPlaceholders(gStringVar4, sText_Badges);
-    AddTextPrinterParameterized4(WINDOW_MIDDLE, FONT_NORMAL, 16, 32 + 2, 0, 0, colors, TEXT_SKIP_DRAW, gStringVar4);
-
-    // Print Player Name
-    AddTextPrinterParameterized3(WINDOW_MIDDLE, FONT_NORMAL, 16, 2, colors, TEXT_SKIP_DRAW, gSaveBlock2Ptr->playerName);
-
-    PutWindowTilemap(WINDOW_HEADER);
-    CopyWindowToVram(WINDOW_HEADER, 3);
-    PutWindowTilemap(WINDOW_MIDDLE);
-    CopyWindowToVram(WINDOW_MIDDLE, 3);
-}
-
-
-//
-//  Main Input Control Task
-//
-static void Task_MainMenuMain(u8 taskId)
-{
-    if (JOY_NEW(A_BUTTON)) // If Pressed A go to thing you pressed A on
+    if (JOY_NEW(DPAD_UP | DPAD_DOWN))
+        sSelectedOption = sSelectedOption == OPTION_CONTINUE ? OPTION_NEW_GAME : OPTION_CONTINUE;
+    else if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT) && sSelectedOption != OPTION_CONTINUE)
+        sSelectedOption = sSelectedOption == OPTION_NEW_GAME ? OPTION_OPTIONS : OPTION_NEW_GAME;
+    if (previous != sSelectedOption)
     {
         PlaySE(SE_SELECT);
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-        switch(sSelectedOption)
-        {
-            case HW_WIN_CONTINUE:
-                sMainMenuDataPtr->savedCallback = CB2_ContinueSavedGame;
-                sSelectedOption = HW_WIN_CONTINUE;
-                break;
-            case HW_WIN_NEW_GAME:
-                sMainMenuDataPtr->savedCallback = CB2_NewGameBirchSpeech_FromNewMainMenu;
-                sSelectedOption = HW_WIN_CONTINUE;
-                break;
-            case HW_WIN_OPTIONS:
-                gMain.savedCallback = CB2_ReinitMainMenu;
-                sMainMenuDataPtr->savedCallback = CB2_InitOptionMenu;
-                break;
-            case HW_WIN_MYSTERY_EVENT:
-                sMainMenuDataPtr->savedCallback = CB2_InitMysteryEventMenu;
-                sSelectedOption = HW_WIN_CONTINUE;
-                break;
-            case HW_WIN_MYSTERY_GIFT:
-                if((menuType == HAS_MYSTERY_EVENTS) && !(IsWirelessAdapterConnected()))
-                    //sMainMenuDataPtr->savedCallback = CB2_InitEReader;
-                    sMainMenuDataPtr->savedCallback = CB2_InitMysteryGift; // E-Reader Crashes IDK Why Exactly But You Can Uncomment It
-                else
-                    sMainMenuDataPtr->savedCallback = CB2_InitMysteryGift;
-                sSelectedOption = HW_WIN_CONTINUE;
-                break;
-        }
-        gTasks[taskId].func = Task_MainMenuTurnOff;
-    }
-
-    if (JOY_NEW(B_BUTTON)) // If B Pressed Go To Title Screen
-    {
-        PlaySE(SE_PC_OFF);
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-        sMainMenuDataPtr->savedCallback = CB2_InitTitleScreen;
-        sSelectedOption = HW_WIN_CONTINUE;
-        gTasks[taskId].func = Task_MainMenuTurnOff;
-    }
-
-    if(JOY_NEW(DPAD_DOWN)) // Handle DPad directions, kinda bad way to do it with each case handled individually but its whatever
-    {
-        switch (menuType)
-        {
-            case HAS_SAVED_GAME:
-                if(sSelectedOption == HW_WIN_CONTINUE)
-                    sSelectedOption = HW_WIN_NEW_GAME;
-                else if((sSelectedOption == HW_WIN_NEW_GAME) || (sSelectedOption == HW_WIN_OPTIONS))
-                    sSelectedOption = HW_WIN_CONTINUE;
-                break;
-            case HAS_MYSTERY_GIFT:
-                if(sSelectedOption == HW_WIN_CONTINUE)
-                    sSelectedOption = HW_WIN_NEW_GAME;
-                else if((sSelectedOption == HW_WIN_NEW_GAME) || (sSelectedOption == HW_WIN_OPTIONS))
-                    sSelectedOption = HW_WIN_MYSTERY_GIFT;
-                else
-                    sSelectedOption = HW_WIN_CONTINUE;
-                break;
-            case HAS_MYSTERY_EVENTS:
-                if(sSelectedOption == HW_WIN_CONTINUE)
-                    sSelectedOption = HW_WIN_NEW_GAME;
-                else if(sSelectedOption == HW_WIN_NEW_GAME)
-                    sSelectedOption = HW_WIN_MYSTERY_GIFT;
-                else if(sSelectedOption == HW_WIN_OPTIONS)
-                    sSelectedOption = HW_WIN_MYSTERY_EVENT;
-                else
-                    sSelectedOption = HW_WIN_CONTINUE;
-                break;
-        }
-        MoveHWindowsWithInput();
-    }
-
-    if(JOY_NEW(DPAD_UP))
-    {
-        switch (menuType)
-        {
-            case HAS_SAVED_GAME:
-                if(sSelectedOption == HW_WIN_CONTINUE)
-                    sSelectedOption = HW_WIN_NEW_GAME;
-                else if((sSelectedOption == HW_WIN_NEW_GAME) || (sSelectedOption == HW_WIN_OPTIONS))
-                    sSelectedOption = HW_WIN_CONTINUE;
-                break;
-            case HAS_MYSTERY_GIFT:
-                if(sSelectedOption == HW_WIN_CONTINUE)
-                    sSelectedOption = HW_WIN_MYSTERY_GIFT;
-                else if((sSelectedOption == HW_WIN_NEW_GAME) || (sSelectedOption == HW_WIN_OPTIONS))
-                    sSelectedOption = HW_WIN_CONTINUE;
-                else
-                    sSelectedOption = HW_WIN_NEW_GAME;
-                break;
-            case HAS_MYSTERY_EVENTS:
-                if(sSelectedOption == HW_WIN_CONTINUE)
-                    sSelectedOption = HW_WIN_MYSTERY_GIFT;
-                else if(sSelectedOption == HW_WIN_NEW_GAME)
-                    sSelectedOption = HW_WIN_CONTINUE;
-                else if(sSelectedOption == HW_WIN_OPTIONS)
-                    sSelectedOption = HW_WIN_CONTINUE;
-                else if(sSelectedOption == HW_WIN_MYSTERY_GIFT)
-                    sSelectedOption = HW_WIN_NEW_GAME;
-                else if(sSelectedOption == HW_WIN_MYSTERY_EVENT)
-                    sSelectedOption = HW_WIN_OPTIONS;
-                break;
-        }
-        MoveHWindowsWithInput();
-    }
-
-    if(JOY_NEW(DPAD_LEFT) || JOY_NEW(DPAD_RIGHT))
-    {
-        switch (menuType)
-        {
-            case HAS_SAVED_GAME:
-                if(sSelectedOption == HW_WIN_NEW_GAME)
-                    sSelectedOption = HW_WIN_OPTIONS;
-                else if(sSelectedOption == HW_WIN_OPTIONS)
-                    sSelectedOption = HW_WIN_NEW_GAME;
-                break;
-            case HAS_MYSTERY_GIFT:
-                if(sSelectedOption == HW_WIN_NEW_GAME)
-                    sSelectedOption = HW_WIN_OPTIONS;
-                else if(sSelectedOption == HW_WIN_OPTIONS)
-                    sSelectedOption = HW_WIN_NEW_GAME;
-                break;
-            case HAS_MYSTERY_EVENTS:
-                if(sSelectedOption == HW_WIN_NEW_GAME)
-                    sSelectedOption = HW_WIN_OPTIONS;
-                else if(sSelectedOption == HW_WIN_OPTIONS)
-                    sSelectedOption = HW_WIN_NEW_GAME;
-
-                else if(sSelectedOption == HW_WIN_MYSTERY_GIFT)
-                    sSelectedOption = HW_WIN_MYSTERY_EVENT;
-                else if(sSelectedOption == HW_WIN_MYSTERY_EVENT)
-                    sSelectedOption = HW_WIN_MYSTERY_GIFT;
-                break;
-        }
-        MoveHWindowsWithInput();
+        UpdateCursor();
     }
 }

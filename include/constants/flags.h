@@ -62,24 +62,25 @@
 #define FLAG_CUTSCENE_SKIP_ENABLED           0x28 // when set, cutscene skipping is enabled 
 #define FLAG_PARTY_PC_ACCESS    0x29 // When set, allows accessing the PC from the party menu via R button
 #define FLAG_ENABLE_R_TEXT_AUTOSCROLL    0x2A // When set, holding R fast-forwards field text.
-#define FLAG_UNUSED_0x02B    0x2B // Unused Flag
-#define FLAG_UNUSED_0x02C    0x2C // Unused Flag
-#define FLAG_UNUSED_0x02D    0x2D // Unused Flag
-#define FLAG_UNUSED_0x02E    0x2E // Unused Flag
-#define FLAG_UNUSED_0x02F    0x2F // Unused Flag
-#define FLAG_UNUSED_0x030    0x30 // Unused Flag
-#define FLAG_UNUSED_0x031    0x31 // Unused Flag
-#define FLAG_UNUSED_0x032    0x32 // Unused Flag
-#define FLAG_UNUSED_0x033    0x33 // Unused Flag
-#define FLAG_UNUSED_0x034    0x34 // Unused Flag
-#define FLAG_UNUSED_0x035    0x35 // Unused Flag
-#define FLAG_UNUSED_0x036    0x36 // Unused Flag
-#define FLAG_UNUSED_0x037    0x37 // Unused Flag
-#define FLAG_UNUSED_0x038    0x38 // Unused Flag
-#define FLAG_UNUSED_0x039    0x39 // Unused Flag
-#define FLAG_UNUSED_0x03A    0x3A // Unused Flag
-#define FLAG_UNUSED_0x03B    0x3B // Unused Flag
-#define FLAG_UNUSED_0x03C    0x3C // Unused Flag
+//Z-Crystal progress for the main menu.
+#define FLAG_COLLECTED_NORMALIUM_Z        0x2B
+#define FLAG_COLLECTED_FIRIUM_Z           0x2C
+#define FLAG_COLLECTED_WATERIUM_Z         0x2D
+#define FLAG_COLLECTED_ELECTRIUM_Z        0x2E
+#define FLAG_COLLECTED_GRASSIUM_Z         0x2F
+#define FLAG_COLLECTED_ICIUM_Z            0x30
+#define FLAG_COLLECTED_FIGHTINIUM_Z       0x31
+#define FLAG_COLLECTED_POISONIUM_Z        0x32
+#define FLAG_COLLECTED_GROUNDIUM_Z        0x33
+#define FLAG_COLLECTED_FLYINIUM_Z         0x34
+#define FLAG_COLLECTED_PSYCHIUM_Z         0x35
+#define FLAG_COLLECTED_BUGINIUM_Z         0x36
+#define FLAG_COLLECTED_ROCKIUM_Z          0x37
+#define FLAG_COLLECTED_GHOSTIUM_Z         0x38
+#define FLAG_COLLECTED_DRAGONIUM_Z        0x39
+#define FLAG_COLLECTED_DARKINIUM_Z        0x3A
+#define FLAG_COLLECTED_STEELIUM_Z         0x3B
+#define FLAG_COLLECTED_FAIRIUM_Z          0x3C
 #define FLAG_UNUSED_0x03D    0x3D // Unused Flag
 #define FLAG_UNUSED_0x03E    0x3E // Unused Flag
 #define FLAG_UNUSED_0x03F    0x3F // Unused Flag
