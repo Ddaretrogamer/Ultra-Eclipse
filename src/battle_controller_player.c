@@ -1890,7 +1890,7 @@ enum TrainerPicID LinkPlayerGetTrainerPicId(u32 multiplayerId)
 
     if (version != VERSION_FIRE_RED && version != VERSION_LEAF_GREEN
      && version != VERSION_RUBY && version != VERSION_SAPPHIRE
-     && outfitId < OUTFIT_COUNT)
+     && outfitId < OUTFIT_SPRITE_COUNT)
         return GetPlayerTrainerPicIdByOutfitAndGender(outfitId, gender);
 
     return GetPlayerTrainerPic(gender, version);
@@ -1903,7 +1903,7 @@ static enum TrainerPicID PlayerGetTrainerBackPicId(void)
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         trainerPicId = LinkPlayerGetTrainerPicId(GetMultiplayerId());
     else
-        trainerPicId = GetPlayerTrainerPicIdByOutfitAndGender(gSaveBlock2Ptr->currOutfitId, gSaveBlock2Ptr->playerGender);
+        trainerPicId = GetPlayerTrainerPicIdByOutfitAndGender(GetCurrentOutfitSpriteId(), gSaveBlock2Ptr->playerGender);
 
     return trainerPicId;
 }
@@ -1957,7 +1957,7 @@ static void PlayerHandleDrawTrainerPic(enum BattlerId battler)
     // Use front pic table for any tag battles unless your partner is Steven or a custom partner.
     if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
     {
-        trainerPicId = GetPlayerTrainerPicIdByOutfitAndGender(gSaveBlock2Ptr->currOutfitId, gSaveBlock2Ptr->playerGender);
+        trainerPicId = GetPlayerTrainerPicIdByOutfitAndGender(GetCurrentOutfitSpriteId(), gSaveBlock2Ptr->playerGender);
         isFrontPic = TRUE;
     }
     else // Use back pic in all the other usual circumstances.

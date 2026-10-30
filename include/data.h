@@ -389,12 +389,12 @@ static inline const u32 *GetTrainerFrontPicData(enum TrainerPicID trainerPic)
     return gTrainerPicInfo[SanitizeFrontTrainerPic(trainerPic)].frontPic->imageData;
 }
 
-const u16 *GetPlayerOutfitTrainerPalette(enum TrainerPicID trainerPic, const u16 *palette);
+const u16 *GetPlayerOutfitTrainerPalette(enum TrainerPicID trainerPic, const u16 *palette, bool32 isBack);
 
 static inline const u16 *GetTrainerFrontPicPalette(enum TrainerPicID trainerPic)
 {
     trainerPic = SanitizeFrontTrainerPic(trainerPic);
-    return GetPlayerOutfitTrainerPalette(trainerPic, gTrainerPicInfo[trainerPic].frontPic->paletteData);
+    return GetPlayerOutfitTrainerPalette(trainerPic, gTrainerPicInfo[trainerPic].frontPic->paletteData, FALSE);
 }
 
 static inline const struct Coords16 GetTrainerFrontPicMugshotCoords(enum TrainerPicID trainerPic)
@@ -425,7 +425,7 @@ static inline const union AnimCmd *const *GetTrainerBackPicAnims(enum TrainerPic
 static inline const u16 *GetTrainerBackPicPalette(enum TrainerPicID trainerPic)
 {
     trainerPic = SanitizeBackTrainerPic(trainerPic);
-    return GetPlayerOutfitTrainerPalette(trainerPic, gTrainerPicInfo[trainerPic].backPic->paletteData);
+    return GetPlayerOutfitTrainerPalette(trainerPic, gTrainerPicInfo[trainerPic].backPic->paletteData, TRUE);
 }
 
 //! outfits
@@ -445,7 +445,7 @@ struct Outfit
     const void *iconsFP; //! frontier pass
 };
 
-extern const struct Outfit gOutfits[OUTFIT_COUNT];
+extern const struct Outfit gOutfits[OUTFIT_SPRITE_COUNT];
 
 #define GFX 0
 #define PAL 1

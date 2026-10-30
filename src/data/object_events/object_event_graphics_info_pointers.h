@@ -461,7 +461,248 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreen
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenFishing;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenRiding;
 
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin1Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin1Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin1FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin1Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin1Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin1Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin1Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin1FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin1Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin1Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin2Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin2Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin2FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin2Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin2Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin2Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin2Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin2FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin2Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin2Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin3Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin3Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin3FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin3Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin3Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin3Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin3Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin3FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin3Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin3Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin4Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin4Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin4FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin4Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioTealSkin4Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin4Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin4Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin4FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin4Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneTealSkin4Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin1Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin1Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin1FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin1Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin1Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin1Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin1Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin1FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin1Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin1Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin2Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin2Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin2FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin2Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin2Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin2Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin2Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin2FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin2Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin2Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin3Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin3Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin3FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin3Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin3Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin3Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin3Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin3FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin3Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin3Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin4Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin4Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin4FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin4Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioVioletSkin4Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin4Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin4Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin4FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin4Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneVioletSkin4Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin1Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin1Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin1FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin1Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin1Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin1Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin1Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin1FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin1Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin1Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin2Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin2Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin2FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin2Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin2Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin2Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin2Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin2FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin2Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin2Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin3Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin3Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin3FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin3Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin3Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin3Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin3Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin3FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin3Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin3Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin4Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin4Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin4FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin4Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ElioGreenSkin4Riding;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin4Normal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin4Surfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin4FieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin4Fishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenSkin4Riding;
+
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_1_NORMAL] = &gObjectEventGraphicsInfo_ElioTealSkin1Normal,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_1_SURFING] = &gObjectEventGraphicsInfo_ElioTealSkin1Surfing,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_1_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioTealSkin1FieldMove,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_1_FISHING] = &gObjectEventGraphicsInfo_ElioTealSkin1Fishing,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_1_RIDING] = &gObjectEventGraphicsInfo_ElioTealSkin1Riding,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_1_NORMAL] = &gObjectEventGraphicsInfo_SeleneTealSkin1Normal,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_1_SURFING] = &gObjectEventGraphicsInfo_SeleneTealSkin1Surfing,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_1_FIELD_MOVE] = &gObjectEventGraphicsInfo_SeleneTealSkin1FieldMove,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_1_FISHING] = &gObjectEventGraphicsInfo_SeleneTealSkin1Fishing,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_1_RIDING] = &gObjectEventGraphicsInfo_SeleneTealSkin1Riding,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_2_NORMAL] = &gObjectEventGraphicsInfo_ElioTealSkin2Normal,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_2_SURFING] = &gObjectEventGraphicsInfo_ElioTealSkin2Surfing,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_2_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioTealSkin2FieldMove,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_2_FISHING] = &gObjectEventGraphicsInfo_ElioTealSkin2Fishing,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_2_RIDING] = &gObjectEventGraphicsInfo_ElioTealSkin2Riding,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_2_NORMAL] = &gObjectEventGraphicsInfo_SeleneTealSkin2Normal,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_2_SURFING] = &gObjectEventGraphicsInfo_SeleneTealSkin2Surfing,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_2_FIELD_MOVE] = &gObjectEventGraphicsInfo_SeleneTealSkin2FieldMove,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_2_FISHING] = &gObjectEventGraphicsInfo_SeleneTealSkin2Fishing,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_2_RIDING] = &gObjectEventGraphicsInfo_SeleneTealSkin2Riding,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_3_NORMAL] = &gObjectEventGraphicsInfo_ElioTealSkin3Normal,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_3_SURFING] = &gObjectEventGraphicsInfo_ElioTealSkin3Surfing,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_3_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioTealSkin3FieldMove,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_3_FISHING] = &gObjectEventGraphicsInfo_ElioTealSkin3Fishing,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_3_RIDING] = &gObjectEventGraphicsInfo_ElioTealSkin3Riding,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_3_NORMAL] = &gObjectEventGraphicsInfo_SeleneTealSkin3Normal,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_3_SURFING] = &gObjectEventGraphicsInfo_SeleneTealSkin3Surfing,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_3_FIELD_MOVE] = &gObjectEventGraphicsInfo_SeleneTealSkin3FieldMove,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_3_FISHING] = &gObjectEventGraphicsInfo_SeleneTealSkin3Fishing,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_3_RIDING] = &gObjectEventGraphicsInfo_SeleneTealSkin3Riding,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_4_NORMAL] = &gObjectEventGraphicsInfo_ElioTealSkin4Normal,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_4_SURFING] = &gObjectEventGraphicsInfo_ElioTealSkin4Surfing,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_4_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioTealSkin4FieldMove,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_4_FISHING] = &gObjectEventGraphicsInfo_ElioTealSkin4Fishing,
+    [OBJ_EVENT_GFX_ELIO_TEAL_SKIN_4_RIDING] = &gObjectEventGraphicsInfo_ElioTealSkin4Riding,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_4_NORMAL] = &gObjectEventGraphicsInfo_SeleneTealSkin4Normal,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_4_SURFING] = &gObjectEventGraphicsInfo_SeleneTealSkin4Surfing,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_4_FIELD_MOVE] = &gObjectEventGraphicsInfo_SeleneTealSkin4FieldMove,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_4_FISHING] = &gObjectEventGraphicsInfo_SeleneTealSkin4Fishing,
+    [OBJ_EVENT_GFX_SELENE_TEAL_SKIN_4_RIDING] = &gObjectEventGraphicsInfo_SeleneTealSkin4Riding,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_1_NORMAL] = &gObjectEventGraphicsInfo_ElioVioletSkin1Normal,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_1_SURFING] = &gObjectEventGraphicsInfo_ElioVioletSkin1Surfing,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_1_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioVioletSkin1FieldMove,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_1_FISHING] = &gObjectEventGraphicsInfo_ElioVioletSkin1Fishing,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_1_RIDING] = &gObjectEventGraphicsInfo_ElioVioletSkin1Riding,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_1_NORMAL] = &gObjectEventGraphicsInfo_SeleneVioletSkin1Normal,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_1_SURFING] = &gObjectEventGraphicsInfo_SeleneVioletSkin1Surfing,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_1_FIELD_MOVE] = &gObjectEventGraphicsInfo_SeleneVioletSkin1FieldMove,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_1_FISHING] = &gObjectEventGraphicsInfo_SeleneVioletSkin1Fishing,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_1_RIDING] = &gObjectEventGraphicsInfo_SeleneVioletSkin1Riding,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_2_NORMAL] = &gObjectEventGraphicsInfo_ElioVioletSkin2Normal,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_2_SURFING] = &gObjectEventGraphicsInfo_ElioVioletSkin2Surfing,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_2_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioVioletSkin2FieldMove,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_2_FISHING] = &gObjectEventGraphicsInfo_ElioVioletSkin2Fishing,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_2_RIDING] = &gObjectEventGraphicsInfo_ElioVioletSkin2Riding,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_2_NORMAL] = &gObjectEventGraphicsInfo_SeleneVioletSkin2Normal,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_2_SURFING] = &gObjectEventGraphicsInfo_SeleneVioletSkin2Surfing,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_2_FIELD_MOVE] = &gObjectEventGraphicsInfo_SeleneVioletSkin2FieldMove,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_2_FISHING] = &gObjectEventGraphicsInfo_SeleneVioletSkin2Fishing,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_2_RIDING] = &gObjectEventGraphicsInfo_SeleneVioletSkin2Riding,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_3_NORMAL] = &gObjectEventGraphicsInfo_ElioVioletSkin3Normal,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_3_SURFING] = &gObjectEventGraphicsInfo_ElioVioletSkin3Surfing,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_3_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioVioletSkin3FieldMove,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_3_FISHING] = &gObjectEventGraphicsInfo_ElioVioletSkin3Fishing,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_3_RIDING] = &gObjectEventGraphicsInfo_ElioVioletSkin3Riding,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_3_NORMAL] = &gObjectEventGraphicsInfo_SeleneVioletSkin3Normal,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_3_SURFING] = &gObjectEventGraphicsInfo_SeleneVioletSkin3Surfing,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_3_FIELD_MOVE] = &gObjectEventGraphicsInfo_SeleneVioletSkin3FieldMove,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_3_FISHING] = &gObjectEventGraphicsInfo_SeleneVioletSkin3Fishing,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_3_RIDING] = &gObjectEventGraphicsInfo_SeleneVioletSkin3Riding,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_4_NORMAL] = &gObjectEventGraphicsInfo_ElioVioletSkin4Normal,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_4_SURFING] = &gObjectEventGraphicsInfo_ElioVioletSkin4Surfing,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_4_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioVioletSkin4FieldMove,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_4_FISHING] = &gObjectEventGraphicsInfo_ElioVioletSkin4Fishing,
+    [OBJ_EVENT_GFX_ELIO_VIOLET_SKIN_4_RIDING] = &gObjectEventGraphicsInfo_ElioVioletSkin4Riding,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_4_NORMAL] = &gObjectEventGraphicsInfo_SeleneVioletSkin4Normal,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_4_SURFING] = &gObjectEventGraphicsInfo_SeleneVioletSkin4Surfing,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_4_FIELD_MOVE] = &gObjectEventGraphicsInfo_SeleneVioletSkin4FieldMove,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_4_FISHING] = &gObjectEventGraphicsInfo_SeleneVioletSkin4Fishing,
+    [OBJ_EVENT_GFX_SELENE_VIOLET_SKIN_4_RIDING] = &gObjectEventGraphicsInfo_SeleneVioletSkin4Riding,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_1_NORMAL] = &gObjectEventGraphicsInfo_ElioGreenSkin1Normal,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_1_SURFING] = &gObjectEventGraphicsInfo_ElioGreenSkin1Surfing,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_1_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioGreenSkin1FieldMove,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_1_FISHING] = &gObjectEventGraphicsInfo_ElioGreenSkin1Fishing,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_1_RIDING] = &gObjectEventGraphicsInfo_ElioGreenSkin1Riding,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_1_NORMAL] = &gObjectEventGraphicsInfo_SeleneGreenSkin1Normal,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_1_SURFING] = &gObjectEventGraphicsInfo_SeleneGreenSkin1Surfing,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_1_FIELD_MOVE] = &gObjectEventGraphicsInfo_SeleneGreenSkin1FieldMove,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_1_FISHING] = &gObjectEventGraphicsInfo_SeleneGreenSkin1Fishing,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_1_RIDING] = &gObjectEventGraphicsInfo_SeleneGreenSkin1Riding,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_2_NORMAL] = &gObjectEventGraphicsInfo_ElioGreenSkin2Normal,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_2_SURFING] = &gObjectEventGraphicsInfo_ElioGreenSkin2Surfing,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_2_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioGreenSkin2FieldMove,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_2_FISHING] = &gObjectEventGraphicsInfo_ElioGreenSkin2Fishing,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_2_RIDING] = &gObjectEventGraphicsInfo_ElioGreenSkin2Riding,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_2_NORMAL] = &gObjectEventGraphicsInfo_SeleneGreenSkin2Normal,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_2_SURFING] = &gObjectEventGraphicsInfo_SeleneGreenSkin2Surfing,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_2_FIELD_MOVE] = &gObjectEventGraphicsInfo_SeleneGreenSkin2FieldMove,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_2_FISHING] = &gObjectEventGraphicsInfo_SeleneGreenSkin2Fishing,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_2_RIDING] = &gObjectEventGraphicsInfo_SeleneGreenSkin2Riding,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_3_NORMAL] = &gObjectEventGraphicsInfo_ElioGreenSkin3Normal,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_3_SURFING] = &gObjectEventGraphicsInfo_ElioGreenSkin3Surfing,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_3_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioGreenSkin3FieldMove,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_3_FISHING] = &gObjectEventGraphicsInfo_ElioGreenSkin3Fishing,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_3_RIDING] = &gObjectEventGraphicsInfo_ElioGreenSkin3Riding,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_3_NORMAL] = &gObjectEventGraphicsInfo_SeleneGreenSkin3Normal,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_3_SURFING] = &gObjectEventGraphicsInfo_SeleneGreenSkin3Surfing,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_3_FIELD_MOVE] = &gObjectEventGraphicsInfo_SeleneGreenSkin3FieldMove,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_3_FISHING] = &gObjectEventGraphicsInfo_SeleneGreenSkin3Fishing,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_3_RIDING] = &gObjectEventGraphicsInfo_SeleneGreenSkin3Riding,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_4_NORMAL] = &gObjectEventGraphicsInfo_ElioGreenSkin4Normal,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_4_SURFING] = &gObjectEventGraphicsInfo_ElioGreenSkin4Surfing,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_4_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioGreenSkin4FieldMove,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_4_FISHING] = &gObjectEventGraphicsInfo_ElioGreenSkin4Fishing,
+    [OBJ_EVENT_GFX_ELIO_GREEN_SKIN_4_RIDING] = &gObjectEventGraphicsInfo_ElioGreenSkin4Riding,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_4_NORMAL] = &gObjectEventGraphicsInfo_SeleneGreenSkin4Normal,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_4_SURFING] = &gObjectEventGraphicsInfo_SeleneGreenSkin4Surfing,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_4_FIELD_MOVE] = &gObjectEventGraphicsInfo_SeleneGreenSkin4FieldMove,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_4_FISHING] = &gObjectEventGraphicsInfo_SeleneGreenSkin4Fishing,
+    [OBJ_EVENT_GFX_SELENE_GREEN_SKIN_4_RIDING] = &gObjectEventGraphicsInfo_SeleneGreenSkin4Riding,
     [OBJ_EVENT_GFX_ELIO_TEAL_NORMAL] = &gObjectEventGraphicsInfo_ElioTealNormal,
     [OBJ_EVENT_GFX_ELIO_TEAL_SURFING] = &gObjectEventGraphicsInfo_ElioTealSurfing,
     [OBJ_EVENT_GFX_ELIO_TEAL_FIELD_MOVE] = &gObjectEventGraphicsInfo_ElioTealFieldMove,

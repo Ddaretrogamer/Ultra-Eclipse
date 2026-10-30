@@ -570,7 +570,7 @@ void SpawnLinkPartnerObjectEvent(void)
     };
     u8 myLinkPlayerNumber;
     enum Direction playerFacingDirection;
-    u8 linkSpriteId;
+    u16 linkSpriteId;
     u8 i;
 
     myLinkPlayerNumber = GetMultiplayerId();
@@ -617,7 +617,7 @@ void SpawnLinkPartnerObjectEvent(void)
             default:
             {
                 u8 outfit = gLinkPlayers[i].currOutfitId, gender = gLinkPlayers[i].gender;
-                if (outfit < OUTFIT_COUNT)
+                if (outfit < OUTFIT_SPRITE_COUNT)
                     linkSpriteId = GetLinkPlayerAvatarGraphicsIdByStateIdLinkIdAndGender(PLAYER_AVATAR_STATE_NORMAL, i, gender);
                 else
                     linkSpriteId = (gender == 0) ? OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL : OBJ_EVENT_GFX_RIVAL_MAY_NORMAL;

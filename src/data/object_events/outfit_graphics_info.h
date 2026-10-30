@@ -543,3 +543,123 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SeleneGreenRiding 
     .images = sPicTable_SeleneGreenRiding,
     .affineAnims = gDummySpriteAffineAnimTable,
 };
+
+// Independent outfit/skin graphics retain the established animation layout.
+#define OUTFIT_SKIN_GRAPHICS_INFO(name, palTag) \
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_##name##Normal = { \
+    .tileTag = TAG_NONE, \
+    .paletteTag = palTag, \
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION, \
+    .size = 512, \
+    .width = 16, \
+    .height = 32, \
+    .paletteSlot = PALSLOT_PLAYER, \
+    .shadowSize = SHADOW_SIZE_M, \
+    .inanimate = FALSE, \
+    .compressed = FALSE, \
+    .tracks = TRACKS_FOOT, \
+    .oam = &gObjectEventBaseOam_16x32, \
+    .subspriteTables = sOamTables_16x32, \
+    .anims = sAnimTable_BrendanMayNormal, \
+    .images = sPicTable_##name##Normal, \
+}; \
+ \
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_##name##Surfing = { \
+    .tileTag = TAG_NONE, \
+    .paletteTag = palTag, \
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_NONE, \
+    .size = 512, \
+    .width = 32, \
+    .height = 32, \
+    .paletteSlot = PALSLOT_PLAYER, \
+    .shadowSize = SHADOW_SIZE_M, \
+    .inanimate = FALSE, \
+    .compressed = FALSE, \
+    .tracks = TRACKS_FOOT, \
+    .oam = &gObjectEventBaseOam_32x32, \
+    .subspriteTables = sOamTables_32x32, \
+    .anims = sAnimTable_Surfing, \
+    .images = sPicTable_##name##Surfing, \
+}; \
+ \
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_##name##FieldMove = { \
+    .tileTag = TAG_NONE, \
+    .paletteTag = palTag, \
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION, \
+    .size = 512, \
+    .width = 32, \
+    .height = 32, \
+    .paletteSlot = PALSLOT_PLAYER, \
+    .shadowSize = SHADOW_SIZE_M, \
+    .inanimate = FALSE, \
+    .compressed = FALSE, \
+    .tracks = TRACKS_FOOT, \
+    .oam = &gObjectEventBaseOam_32x32, \
+    .subspriteTables = sOamTables_32x32, \
+    .anims = sAnimTable_FieldMove, \
+    .images = sPicTable_##name##FieldMove, \
+}; \
+ \
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_##name##Fishing = { \
+    .tileTag = TAG_NONE, \
+    .paletteTag = palTag, \
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION, \
+    .size = 512, \
+    .width = 32, \
+    .height = 32, \
+    .paletteSlot = PALSLOT_PLAYER, \
+    .shadowSize = SHADOW_SIZE_M, \
+    .inanimate = FALSE, \
+    .compressed = FALSE, \
+    .tracks = TRACKS_FOOT, \
+    .oam = &gObjectEventBaseOam_32x32, \
+    .subspriteTables = sOamTables_32x32, \
+    .anims = sAnimTable_Fishing, \
+    .images = sPicTable_##name##Fishing, \
+}; \
+ \
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_##name##Riding = { \
+    .tileTag = TAG_NONE, \
+    .paletteTag = palTag, \
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION, \
+    .size = 256, \
+    .width = 16, \
+    .height = 32, \
+    .paletteSlot = PALSLOT_PLAYER, \
+    .shadowSize = SHADOW_SIZE_M, \
+    .inanimate = FALSE, \
+    .compressed = FALSE, \
+    .tracks = TRACKS_FOOT, \
+    .oam = &gObjectEventBaseOam_16x32, \
+    .subspriteTables = sOamTables_16x32, \
+    .anims = sAnimTable_BrendanMayNormal, \
+    .images = sPicTable_##name##Riding, \
+    .affineAnims = gDummySpriteAffineAnimTable, \
+};
+
+OUTFIT_SKIN_GRAPHICS_INFO(ElioTealSkin1, OBJ_EVENT_PAL_TAG_ELIO_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(SeleneTealSkin1, OBJ_EVENT_PAL_TAG_SELENE_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(ElioTealSkin2, OBJ_EVENT_PAL_TAG_ELIO_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(SeleneTealSkin2, OBJ_EVENT_PAL_TAG_SELENE_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(ElioTealSkin3, OBJ_EVENT_PAL_TAG_ELIO_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(SeleneTealSkin3, OBJ_EVENT_PAL_TAG_SELENE_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(ElioTealSkin4, OBJ_EVENT_PAL_TAG_ELIO_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(SeleneTealSkin4, OBJ_EVENT_PAL_TAG_SELENE_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(ElioVioletSkin1, OBJ_EVENT_PAL_TAG_ELIO_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(SeleneVioletSkin1, OBJ_EVENT_PAL_TAG_SELENE_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(ElioVioletSkin2, OBJ_EVENT_PAL_TAG_ELIO_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(SeleneVioletSkin2, OBJ_EVENT_PAL_TAG_SELENE_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(ElioVioletSkin3, OBJ_EVENT_PAL_TAG_ELIO_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(SeleneVioletSkin3, OBJ_EVENT_PAL_TAG_SELENE_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(ElioVioletSkin4, OBJ_EVENT_PAL_TAG_ELIO_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(SeleneVioletSkin4, OBJ_EVENT_PAL_TAG_SELENE_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(ElioGreenSkin1, OBJ_EVENT_PAL_TAG_ELIO_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(SeleneGreenSkin1, OBJ_EVENT_PAL_TAG_SELENE_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(ElioGreenSkin2, OBJ_EVENT_PAL_TAG_ELIO_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(SeleneGreenSkin2, OBJ_EVENT_PAL_TAG_SELENE_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(ElioGreenSkin3, OBJ_EVENT_PAL_TAG_ELIO_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(SeleneGreenSkin3, OBJ_EVENT_PAL_TAG_SELENE_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(ElioGreenSkin4, OBJ_EVENT_PAL_TAG_ELIO_TEAL)
+OUTFIT_SKIN_GRAPHICS_INFO(SeleneGreenSkin4, OBJ_EVENT_PAL_TAG_SELENE_TEAL)
+
+#undef OUTFIT_SKIN_GRAPHICS_INFO

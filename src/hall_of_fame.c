@@ -695,7 +695,7 @@ static void Task_Hof_WaitToDisplayPlayer(u8 taskId)
 
 static void Task_Hof_DisplayPlayer(u8 taskId)
 {
-    u16 picId = GetPlayerTrainerPicIdByOutfitAndGender(gSaveBlock2Ptr->currOutfitId, gSaveBlock2Ptr->playerGender);
+    u16 picId = GetPlayerTrainerPicIdByOutfitAndGender(GetCurrentOutfitSpriteId(), gSaveBlock2Ptr->playerGender);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
     ShowBg(0);
     ShowBg(1);

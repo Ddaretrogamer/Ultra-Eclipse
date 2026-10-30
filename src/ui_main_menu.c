@@ -1,6 +1,7 @@
 #include "global.h"
 #include "ui_main_menu.h"
 #include "bg.h"
+#include "data.h"
 #include "decompress.h"
 #include "event_data.h"
 #include "gpu_regs.h"
@@ -12,6 +13,7 @@
 #include "menu_helpers.h"
 #include "option_menu.h"
 #include "overworld.h"
+#include "outfit_menu.h"
 #include "palette.h"
 #include "pokedex.h"
 #include "region_map.h"
@@ -88,33 +90,6 @@ static const u32 sScrollBgTilemap[] = INCGFX_U32("graphics/ui_main_menu/waterscr
 static const u16 sScrollBgPalette[] = INCGFX_U16("graphics/ui_main_menu/waterscroll.png", ".gbapal");
 static const u16 sPortraitBgTiles[] = INCGFX_U16("graphics/ui_main_menu/sm/mugshot_BG.png", ".4bpp");
 static const u16 sPortraitBgPalette[] = INCGFX_U16("graphics/ui_main_menu/sm/mugshot_BG.png", ".gbapal");
-static const u16 sPortrait_male1[] = INCGFX_U16("graphics/ui_main_menu/sm/male_1.png", ".4bpp");
-static const u16 sPalette_male1[] = INCGFX_U16("graphics/ui_main_menu/sm/male_1.png", ".gbapal");
-static const u16 sPortrait_male2[] = INCGFX_U16("graphics/ui_main_menu/sm/male_2.png", ".4bpp");
-static const u16 sPalette_male2[] = INCGFX_U16("graphics/ui_main_menu/sm/male_2.png", ".gbapal");
-static const u16 sPortrait_male3[] = INCGFX_U16("graphics/ui_main_menu/sm/male_3.png", ".4bpp");
-static const u16 sPalette_male3[] = INCGFX_U16("graphics/ui_main_menu/sm/male_3.png", ".gbapal");
-static const u16 sPortrait_male4[] = INCGFX_U16("graphics/ui_main_menu/sm/male_4.png", ".4bpp");
-static const u16 sPalette_male4[] = INCGFX_U16("graphics/ui_main_menu/sm/male_4.png", ".gbapal");
-static const u16 sPortrait_female1[] = INCGFX_U16("graphics/ui_main_menu/sm/female_1.png", ".4bpp");
-static const u16 sPalette_female1[] = INCGFX_U16("graphics/ui_main_menu/sm/female_1.png", ".gbapal");
-static const u16 sPortrait_female2[] = INCGFX_U16("graphics/ui_main_menu/sm/female_2.png", ".4bpp");
-static const u16 sPalette_female2[] = INCGFX_U16("graphics/ui_main_menu/sm/female_2.png", ".gbapal");
-static const u16 sPortrait_female3[] = INCGFX_U16("graphics/ui_main_menu/sm/female_3.png", ".4bpp");
-static const u16 sPalette_female3[] = INCGFX_U16("graphics/ui_main_menu/sm/female_3.png", ".gbapal");
-static const u16 sPortrait_female4[] = INCGFX_U16("graphics/ui_main_menu/sm/female_4.png", ".4bpp");
-static const u16 sPalette_female4[] = INCGFX_U16("graphics/ui_main_menu/sm/female_4.png", ".gbapal");
-
-static const u16 *const sPortraits[2][4] =
-{
-    {sPortrait_male1, sPortrait_male2, sPortrait_male3, sPortrait_male4},
-    {sPortrait_female1, sPortrait_female2, sPortrait_female3, sPortrait_female4},
-};
-static const u16 *const sPortraitPalettes[2][4] =
-{
-    {sPalette_male1, sPalette_male2, sPalette_male3, sPalette_male4},
-    {sPalette_female1, sPalette_female2, sPalette_female3, sPalette_female4},
-};
 static const u32 sCursorTiles[] = INCGFX_U32("graphics/ui_main_menu/sm/cursor.png", ".4bpp.lz");
 static const u16 sCursorPalette[] = INCGFX_U16("graphics/ui_main_menu/sm/cursor.png", ".gbapal");
 static const struct CompressedSpriteSheet sCursorSheet = {sCursorTiles, 16 * 16 / 2 * 3, TAG_CURSOR};
@@ -269,19 +244,15 @@ static void PrintText(u8 window, u8 x, u8 y, const u8 *text)
 static void InitWindowsAndPortrait(void)
 {
     u32 i, x, y;
-    u32 gender = gSaveBlock2Ptr->playerGender == FEMALE ? FEMALE : MALE;
-    u32 variant = gSaveBlock2Ptr->currOutfitPalette;
     u32 dexCount = 0;
     u8 mapName[MAP_NAME_LENGTH + 1];
 
-    if (variant >= 4)
-        variant = 0;
     InitWindows(sWindowTemplates);
     DeactivateAllTextPrinters();
     LoadPalette(sTextPalette, 15 * 16, sizeof(sTextPalette));
-    LoadPalette(sPortraitPalettes[gender][variant], 13 * 16, 32);
+    LoadPalette(GetCurrentOutfitMugshot(PAL), 13 * 16, 32);
     LoadPalette(sPortraitBgPalette, 14 * 16, 32);
-    LoadBgTiles(0, sPortraits[gender][variant], 48 * 48 / 2, PORTRAIT_TILE);
+    LoadBgTiles(0, GetCurrentOutfitMugshot(GFX), 48 * 48 / 2, PORTRAIT_TILE);
     LoadBgTiles(3, sPortraitBgTiles, sizeof(sPortraitBgTiles), PORTRAIT_BG_TILE);
     for (i = 0; i < WIN_COUNT; i++)
     {

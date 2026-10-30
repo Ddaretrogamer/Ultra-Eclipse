@@ -3735,6 +3735,7 @@ bool8 GetSetItemObtained(enum Item item, enum ItemObtainFlags caseId)
 }
 
 EWRAM_DATA static u8 sHeaderBoxWindowId = 0;
+EWRAM_DATA static enum Item sItemDescriptionItem = ITEM_NONE;
 EWRAM_DATA u8 sItemIconSpriteId = 0;
 EWRAM_DATA u8 sItemIconSpriteId2 = 0;
 
@@ -3809,6 +3810,9 @@ void ScriptShowItemDescription(struct ScriptContext *ctx)
     else
         dst = gStringVar1;
 
+    sItemDescriptionItem = item;
+    sHeaderBoxWindowId = WINDOW_NONE;
+
     if (GetSetItemObtained(item, FLAG_GET_ITEM_OBTAINED))
     {
         ShowItemIconSprite(item, FALSE, handleFlash);
@@ -3837,18 +3841,23 @@ void ScriptHideItemDescription(struct ScriptContext *ctx)
     if (OW_SHOW_ITEM_DESCRIPTIONS == OW_ITEM_DESCRIPTIONS_OFF)
         return;
 
+    // Cutscene skips can run before the popup opens or after it closes.
+    if (sItemDescriptionItem == ITEM_NONE)
+        return;
+
     Script_RequestEffects(SCREFF_V1 | SCREFF_SAVE | SCREFF_HARDWARE);
 
     DestroyItemIconSprite();
 
-    if (!GetSetItemObtained(gSpecialVar_0x8006, FLAG_GET_ITEM_OBTAINED))
+    if (sHeaderBoxWindowId != WINDOW_NONE)
     {
-        //header box only exists if haven't seen item before
-        GetSetItemObtained(gSpecialVar_0x8006, FLAG_SET_ITEM_OBTAINED);
+        GetSetItemObtained(sItemDescriptionItem, FLAG_SET_ITEM_OBTAINED);
         ClearStdWindowAndFrameToTransparent(sHeaderBoxWindowId, FALSE);
         CopyWindowToVram(sHeaderBoxWindowId, 3);
         RemoveWindow(sHeaderBoxWindowId);
+        sHeaderBoxWindowId = WINDOW_NONE;
     }
+    sItemDescriptionItem = ITEM_NONE;
 }
 
 static void ShowItemIconSprite(enum Item item, bool8 firstTime, bool8 flash)
@@ -3892,23 +3901,28 @@ static void ShowItemIconSprite(enum Item item, bool8 firstTime, bool8 flash)
         gSprites[spriteId2].y2 = y;
         gSprites[spriteId2].oam.priority = 0;
         gSprites[spriteId2].oam.objMode = ST_OAM_OBJ_WINDOW;
-        sItemIconSpriteId2 = spriteId2;
     }
 
     sItemIconSpriteId = iconSpriteId;
+    sItemIconSpriteId2 = spriteId2;
 }
 
 static void DestroyItemIconSprite(void)
 {
     FreeSpriteTilesByTag(ITEM_TAG);
     FreeSpritePaletteByTag(ITEM_TAG);
-    FreeSpriteOamMatrix(&gSprites[sItemIconSpriteId]);
-    DestroySprite(&gSprites[sItemIconSpriteId]);
+    if (sItemIconSpriteId != MAX_SPRITES)
+    {
+        FreeSpriteOamMatrix(&gSprites[sItemIconSpriteId]);
+        DestroySprite(&gSprites[sItemIconSpriteId]);
+        sItemIconSpriteId = MAX_SPRITES;
+    }
 
-    if ((GetFlashLevel() > 0 || InBattlePyramid_()) && sItemIconSpriteId2 != MAX_SPRITES)
+    if (sItemIconSpriteId2 != MAX_SPRITES)
     {
         FreeSpriteOamMatrix(&gSprites[sItemIconSpriteId2]);
         DestroySprite(&gSprites[sItemIconSpriteId2]);
+        sItemIconSpriteId2 = MAX_SPRITES;
     }
 }
 

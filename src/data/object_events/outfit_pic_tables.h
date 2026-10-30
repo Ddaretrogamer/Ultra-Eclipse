@@ -249,3 +249,74 @@ static const struct SpriteFrameImage sPicTable_SeleneGreenRiding[] = {
     overworld_frame(gObjectEventPic_SeleneGreenRiding, 2, 4, 3),   
     overworld_frame(gObjectEventPic_SeleneGreenRiding, 2, 4, 3),   
 };
+
+// Independent outfit/skin frame tables.
+#define OUTFIT_SKIN_PIC_TABLES(name) \
+static const struct SpriteFrameImage sPicTable_##name##Normal[] = { \
+    overworld_ascending_frames(gObjectEventPic_##name##NormalRunning, 2, 4), \
+}; \
+ \
+static const struct SpriteFrameImage sPicTable_##name##Surfing[] = { \
+    overworld_frame(gObjectEventPic_##name##Surfing, 4, 4, 0), \
+    overworld_frame(gObjectEventPic_##name##Surfing, 4, 4, 2), \
+    overworld_frame(gObjectEventPic_##name##Surfing, 4, 4, 4), \
+    overworld_frame(gObjectEventPic_##name##Surfing, 4, 4, 0), \
+    overworld_frame(gObjectEventPic_##name##Surfing, 4, 4, 0), \
+    overworld_frame(gObjectEventPic_##name##Surfing, 4, 4, 2), \
+    overworld_frame(gObjectEventPic_##name##Surfing, 4, 4, 2), \
+    overworld_frame(gObjectEventPic_##name##Surfing, 4, 4, 4), \
+    overworld_frame(gObjectEventPic_##name##Surfing, 4, 4, 4), \
+    overworld_frame(gObjectEventPic_##name##Surfing, 4, 4, 1), \
+    overworld_frame(gObjectEventPic_##name##Surfing, 4, 4, 3), \
+    overworld_frame(gObjectEventPic_##name##Surfing, 4, 4, 5), \
+}; \
+ \
+static const struct SpriteFrameImage sPicTable_##name##FieldMove[] = { \
+    overworld_ascending_frames(gObjectEventPic_##name##FieldMove, 4, 4), \
+}; \
+ \
+static const struct SpriteFrameImage sPicTable_##name##Fishing[] = { \
+    overworld_ascending_frames(gObjectEventPic_##name##Fishing, 4, 4), \
+}; \
+ \
+static const struct SpriteFrameImage sPicTable_##name##Riding[] = { \
+    overworld_frame(gObjectEventPic_##name##Riding, 2, 4, 0), \
+    overworld_frame(gObjectEventPic_##name##Riding, 2, 4, 1), \
+    overworld_frame(gObjectEventPic_##name##Riding, 2, 4, 2), \
+    overworld_frame(gObjectEventPic_##name##Riding, 2, 4, 3),    \
+    overworld_frame(gObjectEventPic_##name##Riding, 2, 4, 0), \
+    overworld_frame(gObjectEventPic_##name##Riding, 2, 4, 0), \
+    overworld_frame(gObjectEventPic_##name##Riding, 2, 4, 1), \
+    overworld_frame(gObjectEventPic_##name##Riding, 2, 4, 1), \
+    overworld_frame(gObjectEventPic_##name##Riding, 2, 4, 2), \
+    overworld_frame(gObjectEventPic_##name##Riding, 2, 4, 2), \
+    overworld_frame(gObjectEventPic_##name##Riding, 2, 4, 3),    \
+    overworld_frame(gObjectEventPic_##name##Riding, 2, 4, 3),    \
+};
+
+OUTFIT_SKIN_PIC_TABLES(ElioTealSkin1)
+OUTFIT_SKIN_PIC_TABLES(SeleneTealSkin1)
+OUTFIT_SKIN_PIC_TABLES(ElioTealSkin2)
+OUTFIT_SKIN_PIC_TABLES(SeleneTealSkin2)
+OUTFIT_SKIN_PIC_TABLES(ElioTealSkin3)
+OUTFIT_SKIN_PIC_TABLES(SeleneTealSkin3)
+OUTFIT_SKIN_PIC_TABLES(ElioTealSkin4)
+OUTFIT_SKIN_PIC_TABLES(SeleneTealSkin4)
+OUTFIT_SKIN_PIC_TABLES(ElioVioletSkin1)
+OUTFIT_SKIN_PIC_TABLES(SeleneVioletSkin1)
+OUTFIT_SKIN_PIC_TABLES(ElioVioletSkin2)
+OUTFIT_SKIN_PIC_TABLES(SeleneVioletSkin2)
+OUTFIT_SKIN_PIC_TABLES(ElioVioletSkin3)
+OUTFIT_SKIN_PIC_TABLES(SeleneVioletSkin3)
+OUTFIT_SKIN_PIC_TABLES(ElioVioletSkin4)
+OUTFIT_SKIN_PIC_TABLES(SeleneVioletSkin4)
+OUTFIT_SKIN_PIC_TABLES(ElioGreenSkin1)
+OUTFIT_SKIN_PIC_TABLES(SeleneGreenSkin1)
+OUTFIT_SKIN_PIC_TABLES(ElioGreenSkin2)
+OUTFIT_SKIN_PIC_TABLES(SeleneGreenSkin2)
+OUTFIT_SKIN_PIC_TABLES(ElioGreenSkin3)
+OUTFIT_SKIN_PIC_TABLES(SeleneGreenSkin3)
+OUTFIT_SKIN_PIC_TABLES(ElioGreenSkin4)
+OUTFIT_SKIN_PIC_TABLES(SeleneGreenSkin4)
+
+#undef OUTFIT_SKIN_PIC_TABLES

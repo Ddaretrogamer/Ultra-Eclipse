@@ -1,4 +1,5 @@
 #include "global.h"
+#include "outfit_menu.h"
 #include "constants/flags.h"
 #include "constants/species.h"
 #include "constants/event_objects.h"
@@ -608,9 +609,9 @@ void DetransformPlayer(struct ScriptContext *ctx)
 
 static u16 GetRiderGfxId(const struct RideMonInfo *info, u8 gender)
 {
-    u8 outfit = gSaveBlock2Ptr->currOutfitId;
+    u8 outfit = GetCurrentOutfitSpriteId();
 
-    if (outfit != OUTFIT_NONE && outfit != DEFAULT_OUTFIT && outfit < OUTFIT_COUNT
+    if (outfit != OUTFIT_NONE && outfit != DEFAULT_OUTFIT && outfit < OUTFIT_SPRITE_COUNT
      && gOutfits[outfit].riderGfxIds[gender] != 0)
         return gOutfits[outfit].riderGfxIds[gender];
 

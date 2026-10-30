@@ -1,4 +1,5 @@
 #include "global.h"
+#include "outfit_menu.h"
 #include "m4a.h"
 #include "malloc.h"
 #include "reload_save.h"
@@ -322,7 +323,7 @@ static void InitLocalLinkPlayer(void)
     {
         gLocalLinkPlayer.progressFlags |= 0x10;
     }
-    gLocalLinkPlayer.currOutfitId = gSaveBlock2Ptr->currOutfitId;
+    gLocalLinkPlayer.currOutfitId = GetCurrentOutfitSpriteId();
 }
 
 static void VBlankCB_LinkError(void)

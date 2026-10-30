@@ -1898,7 +1898,7 @@ static void CreateTrainerCardTrainerPic(void)
     else
     {
         //! TODO: Support outfits on linking
-        u16 picId = GetPlayerTrainerPicIdByOutfitAndGender(gSaveBlock2Ptr->currOutfitId, sData->trainerCard.gender);
+        u16 picId = GetPlayerTrainerPicIdByOutfitAndGender(GetCurrentOutfitSpriteId(), sData->trainerCard.gender);
         CreateTrainerCardTrainerPicSprite(picId,
                     TRUE,
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],

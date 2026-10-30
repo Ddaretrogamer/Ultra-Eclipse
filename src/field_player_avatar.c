@@ -1,4 +1,5 @@
 #include "global.h"
+#include "outfit_menu.h"
 #include "main.h"
 #include "bike.h"
 #include "data.h"
@@ -1411,7 +1412,7 @@ static void PlayerRunSlow(enum Direction direction)
     }
     else if (FlagGet(FLAG_PLAYER_IS_POKEMON))
     {
-        // Default behavior for other PokÃ©mon forms
+        // Default behavior for other Pokémon forms
         PlayerSetAnimId(GetWalkFastMovementAction(direction), COPY_MOVE_WALK);
     }
     else
@@ -1459,7 +1460,7 @@ static void PlayerRun(enum Direction direction)
     }
     else if (FlagGet(FLAG_PLAYER_IS_POKEMON))
     {
-        // Default behavior for other PokÃ©mon forms
+        // Default behavior for other Pokémon forms
         PlayerSetAnimId(GetWalkFastMovementAction(direction), COPY_MOVE_WALK);
     }
     else
@@ -1798,7 +1799,7 @@ u16 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, enum Gender gender)
     if (IsPlayerTransformed())
         return GetPlayerTransformGraphicsId();
 
-    return GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(gSaveBlock2Ptr->currOutfitId, state, gender);
+    return GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(GetCurrentOutfitSpriteId(), state, gender);
 }
 
 u16 GetFRLGAvatarGraphicsIdByGender(enum Gender gender)
@@ -1823,6 +1824,9 @@ u16 GetPlayerAvatarGraphicsIdByStateId(u8 state)
 
 enum Gender GetPlayerAvatarGenderByGraphicsId(u16 gfxId)
 {
+    if (gfxId >= OBJ_EVENT_GFX_ELIO_TEAL_SKIN_1_NORMAL
+     && gfxId <= OBJ_EVENT_GFX_SELENE_GREEN_SKIN_4_RIDING)
+        return ((gfxId - OBJ_EVENT_GFX_ELIO_TEAL_SKIN_1_NORMAL) / 5) % GENDER_COUNT;
     switch (gfxId)
     {
     case OBJ_EVENT_GFX_SELENE_TEAL_NORMAL:
@@ -1861,7 +1865,7 @@ enum Gender GetPlayerAvatarGenderByGraphicsId(u16 gfxId)
     }
 }
 
-u8 GetLinkPlayerAvatarGraphicsIdByStateIdLinkIdAndGender(u8 state, u8 linkId, enum Gender gender)
+u16 GetLinkPlayerAvatarGraphicsIdByStateIdLinkIdAndGender(u8 state, u8 linkId, enum Gender gender)
 {
     return GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(gLinkPlayers[linkId].currOutfitId, state, gender);
 }
@@ -1939,7 +1943,7 @@ static u8 GetPlayerAvatarStateTransitionByGraphicsId(u16 graphicsId, u8 gender)
     for (i = 0; i < ARRAY_COUNT(sPlayerAvatarGfxToStateFlag[0]); i++)
     {
         if (sPlayerAvatarGfxToStateFlag[gender][i].graphicsId == graphicsId
-         || GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(gSaveBlock2Ptr->currOutfitId, i, gender) == graphicsId)
+         || GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(GetCurrentOutfitSpriteId(), i, gender) == graphicsId)
             return sPlayerAvatarGfxToStateFlag[gender][i].playerFlag;
     }
     return PLAYER_AVATAR_FLAG_ON_FOOT;

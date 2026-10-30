@@ -4121,7 +4121,7 @@ static void DisplayTrainerInfoOnCard(u8 flags, u8 trainerTourneyId)
     int x = 0, y = 0;
     u8 palSlot = 0;
     s16 *allocatedArray = AllocZeroed(sizeof(s16) * ALLOC_ARRAY_SIZE);
-    u32 trainerPic = GetPlayerTrainerPicIdByOutfitAndGender(gSaveBlock2Ptr->currOutfitId, gSaveBlock2Ptr->playerGender);
+    u32 trainerPic = GetPlayerTrainerPicIdByOutfitAndGender(GetCurrentOutfitSpriteId(), gSaveBlock2Ptr->playerGender);
     trainerId = DOME_TRAINERS[trainerTourneyId].trainerId;
 
     if (flags & CARD_ALTERNATE_SLOT)
@@ -4640,7 +4640,7 @@ static void DisplayMatchInfoOnCard(u8 flags, u8 matchNo)
     int windowId = 0;
     int x = 0, y = 0;
     u8 palSlot = 0;
-    u16 picId = GetPlayerTrainerPicIdByOutfitAndGender(gSaveBlock2Ptr->currOutfitId, gSaveBlock2Ptr->playerGender);
+    u16 picId = GetPlayerTrainerPicIdByOutfitAndGender(GetCurrentOutfitSpriteId(), gSaveBlock2Ptr->playerGender);
 
     if (flags & CARD_ALTERNATE_SLOT)
         arrId = 2 * (FRONTIER_PARTY_SIZE + 1), windowId = NUM_INFO_CARD_WINDOWS, palSlot = 2;

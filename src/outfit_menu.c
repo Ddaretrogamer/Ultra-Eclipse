@@ -175,6 +175,30 @@ static const u16 sCursorSprite_Pal[] = INCBIN_U16("graphics/outfit_menu/cursor.g
 
 static EWRAM_DATA OutfitMenuResources *sOutfitMenu = NULL;
 
+// Saved outfit and skin are independent axes; neither is a graphics-slot ID.
+u32 GetOutfitSpriteId(u32 outfit, u32 skin)
+{
+    static const u8 spriteIds[OUTFIT_COUNT][OUTFIT_SKIN_COUNT] =
+    {
+        [OUTFIT_USUAL_GREEN] = { OUTFIT_SPRITE_DEFAULT, OUTFIT_SPRITE_MEDIUM, OUTFIT_SPRITE_DARK, OUTFIT_SPRITE_FAIR },
+        [OUTFIT_UNUSUAL_RED] = { OUTFIT_UNUSUAL_RED, OUTFIT_UNUSUAL_RED, OUTFIT_UNUSUAL_RED, OUTFIT_UNUSUAL_RED },
+        [OUTFIT_TEAL] = { OUTFIT_SPRITE_TEAL_SKIN_1, OUTFIT_SPRITE_TEAL_SKIN_2, OUTFIT_SPRITE_TEAL_SKIN_3, OUTFIT_SPRITE_TEAL_SKIN_4 },
+        [OUTFIT_VIOLET] = { OUTFIT_SPRITE_VIOLET_SKIN_1, OUTFIT_SPRITE_VIOLET_SKIN_2, OUTFIT_SPRITE_VIOLET_SKIN_3, OUTFIT_SPRITE_VIOLET_SKIN_4 },
+        [OUTFIT_GREEN] = { OUTFIT_SPRITE_GREEN_SKIN_1, OUTFIT_SPRITE_GREEN_SKIN_2, OUTFIT_SPRITE_GREEN_SKIN_3, OUTFIT_SPRITE_GREEN_SKIN_4 },
+    };
+
+    if (outfit == OUTFIT_NONE || outfit >= OUTFIT_COUNT)
+        outfit = DEFAULT_OUTFIT;
+    if (skin >= OUTFIT_SKIN_COUNT)
+        skin = 0;
+    return spriteIds[outfit][skin];
+}
+
+u32 GetCurrentOutfitSpriteId(void)
+{
+    return GetOutfitSpriteId(gSaveBlock2Ptr->currOutfitId, GetSavedOutfitPalette());
+}
+
 static u32 GetOutfitPaletteCount(u32 outfitId)
 {
     return outfitId < OUTFIT_COUNT && sOutfitPaletteSets[outfitId].overworld[MALE][0] != NULL
@@ -190,44 +214,55 @@ static u32 GetSavedOutfitPalette(void)
 static const u16 *GetOutfitOverworldPalette(u32 outfitId, u32 paletteIndex)
 {
     u32 gfxId;
-    if (paletteIndex != 0 && paletteIndex < GetOutfitPaletteCount(outfitId))
-        return sOutfitPaletteSets[outfitId].overworld[gSaveBlock2Ptr->playerGender][paletteIndex - 1];
+    if (outfitId < OUTFIT_COUNT && paletteIndex < GetOutfitPaletteCount(outfitId)
+     && sOutfitPaletteSets[outfitId].overworld[gSaveBlock2Ptr->playerGender][paletteIndex] != NULL)
+        return sOutfitPaletteSets[outfitId].overworld[gSaveBlock2Ptr->playerGender][paletteIndex];
 
-    gfxId = GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(outfitId, PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender);
+    gfxId = GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(GetOutfitSpriteId(outfitId, paletteIndex), PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender);
     return GetObjectEventPaletteFromTag(GetObjectEventGraphicsInfo(gfxId)->paletteTag)->data;
 }
 
 const u16 *GetCurrentOutfitObjectPalette(u16 paletteTag, const u16 *palette)
 {
     u32 paletteIndex = GetSavedOutfitPalette();
-    u32 gfxId = GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(gSaveBlock2Ptr->currOutfitId,
+    u32 gfxId = GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(GetCurrentOutfitSpriteId(),
                                                                PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender);
     u32 playerTag = GetObjectEventGraphicsInfo(gfxId)->paletteTag;
-    if (paletteIndex != 0 && paletteTag == playerTag)
-        return sOutfitPaletteSets[gSaveBlock2Ptr->currOutfitId].overworld[gSaveBlock2Ptr->playerGender][paletteIndex - 1];
+    if (gSaveBlock2Ptr->currOutfitId < OUTFIT_COUNT && paletteTag == playerTag
+     && sOutfitPaletteSets[gSaveBlock2Ptr->currOutfitId].overworld[gSaveBlock2Ptr->playerGender][paletteIndex] != NULL)
+        return sOutfitPaletteSets[gSaveBlock2Ptr->currOutfitId].overworld[gSaveBlock2Ptr->playerGender][paletteIndex];
     return palette;
 }
 
-const u16 *GetPlayerOutfitTrainerPalette(enum TrainerPicID trainerPic, const u16 *palette)
+const u16 *GetPlayerOutfitTrainerPalette(enum TrainerPicID trainerPic, const u16 *palette, bool32 isBack)
 {
     u32 paletteIndex = GetSavedOutfitPalette();
-    if (paletteIndex != 0
-     && trainerPic == GetPlayerTrainerPicIdByOutfitAndGender(gSaveBlock2Ptr->currOutfitId, gSaveBlock2Ptr->playerGender))
-        return sOutfitPaletteSets[gSaveBlock2Ptr->currOutfitId].trainer[gSaveBlock2Ptr->playerGender][paletteIndex - 1];
+    const u16 *customPalette;
+
+    if (gSaveBlock2Ptr->currOutfitId < OUTFIT_COUNT
+     && trainerPic == GetPlayerTrainerPicIdByOutfitAndGender(GetCurrentOutfitSpriteId(), gSaveBlock2Ptr->playerGender))
+    {
+        const struct OutfitPaletteSet *set = &sOutfitPaletteSets[gSaveBlock2Ptr->currOutfitId];
+        customPalette = isBack ? set->trainerBack[gSaveBlock2Ptr->playerGender][paletteIndex]
+                              : set->trainer[gSaveBlock2Ptr->playerGender][paletteIndex];
+        if (customPalette != NULL)
+            return customPalette;
+    }
     return palette;
 }
 
 const void *GetCurrentOutfitMugshot(u8 which)
 {
     u32 outfitId = gSaveBlock2Ptr->currOutfitId;
-    enum Gender gender = gSaveBlock2Ptr->playerGender;
+    enum Gender gender = gSaveBlock2Ptr->playerGender == FEMALE ? FEMALE : MALE;
+    u32 paletteIndex = GetSavedOutfitPalette();
 
-    if (outfitId >= OUTFIT_COUNT || sOutfitPaletteSets[outfitId].mugshotGfx[gender] == NULL)
+    if (outfitId >= OUTFIT_COUNT || sOutfitPaletteSets[outfitId].mugshotGfx[gender][paletteIndex] == NULL)
         outfitId = DEFAULT_OUTFIT;
 
     if (which == PAL)
-        return sOutfitPaletteSets[outfitId].mugshot[gender][GetSavedOutfitPalette()];
-    return sOutfitPaletteSets[outfitId].mugshotGfx[gender];
+        return sOutfitPaletteSets[outfitId].mugshot[gender][paletteIndex];
+    return sOutfitPaletteSets[outfitId].mugshotGfx[gender][paletteIndex];
 }
 
 static void PrintOutfitPaletteInfo(u32 outfitId)
@@ -597,12 +632,14 @@ static void SetupOutfitMenu_PrintStr(void)
 
 static inline void SetupOutfitMenu_Sprites_DrawTrainerSprite(bool32 update, bool32 unlocked)
 {
-    enum TrainerPicID picId = GetPlayerTrainerPicIdByOutfitAndGender(sOutfitMenu->idx, gSaveBlock2Ptr->playerGender);
+    enum TrainerPicID picId = GetPlayerTrainerPicIdByOutfitAndGender(GetOutfitSpriteId(sOutfitMenu->idx, sOutfitMenu->paletteIndices[sOutfitMenu->idx]), gSaveBlock2Ptr->playerGender);
     u32 frontSpriteId = picId;
     u32 backSpriteId = picId;
     u32 frontPalSlot = sOutfitMenu->slotId ? 9 : 10;
     u32 backPalSlot = sOutfitMenu->slotId ? 12 : 13;
     u32 paletteIndex = sOutfitMenu->paletteIndices[sOutfitMenu->idx];
+    const u16 *customPalette = sOutfitPaletteSets[sOutfitMenu->idx].trainer[gSaveBlock2Ptr->playerGender][paletteIndex];
+    const u16 *customBackPalette = sOutfitPaletteSets[sOutfitMenu->idx].trainerBack[gSaveBlock2Ptr->playerGender][paletteIndex];
     if (update)
     {
         FreeAndDestroyTrainerPicSprite(sOutfitMenu->spriteIds[GFX_FTS]);
@@ -612,11 +649,9 @@ static inline void SetupOutfitMenu_Sprites_DrawTrainerSprite(bool32 update, bool
     sOutfitMenu->spriteIds[GFX_FTS] = CreateTrainerPicSprite(frontSpriteId, TRUE, 32+27, 32+32, frontPalSlot, TAG_NONE);
     sOutfitMenu->spriteIds[GFX_BTS] = CreateTrainerPicSprite(backSpriteId, FALSE, 32+117, 32+32, backPalSlot, TAG_NONE);
     // Use the hovered outfit's preview, independently of the equipped palette.
-    LoadPalette(paletteIndex ? sOutfitPaletteSets[sOutfitMenu->idx].trainer[gSaveBlock2Ptr->playerGender][paletteIndex - 1]
-                            : gTrainerPicInfo[picId].frontPic->paletteData,
+    LoadPalette(customPalette != NULL ? customPalette : gTrainerPicInfo[picId].frontPic->paletteData,
                 OBJ_PLTT_ID(frontPalSlot), PLTT_SIZE_4BPP);
-    LoadPalette(paletteIndex ? sOutfitPaletteSets[sOutfitMenu->idx].trainer[gSaveBlock2Ptr->playerGender][paletteIndex - 1]
-                            : gTrainerPicInfo[picId].backPic->paletteData,
+    LoadPalette(customBackPalette != NULL ? customBackPalette : gTrainerPicInfo[picId].backPic->paletteData,
                 OBJ_PLTT_ID(backPalSlot), PLTT_SIZE_4BPP);
     gSprites[sOutfitMenu->spriteIds[GFX_BTS]].anims = GetTrainerBackPicAnims(backSpriteId);
     StartSpriteAnim(&gSprites[sOutfitMenu->spriteIds[GFX_BTS]], 0);
@@ -749,7 +784,7 @@ static void ForEachCB_PopulateOutfitOverworlds(u32 idx, u32 col, u32 row)
     if (i >= OUTFIT_COUNT)
         return;
 
-    gfx = GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(i, PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender);
+    gfx = GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(GetOutfitSpriteId(i, sOutfitMenu->paletteIndices[i]), PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender);
     x = ((col % GRID_COLS) < ARRAY_COUNT(sGridPosX)) ? sGridPosX[col] : sGridPosX[0];
     y = ((row % GRID_ROWS) < ARRAY_COUNT(sGridPosY)) ? sGridPosY[row] : sGridPosY[0];
 
@@ -843,8 +878,9 @@ static void InputCB_ChangePalette(void)
         paletteIndex = (paletteIndex + 1) % count;
 
     sOutfitMenu->paletteIndices[outfitId] = paletteIndex;
-    LoadPalette(GetOutfitOverworldPalette(outfitId, paletteIndex),
-                OBJ_PLTT_ID(gSprites[spriteId].oam.paletteNum), PLTT_SIZE_4BPP);
+    // Skin artwork may have different pixels, so reload graphics as well as palettes.
+    GridMenu_ForAll(sOutfitMenu->grid, ForAllCB_FreeOutfitOverworlds);
+    GridMenu_ForEach(sOutfitMenu->grid, ForEachCB_PopulateOutfitOverworlds);
     UpdateOutfitInfo();
     if (!IsSEPlaying())
         PlaySE(SE_RG_BAG_CURSOR);
@@ -1096,7 +1132,7 @@ void BufferOutfitStrings(u8 *dest, u8 outfitId, u8 dataType)
 
 enum TrainerPicID GetPlayerTrainerPicIdByOutfitAndGender(u32 outfitId, enum Gender gender)
 {
-    if (outfitId > OUTFIT_NONE && outfitId < OUTFIT_COUNT)
+    if (outfitId > OUTFIT_NONE && outfitId < OUTFIT_SPRITE_COUNT)
         return gOutfits[outfitId].trainerPics[gender];
     else
         return gOutfits[DEFAULT_OUTFIT].trainerPics[gender];
@@ -1107,7 +1143,7 @@ const void *GetPlayerHeadGfxOrPal(u8 which, bool32 isFP)
     if (which == PAL)
     {
         u32 tag = GetObjectEventGraphicsInfo(
-            GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(gSaveBlock2Ptr->currOutfitId, PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender))->paletteTag;
+            GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(GetCurrentOutfitSpriteId(), PLAYER_AVATAR_STATE_NORMAL, gSaveBlock2Ptr->playerGender))->paletteTag;
 
         return GetCurrentOutfitObjectPalette(tag, GetObjectEventPaletteFromTag(tag)->data);
     }
@@ -1121,11 +1157,11 @@ const void *GetPlayerHeadGfxOrPal(u8 which, bool32 isFP)
         if (isFP)
         {
             return gSaveBlock2Ptr->playerGender ?
-                        gOutfits[gSaveBlock2Ptr->currOutfitId].iconsFP + 0x80 :
-                        gOutfits[gSaveBlock2Ptr->currOutfitId].iconsFP;
+                        gOutfits[GetCurrentOutfitSpriteId()].iconsFP + 0x80 :
+                        gOutfits[GetCurrentOutfitSpriteId()].iconsFP;
         }
         else
-            return gOutfits[gSaveBlock2Ptr->currOutfitId].iconsRM[gSaveBlock2Ptr->playerGender];
+            return gOutfits[GetCurrentOutfitSpriteId()].iconsRM[gSaveBlock2Ptr->playerGender];
     }
 }
 
@@ -1195,7 +1231,7 @@ void SetCurrentOutfitGfxIntoVar(struct ScriptContext *ctx)
     u32 varId = ScriptReadHalfword(ctx);
     u32 state = ScriptReadHalfword(ctx);
     u32 gfxId = GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(
-        gSaveBlock2Ptr->currOutfitId, state, gSaveBlock2Ptr->playerGender);
+        GetCurrentOutfitSpriteId(), state, gSaveBlock2Ptr->playerGender);
 
     VarSet(varId, gfxId);
 }

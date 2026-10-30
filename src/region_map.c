@@ -1866,7 +1866,7 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
         sheet.data = sRegionMapPlayerIcon_RedGfx;
         palette.data = sRegionMapPlayerIcon_RedPal;
     }
-    if (gSaveBlock2Ptr->currOutfitId != DEFAULT_OUTFIT && gSaveBlock2Ptr->currOutfitId != OUTFIT_NONE)
+    if (GetCurrentOutfitSpriteId() != DEFAULT_OUTFIT)
     {
         sheet.data = GetPlayerHeadGfxOrPal(GFX, FALSE);
         palette.data = GetPlayerHeadGfxOrPal(PAL, FALSE);
