@@ -1246,7 +1246,7 @@ static void LoadComputerPassportPhotos(u8 taskId)
 
     u8 i;
     for (i = 0; i < ARRAY_COUNT(sPhotoOutfits); i++)
-        LoadPassportMugshot(i, 0, GFX_TAG_PHOTO_PLACEHOLDER_M1 + i, 8 + i, PASSPORT_PHOTO_HEIGHT);
+        LoadPassportMugshot(i, i, GFX_TAG_PHOTO_PLACEHOLDER_M1 + i, 8 + i, PASSPORT_PHOTO_HEIGHT);
     LoadCompressedSpriteSheet(&sArrowCursor_SpriteSheet);
 
     LoadSpritePalette(&sArrowCursor_SpritePalette);
@@ -1780,37 +1780,215 @@ static void Task_AllOver(u8 taskId)
 
     if (!RunTextPrintersAndIsPrinter0Active() && gTasks[taskId].tState)
     {
-        gTasks[taskId].tTimer = 0;
+        gTasks[taskId].tTimer = -30;
         gTasks[taskId].tState = 0;
         gTasks[taskId].func = Task_LoveOurPokemon;
     }
 }
 
-#define LOP_V 4
-#define LOP_FORTH_L_POS 128
-#define LOP_FORTH_R_POS -152
-#define LOP_BACK_R_POS -104
-#define LOP_BACK_L_POS 176
-#define LOP_1_R_POS 0
-#define LOP_1_L_POS LOP_BACK_L_POS
-#define LOP_1_LENGTH ((LOP_1_L_POS - LOP_1_R_POS) / LOP_V)
-#define LOP_TURN_LENGTH 15
-#define LOP_2_START (LOP_1_LENGTH + LOP_TURN_LENGTH + 1)
-#define LOP_2_L_POS LOP_FORTH_L_POS
-#define LOP_2_R_POS 0
-#define LOP_2_LENGTH ((LOP_2_L_POS - LOP_2_R_POS) / LOP_V)
-#define LOP_2_END (LOP_2_START + LOP_2_LENGTH)
-#define LOP_3_START (LOP_1_LENGTH + LOP_TURN_LENGTH + 1)
-#define LOP_3_L_POS 112
-#define LOP_3_R_POS 0
-#define LOP_3_LENGTH ((LOP_3_L_POS - LOP_3_R_POS) / LOP_V)
-#define LOP_3_END (LOP_3_START + LOP_3_LENGTH)
-#define LOP_STILL_LENGTH 90
-#define LOP_BNF_LENGTH ((LOP_FORTH_L_POS - LOP_FORTH_R_POS) / LOP_V)
-#define LOP_FORTH_START (0 + LOP_TURN_LENGTH + 1)
-#define LOP_FORTH_END (LOP_FORTH_START + LOP_BNF_LENGTH)
-#define LOP_BACK_START (LOP_FORTH_END + LOP_TURN_LENGTH + 1)
-#define LOP_BACK_END (LOP_BACK_START + LOP_BNF_LENGTH)
+// original sliding code in case we still want it.
+// #define LOP_V 4
+// #define LOP_FORTH_L_POS 128
+// #define LOP_FORTH_R_POS -152
+// #define LOP_BACK_R_POS -104
+// #define LOP_BACK_L_POS 176
+// #define LOP_1_R_POS 0
+// #define LOP_1_L_POS LOP_BACK_L_POS
+// #define LOP_1_LENGTH ((LOP_1_L_POS - LOP_1_R_POS) / LOP_V)
+// #define LOP_TURN_LENGTH 15
+// #define LOP_2_START (LOP_1_LENGTH + LOP_TURN_LENGTH + 1)
+// #define LOP_2_L_POS LOP_FORTH_L_POS
+// #define LOP_2_R_POS 0
+// #define LOP_2_LENGTH ((LOP_2_L_POS - LOP_2_R_POS) / LOP_V)
+// #define LOP_2_END (LOP_2_START + LOP_2_LENGTH)
+// #define LOP_3_START (LOP_1_LENGTH + LOP_TURN_LENGTH + 1)
+// #define LOP_3_L_POS 112
+// #define LOP_3_R_POS 0
+// #define LOP_3_LENGTH ((LOP_3_L_POS - LOP_3_R_POS) / LOP_V)
+// #define LOP_3_END (LOP_3_START + LOP_3_LENGTH)
+// #define LOP_STILL_LENGTH 90
+// #define LOP_BNF_LENGTH ((LOP_FORTH_L_POS - LOP_FORTH_R_POS) / LOP_V)
+// #define LOP_FORTH_START (0 + LOP_TURN_LENGTH + 1)
+// #define LOP_FORTH_END (LOP_FORTH_START + LOP_BNF_LENGTH)
+// #define LOP_BACK_START (LOP_FORTH_END + LOP_TURN_LENGTH + 1)
+// #define LOP_BACK_END (LOP_BACK_START + LOP_BNF_LENGTH)
+//
+// static void Task_LoveOurPokemon(u8 taskId)
+// {
+//     UpdatePaletteFade();
+//
+//     if (!gTasks[taskId].tState && !gPaletteFade.active && !IsLayerFadeActive())
+//     {
+//         if (gTasks[taskId].tTimer == 0)
+//         {
+//             sShouldChopRockruff = TRUE;
+//         }
+//         else if (gTasks[taskId].tTimer >= 1 && gTasks[taskId].tTimer <= LOP_1_LENGTH)
+//         {
+//             s32 endFrame = LOP_1_LENGTH;
+//             s32 start = LOP_1_R_POS;
+//             s32 end = LOP_1_L_POS;
+//
+//             s32 midFrame = endFrame/2;
+//             s32 frame = (gTasks[taskId].tTimer - 0) - midFrame;
+//             s32 m = (end + start)/2;
+//             s32 d = end - start;
+//             s32 a = (frame > 0) ? -d/2 : d/2;
+//             s32 p = m + (d * frame / midFrame) + (a * frame * frame / (midFrame * midFrame));
+//
+//             SetGpuReg(REG_OFFSET_BG0HOFS, p % 512);
+//         }
+//         else if (gTasks[taskId].tTimer == LOP_1_LENGTH + LOP_TURN_LENGTH)
+//         {
+//             LoadTilemapAtOffset(0, gTasks[taskId].tFreeCallBgBaseTileNum, 1, sRockruff_a_Tilemap, CALL_BG_HEIGHT, ROCKRUFF_SCREEN_INDEX, 3);
+//             ShowBg(0);
+//         }
+//         else if (gTasks[taskId].tTimer >= LOP_2_START && gTasks[taskId].tTimer <= LOP_2_END)
+//         {
+//             s32 endFrame = LOP_2_LENGTH;
+//             s32 start = LOP_2_L_POS;
+//             s32 end = LOP_2_R_POS;
+//
+//             s32 midFrame = endFrame/2;
+//             s32 frame = (gTasks[taskId].tTimer - (LOP_2_START - 1)) - midFrame;
+//             s32 m = (end + start)/2;
+//             s32 d = end - start;
+//             s32 a = (frame > 0) ? -d/2 : d/2;
+//             s32 p = m + (d * frame / midFrame) + (a * frame * frame / (midFrame * midFrame));
+//
+//             SetGpuReg(REG_OFFSET_BG0HOFS, p % 512);
+//         }
+//         else if (gTasks[taskId].tTimer == LOP_2_END + 1)
+//         {
+//             SetGpuReg(REG_OFFSET_BG0HOFS, 0);
+//             sShouldChopRockruff = FALSE;
+//             BeginLayerFade(BLDCNT_TGT1_BG1 | BLDCNT_TGT2_BG_ALL, 0, 0, 16);
+//         }
+//         else if (gTasks[taskId].tTimer == LOP_2_END + 2)
+//         {
+//             LoadTilesAndMapAtOffset(1, sKukui6_Tiles, gTasks[taskId].tFreeKukuiBaseTileNum,  0, sKukui6_Tilemap,     CALL_BG_HEIGHT, gTasks[taskId].tFreeKukuiScreenIndex, 1);
+//             CopyPartialTilemap(gTasks[taskId].tFreeKukuiScreenIndex, USED_KUKUI_SI(gTasks[taskId].tFreeKukuiScreenIndex), CALL_BG_HEIGHT, TEXTBOX_HEIGHT);
+//             gTasks[taskId].tFreeKukuiBaseTileNum = USED_KUKUI_BTN(gTasks[taskId].tFreeKukuiBaseTileNum);
+//             gTasks[taskId].tFreeKukuiScreenIndex = USED_KUKUI_SI(gTasks[taskId].tFreeKukuiScreenIndex);
+//
+//             ShowBg(2);
+//             ShowBg(1);
+//         }
+//         else if (gTasks[taskId].tTimer == LOP_2_END + 3)
+//         {
+//             StringExpandPlaceholders(gStringVar4, gText_Kukui_LoveOurPokemon);
+//             AddTextPrinterForMessageKukui(TRUE);
+//             BeginLayerFade(BLDCNT_TGT1_BG1 | BLDCNT_TGT2_BG_ALL, 0, 16, 0);
+//             gTasks[taskId].tTimer = -LOP_STILL_LENGTH;
+//             gTasks[taskId].tState = 1;
+//         }
+//
+//         gTasks[taskId].tTimer++;
+//     }
+//     else if (gTasks[taskId].tState == 1 && !gPaletteFade.active && !IsLayerFadeActive())
+//     {
+//         if (gTasks[taskId].tTimer == 0)
+//         {
+//             sShouldChopRockruff = TRUE;
+//         }
+//         else if (gTasks[taskId].tTimer >= 1 && gTasks[taskId].tTimer <= (LOP_BNF_LENGTH - LOP_2_LENGTH))
+//         {
+//             s32 endFrame = (LOP_BNF_LENGTH - LOP_2_LENGTH);
+//             s32 start = LOP_2_R_POS;
+//             s32 end = LOP_FORTH_R_POS;
+//
+//             s32 midFrame = endFrame/2;
+//             s32 frame = (gTasks[taskId].tTimer - 0) - midFrame;
+//             s32 m = (end + start)/2;
+//             s32 d = end - start;
+//             s32 a = (frame > 0) ? -d/2 : d/2;
+//             s32 p = m + (d * frame / midFrame) + (a * frame * frame / (midFrame * midFrame));
+//
+//             SetGpuReg(REG_OFFSET_BG0HOFS, p % 512);
+//         }
+//         else if (gTasks[taskId].tTimer == (LOP_BNF_LENGTH - LOP_2_LENGTH) + LOP_TURN_LENGTH)
+//         {
+//             LoadTilemapAtOffset(0, gTasks[taskId].tFreeCallBgBaseTileNum, 1, sRockruff_Tilemap, CALL_BG_HEIGHT, ROCKRUFF_SCREEN_INDEX, 3);
+//             ShowBg(0);
+//             gTasks[taskId].tTimer = LOP_BACK_START - 1;
+//             gTasks[taskId].tState = 2;
+//         }
+//
+//         gTasks[taskId].tTimer++;
+//     }
+//     else if ((gTasks[taskId].tState == 2 || gTasks[taskId].tState == 3) && !gPaletteFade.active && !IsLayerFadeActive())
+//     {
+//         if (gTasks[taskId].tTimer == LOP_TURN_LENGTH)
+//         {
+//             LoadTilemapAtOffset(0, gTasks[taskId].tFreeCallBgBaseTileNum, 1, sRockruff_a_Tilemap, CALL_BG_HEIGHT, ROCKRUFF_SCREEN_INDEX, 3);
+//             ShowBg(0);
+//         }
+//         else if (gTasks[taskId].tTimer >= LOP_FORTH_START && gTasks[taskId].tTimer <= LOP_FORTH_END)
+//         {
+//             s32 endFrame = LOP_BNF_LENGTH;
+//             s32 start = LOP_FORTH_L_POS;
+//             s32 end = LOP_FORTH_R_POS;
+//
+//             s32 midFrame = endFrame/2;
+//             s32 frame = (gTasks[taskId].tTimer - (LOP_FORTH_START - 1)) - midFrame;
+//             s32 m = (end + start)/2;
+//             s32 d = end - start;
+//             s32 a = (frame > 0) ? -d/2 : d/2;
+//             s32 p = m + (d * frame / midFrame) + (a * frame * frame / (midFrame * midFrame));
+//
+//             if (gTasks[taskId].tState == 3 && frame == -1)
+//                 gTasks[taskId].tState = 4;
+//
+//             SetGpuReg(REG_OFFSET_BG0HOFS, p % 512);
+//         }
+//         if (gTasks[taskId].tTimer == LOP_FORTH_END + LOP_TURN_LENGTH)
+//         {
+//             LoadTilemapAtOffset(0, gTasks[taskId].tFreeCallBgBaseTileNum, 1, sRockruff_Tilemap, CALL_BG_HEIGHT, ROCKRUFF_SCREEN_INDEX, 3);
+//             ShowBg(0);
+//         }
+//         else if (gTasks[taskId].tTimer >= LOP_BACK_START && gTasks[taskId].tTimer <= LOP_BACK_END)
+//         {
+//             s32 endFrame = LOP_BNF_LENGTH;
+//             s32 start = LOP_BACK_R_POS;
+//             s32 end = LOP_BACK_L_POS;
+//
+//             s32 midFrame = endFrame/2;
+//             s32 frame = (gTasks[taskId].tTimer - (LOP_BACK_START - 1)) - midFrame;
+//             s32 m = (end + start)/2;
+//             s32 d = end - start;
+//             s32 a = (frame > 0) ? -d/2 : d/2;
+//             s32 p = m + (d * frame / midFrame) + (a * frame * frame / (midFrame * midFrame));
+//
+//             if (gTasks[taskId].tState == 3 && frame == midFrame/8)
+//                 gTasks[taskId].tState = 4;
+//
+//             SetGpuReg(REG_OFFSET_BG0HOFS, p % 512);
+//         }
+//         else if (gTasks[taskId].tTimer == LOP_BACK_END + 1)
+//         {
+//             gTasks[taskId].tTimer = 0;
+//         }
+//
+//         gTasks[taskId].tTimer++;
+//     }
+//
+//     if (!RunTextPrintersAndIsPrinter0Active() && (gTasks[taskId].tState == 1 || gTasks[taskId].tState == 2))
+//     {
+//         gTasks[taskId].tState = 3;
+//     }
+//
+//     if (gTasks[taskId].tState == 4)
+//     {
+//         gTasks[taskId].tTimer = 0;
+//         gTasks[taskId].tState = 0;
+//         gTasks[taskId].func = Task_AndYouAre;
+//     }
+// }
+
+
+// Barking version:
+#define ROCKRUFF_BARK_DELAY 30
+#define ROCKRUFF_BARK_INTERVAL 150
 
 static void Task_LoveOurPokemon(u8 taskId)
 {
@@ -1820,50 +1998,24 @@ static void Task_LoveOurPokemon(u8 taskId)
     {
         if (gTasks[taskId].tTimer == 0)
         {
-            sShouldChopRockruff = TRUE;
+            BeginLayerFade(BLDCNT_TGT1_BG0 | BLDCNT_TGT2_BG_ALL, 0, 0, 16);
         }
-        else if (gTasks[taskId].tTimer >= 1 && gTasks[taskId].tTimer <= LOP_1_LENGTH)
-        {
-            s32 endFrame = LOP_1_LENGTH;
-            s32 start = LOP_1_R_POS;
-            s32 end = LOP_1_L_POS;
-
-            s32 midFrame = endFrame/2;
-            s32 frame = (gTasks[taskId].tTimer - 0) - midFrame;
-            s32 m = (end + start)/2;
-            s32 d = end - start;
-            s32 a = (frame > 0) ? -d/2 : d/2;
-            s32 p = m + (d * frame / midFrame) + (a * frame * frame / (midFrame * midFrame));
-
-            SetGpuReg(REG_OFFSET_BG0HOFS, p % 512);
-        }
-        else if (gTasks[taskId].tTimer == LOP_1_LENGTH + LOP_TURN_LENGTH)
-        {
-            LoadTilemapAtOffset(0, gTasks[taskId].tFreeCallBgBaseTileNum, 1, sRockruff_a_Tilemap, CALL_BG_HEIGHT, ROCKRUFF_SCREEN_INDEX, 3);
-            ShowBg(0);
-        }
-        else if (gTasks[taskId].tTimer >= LOP_2_START && gTasks[taskId].tTimer <= LOP_2_END)
-        {
-            s32 endFrame = LOP_2_LENGTH;
-            s32 start = LOP_2_L_POS;
-            s32 end = LOP_2_R_POS;
-
-            s32 midFrame = endFrame/2;
-            s32 frame = (gTasks[taskId].tTimer - (LOP_2_START - 1)) - midFrame;
-            s32 m = (end + start)/2;
-            s32 d = end - start;
-            s32 a = (frame > 0) ? -d/2 : d/2;
-            s32 p = m + (d * frame / midFrame) + (a * frame * frame / (midFrame * midFrame));
-
-            SetGpuReg(REG_OFFSET_BG0HOFS, p % 512);
-        }
-        else if (gTasks[taskId].tTimer == LOP_2_END + 1)
+        else if (gTasks[taskId].tTimer == 1)
         {
             SetGpuReg(REG_OFFSET_BG0HOFS, 0);
             sShouldChopRockruff = FALSE;
+            LoadTilemapAtOffset(0, gTasks[taskId].tFreeCallBgBaseTileNum, 1, sRockruff_a_Tilemap, CALL_BG_HEIGHT, ROCKRUFF_SCREEN_INDEX, 3);
+            ShowBg(0);
+        }
+        else if (gTasks[taskId].tTimer == 2)
+        {
+            BeginLayerFade(BLDCNT_TGT1_BG0 | BLDCNT_TGT2_BG_ALL, 0, 16, 0);
+        }
+        else if (gTasks[taskId].tTimer == 14)
+        {
             BeginLayerFade(BLDCNT_TGT1_BG1 | BLDCNT_TGT2_BG_ALL, 0, 0, 16);
         }
-        else if (gTasks[taskId].tTimer == LOP_2_END + 2)
+        else if (gTasks[taskId].tTimer == 15)
         {
             LoadTilesAndMapAtOffset(1, sKukui6_Tiles, gTasks[taskId].tFreeKukuiBaseTileNum,  0, sKukui6_Tilemap,     CALL_BG_HEIGHT, gTasks[taskId].tFreeKukuiScreenIndex, 1);
             CopyPartialTilemap(gTasks[taskId].tFreeKukuiScreenIndex, USED_KUKUI_SI(gTasks[taskId].tFreeKukuiScreenIndex), CALL_BG_HEIGHT, TEXTBOX_HEIGHT);
@@ -1873,111 +2025,53 @@ static void Task_LoveOurPokemon(u8 taskId)
             ShowBg(2);
             ShowBg(1);
         }
-        else if (gTasks[taskId].tTimer == LOP_2_END + 3)
+        else if (gTasks[taskId].tTimer == 16)
+        {
+            BeginLayerFade(BLDCNT_TGT1_BG1 | BLDCNT_TGT2_BG_ALL, 0, 16, 0);
+        }
+        else if (gTasks[taskId].tTimer == 17)
         {
             StringExpandPlaceholders(gStringVar4, gText_Kukui_LoveOurPokemon);
             AddTextPrinterForMessageKukui(TRUE);
-            BeginLayerFade(BLDCNT_TGT1_BG1 | BLDCNT_TGT2_BG_ALL, 0, 16, 0);
-            gTasks[taskId].tTimer = -LOP_STILL_LENGTH;
             gTasks[taskId].tState = 1;
+            gTasks[taskId].tTimer = -ROCKRUFF_BARK_DELAY - 1;
         }
 
         gTasks[taskId].tTimer++;
     }
-    else if (gTasks[taskId].tState == 1 && !gPaletteFade.active && !IsLayerFadeActive())
+    else if (gTasks[taskId].tState && !gPaletteFade.active && !IsLayerFadeActive())
     {
-        if (gTasks[taskId].tTimer == 0)
-        {
-            sShouldChopRockruff = TRUE;
-        }
-        else if (gTasks[taskId].tTimer >= 1 && gTasks[taskId].tTimer <= (LOP_BNF_LENGTH - LOP_2_LENGTH))
-        {
-            s32 endFrame = (LOP_BNF_LENGTH - LOP_2_LENGTH);
-            s32 start = LOP_2_R_POS;
-            s32 end = LOP_FORTH_R_POS;
+        // quick shake animation for Rockruff's bark
+        static const s8 shakeX[] = {0, -2, -3, -2, 0, 2, 3, 2, 0, -1, -2, -1, 0, 1, 1, 0};
+        s16 frame = gTasks[taskId].tTimer;
 
-            s32 midFrame = endFrame/2;
-            s32 frame = (gTasks[taskId].tTimer - 0) - midFrame;
-            s32 m = (end + start)/2;
-            s32 d = end - start;
-            s32 a = (frame > 0) ? -d/2 : d/2;
-            s32 p = m + (d * frame / midFrame) + (a * frame * frame / (midFrame * midFrame));
+        if (frame == 0 && gTasks[taskId].tState == 1)
+            PlayCry_Normal(SPECIES_ROCKRUFF, 0);
 
-            SetGpuReg(REG_OFFSET_BG0HOFS, p % 512);
-        }
-        else if (gTasks[taskId].tTimer == (LOP_BNF_LENGTH - LOP_2_LENGTH) + LOP_TURN_LENGTH)
+        if (frame >= 0 && frame < ARRAY_COUNT(shakeX))
         {
-            LoadTilemapAtOffset(0, gTasks[taskId].tFreeCallBgBaseTileNum, 1, sRockruff_Tilemap, CALL_BG_HEIGHT, ROCKRUFF_SCREEN_INDEX, 3);
-            ShowBg(0);
-            gTasks[taskId].tTimer = LOP_BACK_START - 1;
-            gTasks[taskId].tState = 2;
+            SetGpuReg(REG_OFFSET_BG0HOFS, shakeX[frame] & 0x1FF);
+            SetGpuReg(REG_OFFSET_BG0VOFS, frame < 8 ? 0x1FF : 0);
+        }
+        else
+        {
+            SetGpuReg(REG_OFFSET_BG0HOFS, 0);
+            SetGpuReg(REG_OFFSET_BG0VOFS, 0);
         }
 
-        gTasks[taskId].tTimer++;
-    }
-    else if ((gTasks[taskId].tState == 2 || gTasks[taskId].tState == 3) && !gPaletteFade.active && !IsLayerFadeActive())
-    {
-        if (gTasks[taskId].tTimer == LOP_TURN_LENGTH)
-        {
-            LoadTilemapAtOffset(0, gTasks[taskId].tFreeCallBgBaseTileNum, 1, sRockruff_a_Tilemap, CALL_BG_HEIGHT, ROCKRUFF_SCREEN_INDEX, 3);
-            ShowBg(0);
-        }
-        else if (gTasks[taskId].tTimer >= LOP_FORTH_START && gTasks[taskId].tTimer <= LOP_FORTH_END)
-        {
-            s32 endFrame = LOP_BNF_LENGTH;
-            s32 start = LOP_FORTH_L_POS;
-            s32 end = LOP_FORTH_R_POS;
-
-            s32 midFrame = endFrame/2;
-            s32 frame = (gTasks[taskId].tTimer - (LOP_FORTH_START - 1)) - midFrame;
-            s32 m = (end + start)/2;
-            s32 d = end - start;
-            s32 a = (frame > 0) ? -d/2 : d/2;
-            s32 p = m + (d * frame / midFrame) + (a * frame * frame / (midFrame * midFrame));
-
-            if (gTasks[taskId].tState == 3 && frame == -1)
-                gTasks[taskId].tState = 4;
-
-            SetGpuReg(REG_OFFSET_BG0HOFS, p % 512);
-        }
-        if (gTasks[taskId].tTimer == LOP_FORTH_END + LOP_TURN_LENGTH)
-        {
-            LoadTilemapAtOffset(0, gTasks[taskId].tFreeCallBgBaseTileNum, 1, sRockruff_Tilemap, CALL_BG_HEIGHT, ROCKRUFF_SCREEN_INDEX, 3);
-            ShowBg(0);
-        }
-        else if (gTasks[taskId].tTimer >= LOP_BACK_START && gTasks[taskId].tTimer <= LOP_BACK_END)
-        {
-            s32 endFrame = LOP_BNF_LENGTH;
-            s32 start = LOP_BACK_R_POS;
-            s32 end = LOP_BACK_L_POS;
-
-            s32 midFrame = endFrame/2;
-            s32 frame = (gTasks[taskId].tTimer - (LOP_BACK_START - 1)) - midFrame;
-            s32 m = (end + start)/2;
-            s32 d = end - start;
-            s32 a = (frame > 0) ? -d/2 : d/2;
-            s32 p = m + (d * frame / midFrame) + (a * frame * frame / (midFrame * midFrame));
-
-            if (gTasks[taskId].tState == 3 && frame == midFrame/8)
-                gTasks[taskId].tState = 4;
-
-            SetGpuReg(REG_OFFSET_BG0HOFS, p % 512);
-        }
-        else if (gTasks[taskId].tTimer == LOP_BACK_END + 1)
-        {
+        if (++gTasks[taskId].tTimer >= ROCKRUFF_BARK_INTERVAL)
             gTasks[taskId].tTimer = 0;
-        }
-
-        gTasks[taskId].tTimer++;
     }
 
-    if (!RunTextPrintersAndIsPrinter0Active() && (gTasks[taskId].tState == 1 || gTasks[taskId].tState == 2))
-    {
-        gTasks[taskId].tState = 3;
-    }
+    if (!RunTextPrintersAndIsPrinter0Active() && gTasks[taskId].tState == 1)
+        gTasks[taskId].tState = 2;
 
-    if (gTasks[taskId].tState == 4)
+    // Finish any current shake before recalling Rockruff, as with the old slide.
+    if (gTasks[taskId].tState == 2
+     && (gTasks[taskId].tTimer <= 0 || gTasks[taskId].tTimer > 16))
     {
+        SetGpuReg(REG_OFFSET_BG0HOFS, 0);
+        SetGpuReg(REG_OFFSET_BG0VOFS, 0);
         gTasks[taskId].tTimer = 0;
         gTasks[taskId].tState = 0;
         gTasks[taskId].func = Task_AndYouAre;
@@ -2352,7 +2446,7 @@ static void Task_AreYouReady(u8 taskId)
 
     if (!RunTextPrintersAndIsPrinter0Active() && gTasks[taskId].tState)
     {
-        gTasks[taskId].tTimer = 0;
+        gTasks[taskId].tTimer = -30;
         gTasks[taskId].tState = 0;
         gTasks[taskId].func = Task_EndCall;
     }
@@ -2366,50 +2460,24 @@ static void Task_EndCall(u8 taskId)
     {
         if (gTasks[taskId].tTimer == 0)
         {
-            sShouldChopRockruff = TRUE;
+            BeginLayerFade(BLDCNT_TGT1_BG0 | BLDCNT_TGT2_BG_ALL, 0, 0, 16);
         }
-        else if (gTasks[taskId].tTimer >= 1 && gTasks[taskId].tTimer <= LOP_1_LENGTH)
-        {
-            s32 endFrame = LOP_1_LENGTH;
-            s32 start = LOP_1_R_POS;
-            s32 end = LOP_1_L_POS;
-
-            s32 midFrame = endFrame/2;
-            s32 frame = (gTasks[taskId].tTimer - 0) - midFrame;
-            s32 m = (end + start)/2;
-            s32 d = end - start;
-            s32 a = (frame > 0) ? -d/2 : d/2;
-            s32 p = m + (d * frame / midFrame) + (a * frame * frame / (midFrame * midFrame));
-
-            SetGpuReg(REG_OFFSET_BG0HOFS, p % 512);
-        }
-        else if (gTasks[taskId].tTimer == LOP_1_LENGTH + LOP_TURN_LENGTH)
-        {
-            LoadTilemapAtOffset(0, gTasks[taskId].tFreeCallBgBaseTileNum, 1, sRockruff_b_Tilemap, CALL_BG_HEIGHT, ROCKRUFF_SCREEN_INDEX, 3);
-            ShowBg(0);
-        }
-        else if (gTasks[taskId].tTimer >= LOP_3_START && gTasks[taskId].tTimer <= LOP_3_END)
-        {
-            s32 endFrame = LOP_3_LENGTH;
-            s32 start = LOP_3_L_POS;
-            s32 end = LOP_3_R_POS;
-
-            s32 midFrame = endFrame/2;
-            s32 frame = (gTasks[taskId].tTimer - (LOP_3_START - 1)) - midFrame;
-            s32 m = (end + start)/2;
-            s32 d = end - start;
-            s32 a = (frame > 0) ? -d/2 : d/2;
-            s32 p = m + (d * frame / midFrame) + (a * frame * frame / (midFrame * midFrame));
-
-            SetGpuReg(REG_OFFSET_BG0HOFS, p % 512);
-        }
-        else if (gTasks[taskId].tTimer == LOP_3_END + 1)
+        else if (gTasks[taskId].tTimer == 1)
         {
             SetGpuReg(REG_OFFSET_BG0HOFS, 0);
             sShouldChopRockruff = FALSE;
+            LoadTilemapAtOffset(0, gTasks[taskId].tFreeCallBgBaseTileNum, 1, sRockruff_b_Tilemap, CALL_BG_HEIGHT, ROCKRUFF_SCREEN_INDEX, 3);
+            ShowBg(0);
+        }
+        else if (gTasks[taskId].tTimer == 2)
+        {
+            BeginLayerFade(BLDCNT_TGT1_BG0 | BLDCNT_TGT2_BG_ALL, 0, 16, 0);
+        }
+        else if (gTasks[taskId].tTimer == 14)
+        {
             BeginLayerFade(BLDCNT_TGT1_BG1 | BLDCNT_TGT2_BG_ALL, 0, 0, 16);
         }
-        else if (gTasks[taskId].tTimer == LOP_3_END + 2)
+        else if (gTasks[taskId].tTimer == 15)
         {
             LoadTilesAndMapAtOffset(1, sKukui4_Tiles, gTasks[taskId].tFreeKukuiBaseTileNum,  0, sKukui4a_Tilemap,     CALL_BG_HEIGHT, gTasks[taskId].tFreeKukuiScreenIndex, 1);
             CopyPartialTilemap(gTasks[taskId].tFreeKukuiScreenIndex, USED_KUKUI_SI(gTasks[taskId].tFreeKukuiScreenIndex), CALL_BG_HEIGHT, TEXTBOX_HEIGHT);
@@ -2419,16 +2487,16 @@ static void Task_EndCall(u8 taskId)
             ShowBg(2);
             ShowBg(1);
         }
-        else if (gTasks[taskId].tTimer == LOP_3_END + 3)
+        else if (gTasks[taskId].tTimer == 16)
         {
             BeginLayerFade(BLDCNT_TGT1_BG1 | BLDCNT_TGT2_BG_ALL, 0, 16, 0);
         }
-        else if (gTasks[taskId].tTimer == LOP_3_END + 63)
+        else if (gTasks[taskId].tTimer == 76)
         {
             HideBg(0);
             BeginLayerFade(BLDCNT_TGT1_BG1 | BLDCNT_TGT2_BG_ALL, 0, 0, 16);
         }
-        else if (gTasks[taskId].tTimer == LOP_3_END + 64)
+        else if (gTasks[taskId].tTimer == 77)
         {
             LoadTilesAndMapAtOffset(1, sKukui3_Tiles, gTasks[taskId].tFreeKukuiBaseTileNum, 0, sKukui3_Tilemap, CALL_BG_HEIGHT, gTasks[taskId].tFreeKukuiScreenIndex, 1);
             CopyPartialTilemap(gTasks[taskId].tFreeKukuiScreenIndex, USED_KUKUI_SI(gTasks[taskId].tFreeKukuiScreenIndex), CALL_BG_HEIGHT, TEXTBOX_HEIGHT);
@@ -2438,11 +2506,11 @@ static void Task_EndCall(u8 taskId)
             ShowBg(2);
             ShowBg(1);
         }
-        else if (gTasks[taskId].tTimer == LOP_3_END + 65)
+        else if (gTasks[taskId].tTimer == 78)
         {
             BeginLayerFade(BLDCNT_TGT1_BG1 | BLDCNT_TGT2_BG_ALL, 0, 16, 0);
         }
-        else if (gTasks[taskId].tTimer == LOP_3_END + 95)
+        else if (gTasks[taskId].tTimer == 108)
         {
             SW0.invisible = SW1.invisible = SW2.invisible = SW3.invisible = FALSE;
             BlendPalette(OBJ_PLTT_ID(IndexOfSpritePaletteTag(PAL_TAG_CALL_WINDOW)) + 8, 1, 16, RGB_WHITE);
