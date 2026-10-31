@@ -16,6 +16,7 @@ enum TrainerPicID GetPlayerTrainerPicIdByOutfitAndGender(u32 outfitId, enum Gend
 const void *GetPlayerHeadGfxOrPal(u8 which, bool32 isFP);
 // GFX returns uncompressed 48x48 4bpp tiles; PAL returns the matching palette.
 const void *GetCurrentOutfitMugshot(u8 which);
+const void *GetOutfitMugshot(u32 outfitId, enum Gender gender, u32 paletteIndex, u8 which);
 u16 *GetOutfitPointer(u16 id);
 u16 UnlockOutfit(u16 id);
 u16 ToggleOutfit(u16 id);

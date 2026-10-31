@@ -38,6 +38,10 @@
 
 enum { OPTION_CONTINUE, OPTION_NEW_GAME, OPTION_OPTIONS };
 enum { WIN_HEADER, WIN_INFO, WIN_NEW_GAME, WIN_OPTIONS, WIN_COUNT };
+#include "mystery_event_menu.h"
+#include "mystery_gift_menu.h"
+#include "kukui_call.h"
+#include "link.h"
 
 struct MainMenuResources
 {
@@ -311,7 +315,7 @@ void Task_OpenMainMenu(u8 taskId)
     if (gPaletteFade.active)
         return;
     if (gTasks[taskId].data[0] == 0)
-        SetMainCallback2(CB2_NewGameBirchSpeech_FromNewMainMenu);
+        SetMainCallback2(CB2_NewGameKukuiCall_FromNewMainMenu);
     else
     {
         CleanupOverworldWindowsAndTilemaps();
@@ -493,7 +497,7 @@ static void Task_MainMenuInput(u8 taskId)
                 sMainMenu->savedCallback = CB2_ContinueSavedGame;
                 break;
             case OPTION_NEW_GAME:
-                sMainMenu->savedCallback = CB2_NewGameBirchSpeech_FromNewMainMenu;
+                sMainMenu->savedCallback = CB2_NewGameKukuiCall_FromNewMainMenu;
                 sSelectedOption = OPTION_CONTINUE;
                 break;
             case OPTION_OPTIONS:

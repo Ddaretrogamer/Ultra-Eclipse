@@ -1741,6 +1741,7 @@ EventScript_PalletTown_PlayersHouse_2F_TurnOnPC::
 	.include "data/scripts/follower.inc"
 	.include "data/text/save.inc"
 	.include "data/text/birch_speech.inc"
+	.include "data/text/kukui_call.inc"
 	.include "data/scripts/qol_field_move_scripts.inc" @ qol_field_moves
 	.include "data/scripts/dexnav.inc"
 	.include "data/scripts/followmon.inc"

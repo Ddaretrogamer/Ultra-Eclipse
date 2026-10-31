@@ -11,6 +11,7 @@
 #include "pokemon.h"
 #include "field_specials.h"
 #include "field_player_avatar.h"
+#include "outfit_menu.h"
 #include "event_object_movement.h"
 #include "event_data.h"
 #include "constants/songs.h"
@@ -1468,44 +1469,20 @@ static void NamingScreen_NoIcon(void)
 
 }
 
-/*
- * @note:
- * If you were using the player naming screen somewhere else besides the birch
- * speech, uncomment the codes in the function below.
- * This will make this function to use the monPersonality param in DoNamingScreen as
- * the specified outfit id to be used to show the correct obj for the player.
- * 
- * So, for example, if you want it to show the player's current outfit instead of
- * DEFAULT_OUTFIT, change this:
- * DoNamingScreen(NAMING_SCREEN_PLAYER,
- *                gSaveBlock2Ptr->playerName,
- *                gSaveBlock2Ptr->playerGender,
- *                0, 
- *                0,
- *                CB2_NewGameBirchSpeech_ReturnFromNamingScreen);
- * To this:
- * DoNamingScreen(NAMING_SCREEN_PLAYER,
- *                gSaveBlock2Ptr->playerName,
- *                gSaveBlock2Ptr->playerGender,
- *                0, 
- *                gSaveBlock2Ptr->currOutfitId,
- *                CB2_NewGameBirchSpeech_ReturnFromNamingScreen);
- * 
- * You can specify a specific outfit too, like so:
- * DoNamingScreen(NAMING_SCREEN_PLAYER,
- *                gSaveBlock2Ptr->playerName,
- *                gSaveBlock2Ptr->playerGender,
- *                0, 
- *                OUTFIT_UNUSUAL_RED,
- *                CB2_NewGameBirchSpeech_ReturnFromNamingScreen);
- */
+// Player naming uses monPersonality as the outfit/skin graphics slot.
+// Callers passing zero use the player's saved appearance.
 static void NamingScreen_CreatePlayerIcon(void)
 {
-    u16 rivalGfxId;
+    u32 outfit = sNamingScreen->monPersonality;
+    u16 graphicsId;
     u8 spriteId;
 
-    rivalGfxId = GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, (enum Gender)sNamingScreen->monSpecies);
-    spriteId = CreateObjectGraphicsSprite(rivalGfxId, SpriteCallbackDummy, 56, 37, 0);
+    if (outfit == OUTFIT_NONE || outfit >= OUTFIT_SPRITE_COUNT)
+        outfit = GetCurrentOutfitSpriteId();
+    graphicsId = GetPlayerAvatarGraphicsIdByOutfitStateIdAndGender(outfit,
+                                                                PLAYER_AVATAR_STATE_NORMAL,
+                                                                (enum Gender)sNamingScreen->monSpecies);
+    spriteId = CreateObjectGraphicsSprite(graphicsId, SpriteCallbackDummy, 56, 37, 0);
     gSprites[spriteId].oam.priority = 3;
     StartSpriteAnim(&gSprites[spriteId], ANIM_STD_GO_SOUTH);
 }

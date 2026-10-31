@@ -287,6 +287,24 @@ extern const u8 gText_Birch_Nameplate[];
 extern const u8 gText_BirchInTrouble[];
 extern const u8 gText_ConfirmStarterChoice[];
 
+// kukui call text
+
+extern const u8 gText_Kukui_YouHaveACall[];
+extern const u8 gText_Kukui_JustASec[];
+extern const u8 gText_Kukui_HeyThere[];
+extern const u8 gText_Kukui_AlolaIsARegion[];
+extern const u8 gText_Kukui_CoolPokemon[];
+extern const u8 gText_Kukui_AllOver[];
+extern const u8 gText_Kukui_LoveOurPokemon[];
+extern const u8 gText_Kukui_AndYouAre[];
+extern const u8 gText_Kukui_WhichPhoto[];
+extern const u8 gText_Kukui_ChoiceOK[];
+extern const u8 gText_Kukui_WhatsYourName[];
+extern const u8 gText_Kukui_SoItsPlayer[];
+extern const u8 gText_Kukui_YourePlayer[];
+extern const u8 gText_Kukui_AreYouReady[];
+extern const u8 gText_Kukui_Nameplate[];
+
 // mystery event menu text
 extern const u8 gText_EventSafelyLoaded[];
 extern const u8 gText_LoadErrorEndingSession[];

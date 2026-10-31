@@ -183,6 +183,8 @@ static void ResetOutfitData(void)
 
 void NewGameInitData(void)
 {
+    u16 outfitId = gSaveBlock2Ptr->currOutfitId;
+    u16 outfitPalette = gSaveBlock2Ptr->currOutfitPalette;
 #if IS_FRLG
     u8 rivalName[PLAYER_NAME_LENGTH + 1];
 #endif
@@ -259,6 +261,11 @@ void NewGameInitData(void)
     SetCurrentDifficultyLevel(DIFFICULTY_NORMAL);
     ResetItemFlags();
     ResetOutfitData();
+    if (outfitId > OUTFIT_NONE && outfitId < OUTFIT_COUNT && outfitPalette < OUTFIT_SKIN_COUNT)
+    {
+        gSaveBlock2Ptr->currOutfitId = outfitId;
+        gSaveBlock2Ptr->currOutfitPalette = outfitPalette;
+    }
     ResetDexNav();
     ClearFollowerNPCData();
 }

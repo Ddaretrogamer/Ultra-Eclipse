@@ -19,6 +19,7 @@
 #include "mystery_event_menu.h"
 #include "naming_screen.h"
 #include "oak_speech.h"
+#include "kukui_call.h"
 #include "option_menu.h"
 #include "overworld.h"
 #include "palette.h"
@@ -1675,7 +1676,7 @@ static void Task_NewGameBirchSpeech_StartNamingScreen(u8 taskId)
     {
         FreeAllWindowBuffers();
         FreeAndDestroyMonPicSprite(gTasks[taskId].tLotadSpriteId);
-        NewGameBirchSpeech_SetDefaultPlayerName(Random() % NUM_PRESET_NAMES);
+        NewGameBirchSpeech_SetRandomDefaultPlayerName();
         DestroyTask(taskId);
         //! @note:
         //! If you'd like to know how to show a specific outfit for the player instead,
@@ -2182,6 +2183,11 @@ static void NewGameBirchSpeech_ShowGenderMenu(void)
 static s8 NewGameBirchSpeech_ProcessGenderMenuInput(void)
 {
     return Menu_ProcessInputNoWrap();
+}
+
+void NewGameBirchSpeech_SetRandomDefaultPlayerName(void)
+{
+    NewGameBirchSpeech_SetDefaultPlayerName(Random() % NUM_PRESET_NAMES);
 }
 
 void NewGameBirchSpeech_SetDefaultPlayerName(u8 nameId)
