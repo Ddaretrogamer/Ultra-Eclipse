@@ -160,8 +160,8 @@ static const u16 sVideo_Icon_Pals[] = INCGFX_U16("graphics/kukui_call/icons/vide
 
 
 
-static const u32 sArrowCursor_Gfx[]     = INCGFX_U32("graphics/interface/arrow_cursor.png", ".4bpp.smol");
-static const u16 sArrowCursor_Pal[]    = INCGFX_U16("graphics/interface/red.pal", ".gbapal");
+static const u32 sArrowCursor_Gfx[]     = INCGFX_U32("graphics/ui_main_menu/sm/cursor.png", ".4bpp.lz");
+static const u16 sArrowCursor_Pal[]    = INCGFX_U16("graphics/ui_main_menu/sm/cursor.png", ".gbapal");
 
 static const u16 sMainMenuTextPal[] = INCGFX_U16("graphics/interface/main_menu_text.pal", ".gbapal");
 
@@ -315,7 +315,7 @@ static const struct CompressedSpriteSheet sVideo_Icon_SpriteSheet =
 static const struct CompressedSpriteSheet sArrowCursor_SpriteSheet =
 {
     .data = sArrowCursor_Gfx,
-    .size = 16 * 16 / 2,
+    .size = (16 * 16 / 2) * 3,
     .tag = GFX_TAG_ARROW_CURSOR
 };
 
@@ -484,11 +484,23 @@ static const struct SpriteTemplate sPhoto_Placeholder_F2_SpriteTemplate =
     .callback = SpriteCallbackDummy
 };
 
+static const union AnimCmd sArrowCursor_Anim[] =
+{
+    ANIMCMD_FRAME(0, 8),
+    ANIMCMD_FRAME(4, 8),
+    ANIMCMD_FRAME(8, 8),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd *const sArrowCursor_Anims[] = { sArrowCursor_Anim };
+
 static const struct SpriteTemplate sArrowCursor_SpriteTemplate =
 {
     .tileTag = GFX_TAG_ARROW_CURSOR,
     .paletteTag = PAL_TAG_ARROW_CURSOR,
     .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = sArrowCursor_Anims,
+    .affineAnims = gDummySpriteAffineAnimTable,
     .images = NULL,
     .callback = SpriteCallbackDummy
 };
@@ -885,9 +897,9 @@ EWRAM_DATA static u8 sPhotoPlaceholderASpriteId, sPhotoPlaceholderBSpriteId, sPh
 #define CW_UI_Y CW_EDGE_Y
 
 #define CURSOR_X 8
-#define CURSOR_DELTA_X 44
-#define CURSOR_Y 30
-#define CURSOR_DELTA_Y 50
+#define CURSOR_DELTA_X PP_DELTA_X
+#define CURSOR_Y PP_Y
+#define CURSOR_DELTA_Y PP_DELTA_Y
 
 #define GAC_DELAY 60 // Task_GettingACall # frames delay before first ring
 
